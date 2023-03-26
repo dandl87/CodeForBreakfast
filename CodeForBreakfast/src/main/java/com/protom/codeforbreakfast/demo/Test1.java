@@ -14,6 +14,7 @@ public class Test1 {
 		user = service.cercaUser("Dan87", "1234"); 
 		
 		System.out.println(user);
+		System.out.println(user.getName());
 		
 		
 	}
