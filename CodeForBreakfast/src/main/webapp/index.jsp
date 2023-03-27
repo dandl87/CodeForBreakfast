@@ -161,7 +161,7 @@
                 
                 <!-- Codice Della Personal Desk sezione Post -->
                 <c:set var="count" scope="session" value="${0}"/>
-                <c:forEach var="post" items="${postList}">
+                <c:forEach var="post" items="${personalPostList}">
                  <c:set var="count" scope="session" value="${count+1}"/>
                  	
                  	 <!-- Posts -->
@@ -171,10 +171,10 @@
 
                  		 <div class="article-data-container">
 
-                        <div class="article-data">
+                            <div class="article-data">
                             <span>${post.data}</span>
                             <span class="article-data-spacer"></span> 
-                        </div>
+                            </div>
 
                         <h3 class="title article-title">${post.title}</h3>
 
@@ -193,100 +193,39 @@
 
                 <h3 class="title featured-content-title">Conferences</h3>
 
-                <a href="./post_oop_conference_Anjana_Vakil_Oredev_2018.html" class="trending-news-box">
-                    <div class="trending-news-img-box">
-                        <span class="trending-number place-items-center">01</span>
-                        <img src="./assets/images/quick_read/anjanaVakilArtImgSmall.jpg" alt="" class="article-image">
-                    </div>
 
-                    <div class="trending-news-data">
+                 <!-- Codice Della Personal Desk sezione Post -->
+                 <c:set var="count" scope="session" value="${0}"/>
+                 <c:forEach var="conference" items="${personalConferenceList}">
+                  <c:set var="count" scope="session" value="${count+1}"/>
+                      
+                       <!-- Conferences -->
+                         <a href="${conference.link}" class="trending-news-box">
+                             <div class="trending-news-img-box">
+                                <span class="trending-number place-items-center"><c:out value="${count}" /></span>
+                                <img src="${conference.linkImg}" alt="" class="article-image">
+                              </div>
+                              
+                         <div class="trending-news-data">
 
-                        <div class="article-data"> 
-                            <span>19-22 November 2018</span>
-                            <span class="article-data-spacer"></span>
-                            <span>38 Min 50 sec </span>
+                            <div class="article-data"> 
+                               <span><c:out value="${conference.data}" /></span>
+                                <span class="article-data-spacer"></span>
+                                <span><c:out value="${conference.dataConference}" /></span>
+                                <span><c:out value="${conference.timeOfConference}" /> </span>
+
+                           </div>
+
+                         <h3 class="title article-title"><c:out value="${conference.title}" /></h3>
+
                         </div>
+                  </a>
+   
+                 </c:forEach>
 
-                        <h3 class="title article-title">OOP Anjana Vakil �redev Conference</h3>
 
-                    </div>
-                </a>
 
-                <a href="./post_conference_uncle_bob_solid_principles_yale_2014.html" class="trending-news-box">
-                    <div class="trending-news-img-box">
-                        <span class="trending-number place-items-center">02</span>
-                        <img src="./assets/images/quick_read/uncleBob.jpg" alt="" class="article-image">
-                    </div>
-
-                    <div class="trending-news-data">
-
-                        <div class="article-data">
-                            <span>23 March 2023</span>
-                            <span class="article-data-spacer"></span>
-                            <span>1 Hour 23 Min</span>
-                        </div>
-
-                        <h3 class="title article-title">SOLID principles</h3>
-
-                    </div>
-                </a>
-
-                <a href="#" class="trending-news-box">
-                    <div class="trending-news-img-box">
-                        <span class="trending-number place-items-center">03</span>
-                        <img src="./assets/images/trending/trending_3.jpg" alt="" class="article-image">
-                    </div>
-
-                    <div class="trending-news-data">
-
-                        <div class="article-data">
-                            <span>23 Dec 2021</span>
-                            <span class="article-data-spacer"></span>
-                            <span>3 Min read</span>
-                        </div>
-
-                        <h3 class="title article-title">Sample article title</h3>
-
-                    </div>
-                </a>
-
-                <a href="#" class="trending-news-box">
-                    <div class="trending-news-img-box">
-                        <span class="trending-number place-items-center">04</span>
-                        <img src="./assets/images/trending/trending_4.jpg" alt="" class="article-image">
-                    </div>
-
-                    <div class="trending-news-data">
-
-                        <div class="article-data">
-                            <span>23 Dec 2021</span>
-                            <span class="article-data-spacer"></span>
-                            <span>3 Min read</span>
-                        </div>
-
-                        <h3 class="title article-title">Sample article title</h3>
-
-                    </div>
-                </a>
-
-                <a href="#" class="trending-news-box">
-                    <div class="trending-news-img-box">
-                        <span class="trending-number place-items-center">05</span>
-                        <img src="./assets/images/trending/trending_5.jpg" alt="" class="article-image">
-                    </div>
-
-                    <div class="trending-news-data">
-
-                        <div class="article-data">
-                            <span>23 Dec 2021</span>
-                            <span class="article-data-spacer"></span>
-                            <span>3 Min read</span>
-                        </div>
-
-                        <h3 class="title article-title">Sample article title</h3>
-
-                    </div>
-                </a>
+ 
 
             </div>
 

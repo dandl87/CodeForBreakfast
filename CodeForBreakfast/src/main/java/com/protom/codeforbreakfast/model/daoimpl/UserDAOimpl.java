@@ -29,7 +29,7 @@ public class UserDAOimpl implements UserDAO{
 			
 			try {
 			String query = "SELECT * FROM user WHERE username = '" + username +"' AND password = '"+password+"';";
-			System.out.println(query);
+			
 			PreparedStatement ps = connection.prepareStatement(query);
 			
 			

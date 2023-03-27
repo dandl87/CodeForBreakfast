@@ -5,9 +5,12 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.protom.codeforbreakfast.model.dao.PostDAO;
-import com.protom.codeforbreakfast.model.entity.Post; 
+import com.protom.codeforbreakfast.model.entity.Post;
+
+ 
 
 public class PostDAOimpl implements PostDAO {
 	
@@ -31,7 +34,7 @@ public class PostDAOimpl implements PostDAO {
 		
 		try {
 		String query = "SELECT * FROM post WHERE id = " + idPost +";";
-		System.out.println(query);
+		
 		PreparedStatement ps = connection.prepareStatement(query);
 		
 		
@@ -66,6 +69,48 @@ public class PostDAOimpl implements PostDAO {
 	public boolean deletePost(int idPost) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public ArrayList<Post> readAllPosts() {
+		ArrayList<Post> listOfAllPosts = new ArrayList<Post>();
+		ResultSet rs; 
+		
+		try {
+		String query = "SELECT * FROM post"; 
+		PreparedStatement ps = connection.prepareStatement(query);
+		
+		
+			rs = ps.executeQuery();
+		
+		while (rs.next()) {
+
+			int idPostFromDB = rs.getInt("id");
+			String titleFromDB = rs.getString("titolo");
+			String linkFromDB = rs.getString("link");
+			String linkImgFromDB = rs.getString("link_img");
+			String categoryFromDB = rs.getString("categoria");
+			Date dateFromDB= rs.getDate("data");  
+			
+			
+			 
+			
+			 
+			
+			//String dateString = dataImmatricolazione.toString();
+			Post post = new Post(idPostFromDB, titleFromDB, linkFromDB, linkImgFromDB, categoryFromDB, dateFromDB);
+
+			listOfAllPosts.add(post);
+		}
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Errore accesso a db!");
+			e.printStackTrace();
+			return null;
+		}
+
+		return listOfAllPosts;
 	} 
 	
 	

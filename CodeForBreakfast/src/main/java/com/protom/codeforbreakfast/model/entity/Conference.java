@@ -23,6 +23,19 @@ public class Conference {
 		this.dataConference = dataConference;
 		this.timeOfConference = timeOfConference;
 	}
+	
+	public Conference(int id, String title, String link, String linkImg, Date data, Date dataConference,
+			String timeOfConference) {
+		super();
+		this.id=id;
+		this.title = title;
+		this.link = link;
+		this.linkImg = linkImg;
+		this.data = data;
+		this.dataConference = dataConference;
+		this.timeOfConference = timeOfConference;
+	}
+
 
 
 	public int getId() {

@@ -13,6 +13,14 @@ public class SottoscrizioneConference {
 		this.password = password;
 		this.conferenceId = conferenceId;
 	}
+	
+	public SottoscrizioneConference(int id, String username, String password, int conferenceId) {
+		super(); 
+		this.id=id;
+		this.username = username;
+		this.password = password;
+		this.conferenceId = conferenceId;
+	}
 
 	public int getId() {
 		return id;

@@ -379,7 +379,7 @@ body.light-theme{
 
 .article-data-container{
     width: 100%;
-    position: absolute;
+    position:absolute;
     left: 0;
     bottom: 0;
     padding: 2rem 1.5rem;

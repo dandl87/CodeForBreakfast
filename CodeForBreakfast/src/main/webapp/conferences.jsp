@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%@ page import="com.protom.codeforbreakfast.service.ServiceAllConferences"%>
+    <%@ page import="java.util.ArrayList"%>
+    <%@ page import="com.protom.codeforbreakfast.model.entity.Conference"%>
     <!DOCTYPE >
 <html lang="en">
 <head>
@@ -15,7 +18,7 @@
     <!-- Swiper.js styles -->
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
     <!-- Custom styles -->
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/conferences.css">
 </head>
 
 <body>
@@ -159,140 +162,106 @@
                     <!--  <span class="headline-description">My articles</span> -->
                 </div>
                 
-                <!-- Codice Della Personal Desk sezione Post -->
-                <c:set var="count" scope="session" value="${0}"/>
-                <c:forEach var="post" items="${postList}">
-                 <c:set var="count" scope="session" value="${count+1}"/>
-                 	
-                 	 <!-- Posts -->
-               			 <a href="${post.link}" class="article featured-article featured-article-${count}">
-                 		 <img src="${post.linkImg}" alt="" class="article-image">
-                 		 <span class="article-category">${post.category}</span>
-
-                 		 <div class="article-data-container">
-
-                        <div class="article-data">
-                            <span>${post.data}</span>
-                            <span class="article-data-spacer"></span> 
-                        </div>
-
-                        <h3 class="title article-title">${post.title}</h3>
-
-                    </div>
-                </a>
-                </c:forEach>
-					 
-                
-
-
-
-            </div>
+                 <!-- Codice Della Personal Desk sezione Post -->
             
-            <!-- Conferences Right Nav-->
-            <div class="sidebar d-grid">
-
-                <h3 class="title featured-content-title">your conferences</h3>
-
-                <a href="./post_oop_conference_Anjana_Vakil_Oredev_2018.html" class="trending-news-box">
-                    <div class="trending-news-img-box">
-                        <span class="trending-number place-items-center">01</span>
-                        <img src="./assets/images/quick_read/anjanaVakilArtImgSmall.jpg" alt="" class="article-image">
-                    </div>
-
-                    <div class="trending-news-data">
-
-                        <div class="article-data"> 
-                            <span>19-22 November 2018</span>
-                            <span class="article-data-spacer"></span>
-                            <span>38 Min 50 sec </span>
-                        </div>
-
-                        <h3 class="title article-title">OOP Anjana Vakil �redev Conference</h3>
-
-                    </div>
-                </a>
-
-                <a href="./post_conference_uncle_bob_solid_principles_yale_2014.html" class="trending-news-box">
-                    <div class="trending-news-img-box">
-                        <span class="trending-number place-items-center">02</span>
-                        <img src="./assets/images/quick_read/uncleBob.jpg" alt="" class="article-image">
-                    </div>
-
-                    <div class="trending-news-data">
-
-                        <div class="article-data">
-                            <span>23 March 2023</span>
-                            <span class="article-data-spacer"></span>
-                            <span>1 Hour 23 Min</span>
-                        </div>
-
-                        <h3 class="title article-title">SOLID principles</h3>
-
-                    </div>
-                </a>
-
-                <a href="#" class="trending-news-box">
-                    <div class="trending-news-img-box">
-                        <span class="trending-number place-items-center">03</span>
-                        <img src="./assets/images/trending/trending_3.jpg" alt="" class="article-image">
-                    </div>
-
-                    <div class="trending-news-data">
-
-                        <div class="article-data">
-                            <span>23 Dec 2021</span>
-                            <span class="article-data-spacer"></span>
-                            <span>3 Min read</span>
-                        </div>
-
-                        <h3 class="title article-title">Sample article title</h3>
-
-                    </div>
-                </a>
-
-                <a href="#" class="trending-news-box">
-                    <div class="trending-news-img-box">
-                        <span class="trending-number place-items-center">04</span>
-                        <img src="./assets/images/trending/trending_4.jpg" alt="" class="article-image">
-                    </div>
-
-                    <div class="trending-news-data">
-
-                        <div class="article-data">
-                            <span>23 Dec 2021</span>
-                            <span class="article-data-spacer"></span>
-                            <span>3 Min read</span>
-                        </div>
-
-                        <h3 class="title article-title">Sample article title</h3>
-
-                    </div>
-                </a>
-
-                <a href="#" class="trending-news-box">
-                    <div class="trending-news-img-box">
-                        <span class="trending-number place-items-center">05</span>
-                        <img src="./assets/images/trending/trending_5.jpg" alt="" class="article-image">
-                    </div>
-
-                    <div class="trending-news-data">
-
-                        <div class="article-data">
-                            <span>23 Dec 2021</span>
-                            <span class="article-data-spacer"></span>
-                            <span>3 Min read</span>
-                        </div>
-
-                        <h3 class="title article-title">Sample article title</h3>
-
-                    </div>
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
+                 <%
+                 ServiceAllConferences service = new ServiceAllConferences();
+                 ArrayList<Conference> allConferences = service.caricaAllConferences();
+                 System.out.println(allConferences.size());
+                 request.setAttribute("conferences",allConferences);
+                 %>
+                 <c:set var="count" scope="session" value="${0}"/>
+                 <c:forEach var="conference" items="${conferences}"> 
+                  <c:set var="count" scope="session" value="${count+1}"/>
+                      
+                       <!-- Articles -->
+                       
+                       
+                             <a  href="${conference.link}" class="article featured-article">
+                              <img src="${conference.linkImg}" alt="" class="article-image">
+                            <!--    <span class="article-category"><c:out value="${conference.category}" /></span> -->
+ 
+                              <div class="article-data-container">
+    
+                                <div class="article-data">
+                                  <span><c:out value="${conference.data}" /></span>
+                                  <span class="article-data-spacer"></span> 
+                                </div>
+    
+                                 <h3 class="title article-title"><c:out value="${conference.title}" /></h3> 
+                             </div>
+                         </a>
+ 
+                         <!-- info -->
+                         <a class="article info-article"> 
+                             
+ 
+                          <div class="info-article-data-container">
+ 
+                                <div class="article-data">
+                                 <span class="article-category"><c:out value="${conference.category}" /></span>
+                                    <span><c:out value ="${conference.data}" /></span>
+                                     
+                                </div>
+ 
+                                <h3 class="title article-title"><c:out value = "${conference.title}" /></h3>
+                                <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                 Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
+                                 Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
+                                 Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. Ut consequat velit metus, quis gravida ante semper a. 
+                                 Donec euismod mauris sed diam feugiat, blandit consequat lorem imperdiet. 
+                                 Phasellus lorem est, malesuada vel sapien consequat, ullamcorper rutrum eros.</h3>
+ 
+                             </div>
+                        </a>
+ 
+                 </c:forEach>
+                      
+                 
+ 
+ 
+ 
+             </div>
+             
+             <!-- you articles Nav Bar-->
+             <div class="sidebar d-grid">
+ 
+                 <h3 class="title featured-content-title">your articles</h3>
+ 
+ 
+                 <!-- Codice Della Personal Desk sezione Post -->
+                 <c:set var="count" scope="session" value="${0}"/>
+                 <c:forEach var="post" items="${personalPostList}">
+                  <c:set var="count" scope="session" value="${count+1}"/>
+                      
+                       <!-- Posts -->
+                             <a href="${post.link}" class="trending-news-box">
+                             <div class="trending-news-img-box">
+                                 <span class="trending-number place-items-center"><c:out value="${count}" /></span>
+                                 <img src="${post.linkImg}" alt="" class="article-image">
+                             </div>
+  
+                           <div class="trending-news-data">
+ 
+                             <div class="article-data">
+                             <span>${post.data}</span>
+                             <span class="article-data-spacer"></span> 
+                             </div>
+ 
+                         <h3 class="title article-title">${post.title}</h3>
+ 
+                     </div>
+                 </a>
+                 </c:forEach>
+ 
+ 
+    
+ 
+             </div>
+ 
+         </div>
+ 
+     </section>
 
   
 

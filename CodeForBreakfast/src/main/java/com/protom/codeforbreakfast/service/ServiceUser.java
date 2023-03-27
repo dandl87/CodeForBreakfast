@@ -4,10 +4,13 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.protom.codeforbreakfast.dbconnections.DbConnectionMySql;
+import com.protom.codeforbreakfast.model.dao.SottoscrizioneConferenceDAO;
 import com.protom.codeforbreakfast.model.dao.SottoscrizionePostDAO;
 import com.protom.codeforbreakfast.model.dao.UserDAO;
+import com.protom.codeforbreakfast.model.daoimpl.SottoscrizioneConferenceDAOimpl;
 import com.protom.codeforbreakfast.model.daoimpl.SottoscrizionePostDAOimpl;
 import com.protom.codeforbreakfast.model.daoimpl.UserDAOimpl;
+import com.protom.codeforbreakfast.model.entity.SottoscrizioneConference;
 import com.protom.codeforbreakfast.model.entity.SottoscrizionePost;
 import com.protom.codeforbreakfast.model.entity.User;
  
@@ -17,6 +20,7 @@ public class ServiceUser {
 	private Connection connessione;
 	private UserDAO userDAO;
 	private SottoscrizionePostDAO sottoscrizionePostDAO;
+	private SottoscrizioneConferenceDAO sottoscrizioneConferenceDAO;
 	
 	
 	public ServiceUser( ) {
@@ -24,6 +28,7 @@ public class ServiceUser {
 		this.connessione=DbConnectionMySql.avviaConnessione(); 
 		this.userDAO = new UserDAOimpl(connessione);
 		this.sottoscrizionePostDAO = new SottoscrizionePostDAOimpl(connessione);
+		this.sottoscrizioneConferenceDAO = new SottoscrizioneConferenceDAOimpl(connessione);
 	}
 	
 	
@@ -51,11 +56,12 @@ public class ServiceUser {
 		
 		// carica sottoscrizioni Post
 		ArrayList<SottoscrizionePost> sottoscrizioniPost = sottoscrizionePostDAO.readSottoscrizionePostOfUser(username, password) ;
+		
+		// carica sottoscrizioni Conference
+		ArrayList<SottoscrizioneConference> sottoscrizioniConference = sottoscrizioneConferenceDAO.readSottoscrizioneConferenceOfUser(username, password) ;
 		 
 		user.setSottoscrizioniPost(sottoscrizioniPost);
-		// carica sottoscrizioni Conference
-		//ArrayList<SottoscrizioneConference> sottoscrizioniConference;
-		
+		user.setSottoscrizioniConference(sottoscrizioniConference); 
   
 		return user ;
 		

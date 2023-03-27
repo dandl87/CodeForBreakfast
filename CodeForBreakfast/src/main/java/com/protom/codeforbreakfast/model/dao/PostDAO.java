@@ -11,5 +11,6 @@ public interface PostDAO {
 	Post readPost(int idPost);
 	boolean updatePost(Post post); 
 	boolean deletePost(int idPost);  
+	ArrayList<Post> readAllPosts();
 
 }

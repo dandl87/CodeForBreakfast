@@ -11,5 +11,6 @@ public interface ConferenceDAO {
 	Conference readConference(int idConference);
 	boolean updateConference(Conference conference); 
 	boolean deleteConference(int idConference); 
+	ArrayList<Conference> readAllConferences();
 
 }

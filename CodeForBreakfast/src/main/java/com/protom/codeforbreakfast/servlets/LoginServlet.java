@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.protom.codeforbreakfast.model.entity.Conference;
 import com.protom.codeforbreakfast.model.entity.Post;
 import com.protom.codeforbreakfast.model.entity.User;
+import com.protom.codeforbreakfast.service.ServiceConference;
 import com.protom.codeforbreakfast.service.ServicePost;
 import com.protom.codeforbreakfast.service.ServiceUser;
  
@@ -48,6 +50,7 @@ public class LoginServlet extends HttpServlet{
 			 
 				ServiceUser serviceUser = new ServiceUser();  
 				ServicePost servicePost = new ServicePost();
+				ServiceConference serviceConference = new ServiceConference();
 				
 				User user = serviceUser.cercaUser(username, password);
 				
@@ -71,9 +74,13 @@ public class LoginServlet extends HttpServlet{
 				currentSession.setAttribute("user", user);
 				 
  				 
-				//creo le liste di post
-				ArrayList<Post> listOfPost = servicePost.caricaPostForUser(user);
-				currentSession.setAttribute("postList", listOfPost);
+				//creo la lista di post preferiti facendo read a db 
+				ArrayList<Post> listOfPostOfUser = servicePost.caricaPostForUser(user);
+				currentSession.setAttribute("personalPostList", listOfPostOfUser);
+				
+				//creo la lista di conferences preferite facendo read a db
+				ArrayList<Conference> listOfConferenceOfUser = serviceConference.caricaConferenceForUser(user);
+				currentSession.setAttribute("personalConferenceList", listOfConferenceOfUser);
 				
 				//redirect a index
 				response.sendRedirect("index.jsp"); 
