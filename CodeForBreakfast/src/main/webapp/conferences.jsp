@@ -48,7 +48,7 @@
                         <a href="membership.jsp" class="list-link">Membership</a>
                     </li>
                     <li class="list-item">
-                        <a href="#" class="list-link">Contact</a>
+                        <a href="contacts.jsp" class="list-link">Contact</a>
                     </li>
                     
                     <li class="list-item screen-lg-hidden">
