@@ -75,6 +75,13 @@
                     <i class="ri-login-circle-fill"></i>
                 </button>
 
+                <!-- Log Out visible only when you are logged -->
+                <c:if test="${user.username!=null}">
+                    <button class="btn " id="logout-icon">
+                        <i class="ri-logout-circle-r-line"></i>
+                    </button>
+                </c:if>
+
                 <a href="#" class="btn sign-up-btn fancy-border screen-sm-hidden">
                     <span>Sign up</span>
                 </a>

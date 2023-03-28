@@ -226,7 +226,7 @@
             <!-- you articles Nav Bar-->
             <div class="sidebar d-grid">
 
-                <h3 class="title featured-content-title">your articles</h3>
+                <h3 class="title featured-content-title">Your Articles</h3>
 
 
                 <!-- Codice Della Personal Desk sezione Post -->

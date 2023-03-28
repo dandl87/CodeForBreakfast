@@ -224,7 +224,7 @@
              <!-- Conferences Right Nav-->
              <div class="sidebar d-grid">
 
-                <h3 class="title featured-content-title">Conferences</h3>
+                <h3 class="title featured-content-title">Your Conferences</h3>
 
 
                  <!-- Codice Della Personal Desk sezione Conferences  -->
