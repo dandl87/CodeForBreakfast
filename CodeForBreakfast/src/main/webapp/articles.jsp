@@ -162,7 +162,7 @@
                     <!--  <span class="headline-description">My articles</span> -->
                 </div>
                 
-                <!-- Codice Della Personal Desk sezione Post -->
+                <!-- Codice Della Personal Desk sezione Post www -->
             
                 <%
                 ServiceAllPosts service = new ServiceAllPosts();
