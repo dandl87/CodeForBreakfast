@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-    <%@ page import="com.protom.codeforbreakfast.service.ServiceAllPosts"%>
+    <%@ page import="com.protom.codeforbreakfast.service.ServiceAllUsers"%>
     <%@ page import="java.util.ArrayList"%>
-    <%@ page import="com.protom.codeforbreakfast.model.entity.Post"%>
+    <%@ page import="com.protom.codeforbreakfast.model.entity.User"%>
     <!DOCTYPE >
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code for Breakfast | Articles </title>
+    <title>Code for Breakfast | Membership </title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon2.png">
     <!-- Remix icons -->
@@ -18,7 +18,7 @@
     <!-- Swiper.js styles -->
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
     <!-- Custom styles -->
-    <link rel="stylesheet" href="assets/css/articles.css">
+    <link rel="stylesheet" href="assets/css/membership.css">
 </head>
 
 <body>
@@ -39,13 +39,13 @@
                         <a href="conferences.jsp" class="list-link">Conferences</a>
                     </li>
                     <li class="list-item">
-                        <a href="#" class="list-link current">Articles</a>
+                        <a href="articles.jsp" class="list-link">Articles</a>
                     </li>
                     <li class="list-item">
                         <a href="#" class="list-link">News</a>
                     </li>
                     <li class="list-item">
-                        <a href="membership.jsp" class="list-link">Membership</a>
+                        <a href="#" class="list-link current">Membership</a>
                     </li>
                     <li class="list-item">
                         <a href="#" class="list-link">Contact</a>
@@ -165,30 +165,31 @@
                 <!-- Codice Della Personal Desk sezione Post www -->
             
                 <%
-                ServiceAllPosts service = new ServiceAllPosts();
-                ArrayList<Post> allPosts = service.caricaAllPosts();
-                System.out.println(allPosts.size());
-                request.setAttribute("posts",allPosts);
+                ServiceAllUsers service = new ServiceAllUsers();
+                ArrayList<User> allUsers = service.caricaAllUsers();
+                System.out.println(allUsers.size());
+                request.setAttribute("users",allUsers);
 				%>
                 <c:set var="count" scope="session" value="${0}"/>
-                <c:forEach var="post" items="${posts}"> 
+                <c:forEach var="user" items="${users}"> 
                  <c:set var="count" scope="session" value="${count+1}"/>
                  	
                  	 <!-- Articles -->
                  	 
                  	 
-               			 <a  href="${post.link}" class="article featured-article">
-                 		    <img src="${post.linkImg}" alt="" class="article-image">
-                             <span class="article-category">${post.category}</span> 
+               			 <a   class="article featured-article">
+                 		    <img src="" alt="" class="article-image">
+                             <span class="article-category">toDefine</span> 
 
                              <div class="article-data-container">
    
                                <div class="article-data">
-                                 <span>${post.data}</span>
+                                 <span>${user.name}</span>
+                                 <span>${user.surname}</span>
                                  <span class="article-data-spacer"></span> 
                                </div>
    
-                                <h3 class="title article-title">${post.title}</h3> 
+                                <h3 class="title article-title">${user.username}</h3> 
                             </div>
                         </a>
 
@@ -199,12 +200,12 @@
                          <div class="info-article-data-container">
 
                                <div class="article-data">
-                                <span class="article-category">${post.category}</span>
-                                   <span>${post.data}</span>
+                                <span class="article-category">toBeDefine</span>
+                                   <span>toBeDefine</span>
                                     
                                </div>
 
-                               <h3 class="title article-title">${post.title}</h3>
+                               <h3 class="title article-title">toBeDefine</h3>
                                <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                                 Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
                                 Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
@@ -223,41 +224,7 @@
 
             </div>
             
-            <!-- you articles Nav Bar-->
-            <div class="sidebar d-grid">
-
-                <h3 class="title featured-content-title">your articles</h3>
-
-
-                <!-- Codice Della Personal Desk sezione Post -->
-                <c:set var="count" scope="session" value="${0}"/>
-                <c:forEach var="post" items="${personalPostList}">
-                 <c:set var="count" scope="session" value="${count+1}"/>
-                 	
-                 	 <!-- Posts -->
-               			 <a href="${post.link}" class="trending-news-box">
-                            <div class="trending-news-img-box">
-                                <span class="trending-number place-items-center"><c:out value="${count}" /></span>
-                                <img src="${post.linkImg}" alt="" class="article-image">
-                            </div>
- 
-                 		 <div class="trending-news-data">
-
-                            <div class="article-data">
-                            <span>${post.data}</span>
-                            <span class="article-data-spacer"></span> 
-                            </div>
-
-                        <h3 class="title article-title">${post.title}</h3>
-
-                    </div>
-                </a>
-                </c:forEach>
-
-
-   
-
-            </div>
+            
 
         </div>
 

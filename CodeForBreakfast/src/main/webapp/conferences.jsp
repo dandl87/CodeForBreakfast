@@ -45,7 +45,7 @@
                         <a href="#" class="list-link">News</a>
                     </li>
                     <li class="list-item">
-                        <a href="#" class="list-link">Membership</a>
+                        <a href="membership.jsp" class="list-link">Membership</a>
                     </li>
                     <li class="list-item">
                         <a href="#" class="list-link">Contact</a>
@@ -174,7 +174,7 @@
                  <c:forEach var="conference" items="${conferences}"> 
                   <c:set var="count" scope="session" value="${count+1}"/>
                       
-                       <!-- Articles -->
+                       <!-- Conferences  -->
                        
                        
                              <a  href="${conference.link}" class="article featured-article">
@@ -221,41 +221,46 @@
  
              </div>
              
-             <!-- you articles Nav Bar-->
+             <!-- Conferences Right Nav-->
              <div class="sidebar d-grid">
- 
-                 <h3 class="title featured-content-title">your Conferences</h3>
- 
- 
-                 <!-- Codice Della Personal Desk sezione Post -->
+
+                <h3 class="title featured-content-title">Conferences</h3>
+
+
+                 <!-- Codice Della Personal Desk sezione Conferences  -->
                  <c:set var="count" scope="session" value="${0}"/>
-                 <c:forEach var="post" items="${personalPostList}">
+                 <c:forEach var="conference" items="${personalConferenceList}">
                   <c:set var="count" scope="session" value="${count+1}"/>
                       
-                       <!-- Posts -->
-                             <a href="${post.link}" class="trending-news-box">
+                       <!-- Conferences -->
+                         <a href="${conference.link}" class="trending-news-box">
                              <div class="trending-news-img-box">
-                                 <span class="trending-number place-items-center"><c:out value="${count}" /></span>
-                                 <img src="${post.linkImg}" alt="" class="article-image">
-                             </div>
-  
-                           <div class="trending-news-data">
- 
-                             <div class="article-data">
-                             <span>${post.data}</span>
-                             <span class="article-data-spacer"></span> 
-                             </div>
- 
-                         <h3 class="title article-title">${post.title}</h3>
- 
-                     </div>
-                 </a>
+                                <span class="trending-number place-items-center"><c:out value="${count}" /></span>
+                                <img src="${conference.linkImg}" alt="" class="article-image">
+                              </div>
+                              
+                         <div class="trending-news-data">
+
+                            <div class="article-data"> 
+                               <span><c:out value="${conference.data}" /></span>
+                                <span class="article-data-spacer"></span>
+                                <span><c:out value="${conference.dataConference}" /></span>
+                                <span><c:out value="${conference.timeOfConference}" /> </span>
+
+                           </div>
+
+                         <h3 class="title article-title"><c:out value="${conference.title}" /></h3>
+
+                        </div>
+                  </a>
+   
                  </c:forEach>
+
+
+
  
- 
-    
- 
-             </div>
+
+            </div>
  
          </div>
  

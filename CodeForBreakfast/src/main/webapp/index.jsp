@@ -42,7 +42,7 @@
                         <a href="#" class="list-link">News</a>
                     </li>
                     <li class="list-item">
-                        <a href="#" class="list-link">Membership</a>
+                        <a href="membership.jsp" class="list-link">Membership</a>
                     </li>
                     <li class="list-item">
                         <a href="#" class="list-link">Contact</a>
@@ -166,26 +166,21 @@
                  	
                  	 <!-- Posts -->
                			 <a href="${post.link}" class="article featured-article featured-article-${count}">
-                 		 <img src="${post.linkImg}" alt="" class="article-image">
-                 		 <span class="article-category">${post.category}</span>
+                 		     <img src="${post.linkImg}" alt="" class="article-image">
+                 		     <span class="article-category">${post.category}</span>
 
-                 		 <div class="article-data-container">
+                 		     <div class="article-data-container">
 
-                            <div class="article-data">
-                            <span>${post.data}</span>
-                            <span class="article-data-spacer"></span> 
-                            </div>
+                                <div class="article-data">
+                                     <span>${post.data}</span>
+                                     <span class="article-data-spacer"></span> 
+                                </div>
+                                    <h3 class="title article-title">${post.title}</h3>
 
-                        <h3 class="title article-title">${post.title}</h3>
-
-                    </div>
-                </a>
-                </c:forEach>
-					 
-                
-
-
-
+                                </div>
+                            </a>
+                    </c:forEach>
+					  
             </div>
             
             <!-- Conferences Right Nav-->
@@ -194,7 +189,7 @@
                 <h3 class="title featured-content-title">Conferences</h3>
 
 
-                 <!-- Codice Della Personal Desk sezione Post -->
+                 <!-- Codice Della Personal Desk sezione Conferences  -->
                  <c:set var="count" scope="session" value="${0}"/>
                  <c:forEach var="conference" items="${personalConferenceList}">
                   <c:set var="count" scope="session" value="${count+1}"/>

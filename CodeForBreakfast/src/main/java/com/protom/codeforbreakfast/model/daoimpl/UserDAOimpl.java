@@ -1,11 +1,14 @@
 package com.protom.codeforbreakfast.model.daoimpl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException; 
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.protom.codeforbreakfast.model.dao.UserDAO;
+import com.protom.codeforbreakfast.model.entity.Post;
 import com.protom.codeforbreakfast.model.entity.User;
 
  
@@ -122,6 +125,45 @@ public class UserDAOimpl implements UserDAO{
 
 		return true;
 	}
+
+
+	@Override
+	public ArrayList<User> readAllUsers() {
+		ArrayList<User> listOfAllUsers = new ArrayList<User>();
+		ResultSet rs; 
+		
+		try {
+		String query = "SELECT * FROM user"; 
+		PreparedStatement ps = connection.prepareStatement(query);
+		
+		
+			rs = ps.executeQuery();
+		
+		while (rs.next()) {
+ 
+			String username = rs.getString("username");
+			String name = rs.getString("nome");
+			String surname = rs.getString("cognome"); 
+			
+			 
+			
+			 
+			
+			//String dateString = dataImmatricolazione.toString();
+			User user = new User(username, name, surname );
+
+			listOfAllUsers.add(user);
+		}
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Errore accesso a db!");
+			e.printStackTrace();
+			return null;
+		}
+
+		return listOfAllUsers;
+	} 
  
  
 

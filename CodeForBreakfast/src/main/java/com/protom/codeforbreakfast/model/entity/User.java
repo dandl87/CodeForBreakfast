@@ -22,6 +22,16 @@ public class User {
 		sottoscrizioniPost= new ArrayList<SottoscrizionePost>();
 		sottoscrizioniConference = new ArrayList<SottoscrizioneConference>();
 	}
+	
+	public User(String username, String name, String surname) {
+		super();
+		this.username = username; 
+		this.name = name;
+		this.surname = surname;
+		sottoscrizioniPost= new ArrayList<SottoscrizionePost>();
+		sottoscrizioniConference = new ArrayList<SottoscrizioneConference>();
+	}
+	
 
 
 	public String getUsername() {

@@ -1,5 +1,7 @@
 package com.protom.codeforbreakfast.model.dao;
 
+import java.util.ArrayList;
+
 import com.protom.codeforbreakfast.model.entity.User; 
 
 public interface UserDAO {
@@ -7,7 +9,8 @@ public interface UserDAO {
 	boolean createUser(User user); 
 	User readUser(String username, String password);
 	boolean updateUser(User User); 
-	boolean deleteUser(String username, String password); 
+	boolean deleteUser(String username, String password);
+	ArrayList<User> readAllUsers();
 	
 
 }
