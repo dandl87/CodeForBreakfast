@@ -178,8 +178,7 @@
                        
                        
                              <a  href="${conference.link}" class="article featured-article">
-                              <img src="${conference.linkImg}" alt="" class="article-image">
-                            <!--    <span class="article-category"><c:out value="${conference.category}" /></span> -->
+                              <img src="${conference.linkImg}" alt="" class="article-image"> 
  
                               <div class="article-data-container">
     
@@ -198,8 +197,7 @@
  
                           <div class="info-article-data-container">
  
-                                <div class="article-data">
-                                 <span class="article-category"><c:out value="${conference.category}" /></span>
+                                <div class="article-data"> 
                                     <span><c:out value ="${conference.data}" /></span>
                                      
                                 </div>
@@ -226,7 +224,7 @@
              <!-- you articles Nav Bar-->
              <div class="sidebar d-grid">
  
-                 <h3 class="title featured-content-title">your articles</h3>
+                 <h3 class="title featured-content-title">your Conferences</h3>
  
  
                  <!-- Codice Della Personal Desk sezione Post -->
