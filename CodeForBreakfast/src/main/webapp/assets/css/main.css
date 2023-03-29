@@ -227,6 +227,8 @@ body.light-theme{
     transition: opacity .5s;
 }
 
+ 
+
 .form-container-inner{
     margin: auto;
     display: flex;
@@ -289,6 +291,8 @@ body.light-theme{
     opacity: 1;
     transform: scale(1);
 }
+
+ 
 
 /* Featured articles */
 .featured-articles{

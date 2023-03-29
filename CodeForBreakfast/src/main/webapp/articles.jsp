@@ -52,7 +52,7 @@
                     </li>
                     
                     <li class="list-item screen-lg-hidden">
-                        <a href="./signup.html" class="list-link">Sign up</a>
+                        <a href="signup.html" class="list-link">Sign up</a>
                     </li>
                 </ul>
             </div>
@@ -78,7 +78,13 @@
                     <i class="ri-login-circle-fill"></i>
                 </button>
 
-                <a href="#" class="btn sign-up-btn fancy-border screen-sm-hidden">
+                <!-- Log Out visible only when you are logged -->
+                
+                <button class="btn" id="logout-button">
+                    <i class="ri-logout-circle-r-line"></i>
+                </button>
+
+                <a href="signUp.html" class="btn sign-up-btn fancy-border screen-sm-hidden">
                     <span>Sign up</span>
                 </a>
             </div>
@@ -170,54 +176,57 @@
                 System.out.println(allPosts.size());
                 request.setAttribute("posts",allPosts);
 				%>
-                <c:set var="count" scope="session" value="${0}"/>
-                <c:forEach var="post" items="${posts}"> 
-                 <c:set var="count" scope="session" value="${count+1}"/>
-                 	
-                 	 <!-- Articles -->
-                 	 
-                 	 
-               			 <a  href="${post.link}" class="article featured-article">
-                 		    <img src="${post.linkImg}" alt="" class="article-image">
-                             <span class="article-category">${post.category}</span> 
 
-                             <div class="article-data-container">
-   
-                               <div class="article-data">
-                                 <span>${post.data}</span>
-                                 <span class="article-data-spacer"></span> 
-                               </div>
-   
-                                <h3 class="title article-title">${post.title}</h3> 
-                            </div>
-                        </a>
-
-                        <!-- info -->
-                        <a class="article info-article"> 
-                            
-
-                         <div class="info-article-data-container">
-
-                               <div class="article-data">
-                                <span class="article-category">${post.category}</span>
-                                   <span>${post.data}</span>
-                                    
-                               </div>
-
-                               <h3 class="title article-title">${post.title}</h3>
-                               <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
-                                Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
-                                Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. Ut consequat velit metus, quis gravida ante semper a. 
-                                Donec euismod mauris sed diam feugiat, blandit consequat lorem imperdiet. 
-                                Phasellus lorem est, malesuada vel sapien consequat, ullamcorper rutrum eros.</h3>
-
-                            </div>
-                       </a>
-
-                </c:forEach>
-					 
                 
+
+
+                         <c:set var="count" scope="session" value="${0}"/>
+                             <c:forEach var="post" items="${posts}"> 
+                                  <c:set var="count" scope="session" value="${count+1}"/>
+                 	
+                                    <!-- Articles --> 
+
+                                        <a  href="${post.link}" class="article featured-article">
+                                        <img src="${post.linkImg}" alt="" class="article-image">
+                                            <span class="article-category">${post.category}</span> 
+
+                                            <div class="article-data-container">
+        
+                                                    <div class="article-data">
+                                                    <span>${post.data}</span>
+                                                    <span class="article-data-spacer"></span> 
+                                                    </div>
+        
+                                                    <h3 class="title article-title">${post.title}</h3> 
+                                            </div>
+                                        </a>
+
+                                        <!-- info -->
+                                        <a class="article info-article"> 
+                                            
+
+                                        <div class="info-article-data-container">
+
+                                            <div class="article-data">
+                                                <span class="article-category">${post.category}</span>
+                                                <span>${post.data}</span>
+                                                    
+                                            </div>
+
+                                            <h3 class="title article-title">${post.title}</h3>
+                                            <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                                Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
+                                                Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
+                                                Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. Ut consequat velit metus, quis gravida ante semper a. 
+                                                Donec euismod mauris sed diam feugiat, blandit consequat lorem imperdiet. 
+                                                Phasellus lorem est, malesuada vel sapien consequat, ullamcorper rutrum eros.</h3>
+
+                                            </div>
+                                    </a>
+
+                                </c:forEach>
+					 
+                     
 
 
 
@@ -263,6 +272,108 @@
 
     </section>
 
+
+
+    <!-- CONFERENCES -->
+    <section class="quick-read section">
+
+        <div class="container">
+
+            <h2 class="title section-title" data-name="latest conferences">Conferences</h2>
+            <!-- Slider main container -->
+            <div class="swiper">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <a href="#" class="article swiper-slide">
+                        <img src="./assets/images/quick_read/quick_read_1.jpg" alt="" class="article-image">
+
+                        <div class="article-data-container">
+                            <div class="article-data">
+                                <span>23 march 2023</span>
+                                <span>xxxx</span>
+                                <span class="article-data-spacer"></span>
+                                <span>xxxx</span>
+                            </div>
+                            <h3 class="title article-title">OOOOOO</h3>
+                        </div>
+                    </a>
+                    <!-- Slides -->
+                    <a href="#" class="article swiper-slide">
+                        <img src="./assets/images/quick_read/quick_read_2.jpg" alt="" class="article-image">
+
+                        <div class="article-data-container">
+                            <div class="article-data">
+                                <span>23 Dec 2021</span>
+                                <span class="article-data-spacer"></span>
+                                <span>3 Min read</span>
+                            </div>
+                            <h3 class="title article-title">Sample article title</h3>
+                        </div>
+                    </a>
+                    <!-- Slides -->
+                    <a href="#" class="article swiper-slide">
+                        <img src="./assets/images/quick_read/quick_read_3.jpg" alt="" class="article-image">
+
+                        <div class="article-data-container">
+                            <div class="article-data">
+                                <span>23 Dec 2021</span>
+                                <span class="article-data-spacer"></span>
+                                <span>3 Min read</span>
+                            </div>
+                            <h3 class="title article-title">Sample article title</h3>
+                        </div>
+                    </a>
+                    <!-- Slides -->
+                    <a href="#" class="article swiper-slide">
+                        <img src="./assets/images/quick_read/quick_read_4.jpg" alt="" class="article-image">
+
+                        <div class="article-data-container">
+                            <div class="article-data">
+                                <span>23 Dec 2021</span>
+                                <span class="article-data-spacer"></span>
+                                <span>3 Min read</span>
+                            </div>
+                            <h3 class="title article-title">Sample article title</h3>
+                        </div>
+                    </a>
+                    <!-- Slides -->
+                    <a href="#" class="article swiper-slide">
+                        <img src="./assets/images/quick_read/quick_read_5.jpg" alt="" class="article-image">
+
+                        <div class="article-data-container">
+                            <div class="article-data">
+                                <span>23 Dec 2021</span>
+                                <span class="article-data-spacer"></span>
+                                <span>3 Min read</span>
+                            </div>
+                            <h3 class="title article-title">Sample article title</h3>
+                        </div>
+                    </a>
+                    <!-- Slides -->
+                    <a href="#" class="article swiper-slide">
+                        <img src="./assets/images/quick_read/quick_read_6.jpg" alt="" class="article-image">
+
+                        <div class="article-data-container">
+                            <div class="article-data">
+                                <span>23 Dec 2021</span>
+                                <span class="article-data-spacer"></span>
+                                <span>3 Min read</span>
+                            </div>
+                            <h3 class="title article-title">Sample article title</h3>
+                        </div>
+                    </a>
+                </div>
+                <!-- Navigation buttons -->
+                <div class="swiper-button-prev swiper-controls"></div>
+                <div class="swiper-button-next swiper-controls"></div>
+                <!-- Pagination -->
+                <div class="swiper-pagination"></div>
+            </div>
+
+        </div>
+
+    </section>
   
 
     <!-- Footer -->

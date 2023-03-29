@@ -52,7 +52,7 @@
                     </li>
                     
                     <li class="list-item screen-lg-hidden">
-                        <a href="./signup.html" class="list-link">Sign up</a>
+                        <a href="signUp.html" class="list-link">Sign up</a>
                     </li>
                 </ul>
             </div>
@@ -78,7 +78,13 @@
                     <i class="ri-login-circle-fill"></i>
                 </button>
 
-                <a href="#" class="btn sign-up-btn fancy-border screen-sm-hidden">
+                <!-- Log Out visible only when you are logged -->
+                
+                <button class="btn" id="logout-button">
+                    <i class="ri-logout-circle-r-line"></i>
+                </button>
+
+                <a href="signUp.html" class="btn sign-up-btn fancy-border screen-sm-hidden">
                     <span>Sign up</span>
                 </a>
             </div>

@@ -1,16 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-    <%@ page import="com.protom.codeforbreakfast.service.ServiceAllUsers"%>
-    <%@ page import="java.util.ArrayList"%>
-    <%@ page import="com.protom.codeforbreakfast.model.entity.User"%>
-    <!DOCTYPE >
+<!DOCTYPE >
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code for Breakfast | Membership </title>
+    <title>Code for Breakfast | SignUp Page </title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon2.png">
     <!-- Remix icons -->
@@ -18,7 +12,7 @@
     <!-- Swiper.js styles -->
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
     <!-- Custom styles -->
-    <link rel="stylesheet" href="assets/css/membership.css">
+    <link rel="stylesheet" href="assets/css/signUp.css">
 </head>
 
 <body>
@@ -39,20 +33,20 @@
                         <a href="conferences.jsp" class="list-link">Conferences</a>
                     </li>
                     <li class="list-item">
-                        <a href="articles.jsp" class="list-link">Articles</a>
+                        <a href="#" class="list-link">Articles</a>
                     </li>
                     <li class="list-item">
                         <a href="#" class="list-link">News</a>
                     </li>
                     <li class="list-item">
-                        <a href="#" class="list-link current">Membership</a>
+                        <a href="membership.jsp" class="list-link">Membership</a>
                     </li>
                     <li class="list-item">
                         <a href="contacts.jsp" class="list-link">Contact</a>
                     </li>
                     
                     <li class="list-item screen-lg-hidden">
-                        <a href="signup.html" class="list-link">Sign up</a>
+                        <a href="#" class="list-link current">Sign up</a>
                     </li>
                 </ul>
             </div>
@@ -84,7 +78,7 @@
                     <i class="ri-logout-circle-r-line"></i>
                 </button>
 
-                <a href="signUp.html" class="btn sign-up-btn fancy-border screen-sm-hidden">
+                <a href="#" class="btn sign-up-btn fancy-border screen-sm-hidden">
                     <span>Sign up</span>
                 </a>
             </div>
@@ -147,55 +141,31 @@
                 <div class="headline-banner">
                     <h3 class="headline fancy-border">
                     
-                    <!--  console UserArea -->
-                    	 <c:choose>
-							<c:when test="${user.username!=null}"> <span class="place-items-center"> <c:out value="${user.username }"/></span>
-							</c:when>  
-							<c:otherwise> <span class="place-items-center"> CodeForBreakfast</span>
-							</c:otherwise>
-						</c:choose>
-                     
+                    <!--  console UserArea static --> 
+							 <span class="place-items-center"> CodeForBreakfast</span> 
                     </h3>
-                    <!--  console Msg Area  -->
-                    <c:choose>
-							<c:when test="${user.username!=null}"> <span class="headline-description">Welcome back <c:out value="${user.name }"/></span>
-							</c:when> 
-							<c:when test="${errorMsg!=null}"> <span class="headline-description"><c:out value="${errorMsg }"/></span>
-							</c:when>
-							<c:otherwise> <span class="headline-description"> Welcome to a world made of code & coffee</span>
-							</c:otherwise>
-						</c:choose>
+
+
+                    <!--  console Msg Area static  -->
+                    
+							  <span class="headline-description">Insert your Info</span>
+							  
                     <!--  <span class="headline-description">My articles</span> -->
                 </div>
                 
-                <!-- Codice Della Personal Desk sezione Post www -->
-            
-                <%
-                ServiceAllUsers service = new ServiceAllUsers();
-                ArrayList<User> allUsers = service.caricaAllUsers();
-                System.out.println(allUsers.size());
-                request.setAttribute("users",allUsers);
-				%>
-                <c:set var="count" scope="session" value="${0}"/>
-                <c:forEach var="user" items="${users}"> 
-                 <c:set var="count" scope="session" value="${count+1}"/>
-                 	
-                 	 <!-- Articles -->
-                 	 
-                 	 
-               			 <a   class="article featured-article">
-                 		    <img src="" alt="" class="article-image">
-                             <span class="article-category">toDefine</span> 
+                <!-- Form per l'inserimento dei dati -->  
+               			 <a  href="#" class="article featured-article">
+                 		    <img src="#" alt="" class="article-image">
+                             <span class="article-category">toBeDefined</span> 
 
                              <div class="article-data-container">
    
                                <div class="article-data">
-                                 <span>${user.name}</span>
-                                 <span>${user.surname}</span>
+                                 <span>toBeDefined</span>
                                  <span class="article-data-spacer"></span> 
                                </div>
    
-                                <h3 class="title article-title">${user.username}</h3> 
+                                <h3 class="title article-title">toBeDefined</h3> 
                             </div>
                         </a>
 
@@ -206,12 +176,12 @@
                          <div class="info-article-data-container">
 
                                <div class="article-data">
-                                <span class="article-category">toBeDefine</span>
-                                   <span>toBeDefine</span>
+                                <span class="article-category">$toBeDefined</span>
+                                   <span>toBeDefined</span>
                                     
                                </div>
 
-                               <h3 class="title article-title">toBeDefine</h3>
+                               <h3 class="title article-title">toBeDefined</h3>
                                <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
                                 Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
                                 Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
@@ -230,7 +200,7 @@
 
             </div>
             
-            
+             
 
         </div>
 

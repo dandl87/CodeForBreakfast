@@ -21,10 +21,15 @@ window.addEventListener('scroll', scrollHeader);
 const menuToggleIcon = selectElement('#menu-toggle-icon');
 const formOpenBtn = selectElement('#search-icon');
 const formCloseBtn = selectElement('#form-close-btn');
+
 const formOpenBtnLogin = selectElement('#login-icon'); 
 const formCloseBtnLogin = selectElement('#form-close-btn-login');
+  
 const searchContainer = selectElement('#search-form-container');
 const loginContainer = selectElement('#login-form-container');
+
+ 
+ 
 
 const toggleMenu = () =>{
     const mobileMenu = selectElement('#menu');
@@ -49,6 +54,8 @@ formCloseBtnLogin.addEventListener('click', () => loginContainer.classList.remov
 window.addEventListener('keyup', (event) => {
     if(event.key === 'Escape') loginContainer.classList.remove('activated');
 });
+
+ 
 
 // Switch theme/add to local storage
 const body = document.body;

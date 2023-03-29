@@ -50,7 +50,7 @@
                     </li>
                     
                     <li class="list-item screen-lg-hidden">
-                        <a href="./signup.html" class="list-link">Sign up</a>
+                        <a href="signup.html" class="list-link">Sign up</a>
                     </li>
                 </ul>
             </div>
@@ -76,7 +76,13 @@
                     <i class="ri-login-circle-fill"></i>
                 </button>
 
-                <a href="#" class="btn sign-up-btn fancy-border screen-sm-hidden">
+                <!-- Log Out visible only when you are logged -->
+                
+                <button class="btn" id="logout-button">
+                    <i class="ri-logout-circle-r-line"></i>
+                </button>
+
+                <a href="signUp.html" class="btn sign-up-btn fancy-border screen-sm-hidden">
                     <span>Sign up</span>
                 </a>
             </div>
@@ -128,51 +134,80 @@
 
     </div>
 
-    <!-- Console articles -->
-    <section class="featured-articles section section-header-offset">
+   <!-- Console articles -->
+   <section class="featured-articles section section-header-offset">
 
-        <div class="featured-articles-container container d-grid">
+    <div class="featured-articles-container container d-grid">
 
-            <div class="featured-content d-grid">
-				
-				 <!--  console  -->
-                <div class="headline-banner">
-                    <h3 class="headline fancy-border">
-                    
-                    <!--  console UserArea -->
-                    	 <c:choose>
-							<c:when test="${user.username!=null}"> <span class="place-items-center"> <c:out value="${user.username }"/></span>
-							</c:when>  
-							<c:otherwise> <span class="place-items-center"> CodeForBreakfast</span>
-							</c:otherwise>
-						</c:choose>
-                     
-                    </h3>
-                    <!--  console Msg Area  -->
-                    <c:choose>
-							<c:when test="${user.username!=null}"> <span class="headline-description">Welcome back <c:out value="${user.name }"/></span>
-							</c:when> 
-							<c:when test="${errorMsg!=null}"> <span class="headline-description"><c:out value="${errorMsg }"/></span>
-							</c:when>
-							<c:otherwise> <span class="headline-description"> Welcome to a world made of code & coffee</span>
-							</c:otherwise>
-						</c:choose>
-                    <!--  <span class="headline-description">My articles</span> -->
-                </div>
+        <div class="featured-content d-grid">
+            
+             <!--  console  -->
+            <div class="headline-banner">
+                <h3 class="headline fancy-border">
                 
-                
-					 
-                
-
-
-
+                <!--  console UserArea -->
+                     <c:choose>
+                        <c:when test="${user.username!=null}"> <span class="place-items-center"> <c:out value="${user.username }"/></span>
+                        </c:when>  
+                        <c:otherwise> <span class="place-items-center"> CodeForBreakfast</span>
+                        </c:otherwise>
+                    </c:choose>
+                 
+                </h3>
+                <!--  console Msg Area  -->
+                <c:choose>
+                        <c:when test="${user.username!=null}"> <span class="headline-description">Welcome back <c:out value="${user.name }"/></span>
+                        </c:when> 
+                        <c:when test="${errorMsg!=null}"> <span class="headline-description"><c:out value="${errorMsg }"/></span>
+                        </c:when>
+                        <c:otherwise> <span class="headline-description"> Welcome to a world made of code & coffee</span>
+                        </c:otherwise>
+                    </c:choose>
+                <!--  <span class="headline-description">My articles</span> -->
             </div>
             
+            <!-- Codice Della Personal Desk sezione Post www -->
+        
+            
+          
+                 
+                  <!-- Articles -->
+                   
+                    <!-- info -->
+                    <a class="article info-article"> 
+                        
+
+                     <div class="info-article-data-container">
+
+                           <div class="article-data">
+                            <span class="article-category">toBeDefine</span>
+                               <span>toBeDefine</span>
+                                
+                           </div>
+
+                           <h3 class="title article-title">toBeDefine</h3>
+                           <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                            Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
+                            Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
+                            Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. Ut consequat velit metus, quis gravida ante semper a. 
+                            Donec euismod mauris sed diam feugiat, blandit consequat lorem imperdiet. 
+                            Phasellus lorem est, malesuada vel sapien consequat, ullamcorper rutrum eros.</h3>
+
+                        </div>
+                   </a>
+
+         
             
 
-        </div>
 
-    </section>
+
+        </div>
+        
+        
+
+    </div>
+
+</section>
 
   
 

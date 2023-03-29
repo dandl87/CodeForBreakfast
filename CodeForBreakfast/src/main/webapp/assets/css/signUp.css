@@ -941,9 +941,13 @@ body.light-theme{
     }
 }
 @media screen and (min-width: 1500px) {
-     
+    .featured-article{
+        grid-column: 1/2;
+        grid-row:  auto/auto;
+    }
+    
      .info-article{
-        grid-column: 1/-1;
+        grid-column: 2/-1;
         grid-row: repeat(auto,1fr); 
          
     }  

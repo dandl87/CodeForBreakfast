@@ -37,7 +37,7 @@ public class ServiceAllConferences {
 //	}
 	
 	public ArrayList<Conference> caricaAllConferences(){
-		 ArrayList<Conference> listOfAllConferences= conferenceDAO.readAllConferences();
+		 ArrayList<Conference> listOfAllConferences= conferenceDAO.readAllConferences(); 
 		 return listOfAllConferences; 
 		
 	}

@@ -1,14 +1,12 @@
 package com.protom.codeforbreakfast.model.daoimpl;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.protom.codeforbreakfast.model.dao.UserDAO;
-import com.protom.codeforbreakfast.model.entity.Post;
 import com.protom.codeforbreakfast.model.entity.User;
 
  
