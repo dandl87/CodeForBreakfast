@@ -171,8 +171,9 @@
                 <!-- Codice Della Personal Desk sezione Post www -->
             
                 <%
-                ServiceAllPosts service = new ServiceAllPosts();
-                ArrayList<Post> allPosts = service.caricaAllPosts();
+                int pageNumber =1;
+                ServiceAllPosts service = new ServiceAllPosts(); 
+                ArrayList<Post> allPosts = service.caricaAllPostsOfPage(pageNumber);
                 System.out.println(allPosts.size());
                 request.setAttribute("posts",allPosts);
 				%>
@@ -265,11 +266,12 @@
 
 
    
-
+                
             </div>
-
-        </div>
-
+            <div class="bottomline-banner2">  
+                <a href="articles#2.jsp"><h3>next</h3></a> 
+            </div>
+        </div> 
     </section>
 
 

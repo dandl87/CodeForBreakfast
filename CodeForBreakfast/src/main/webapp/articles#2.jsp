@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code for Breakfast | Articles Refactoring</title>
+    <title>Code for Breakfast | Articles page #2</title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon2.png">
     <!-- Remix icons -->
@@ -18,7 +18,7 @@
     <!-- Swiper.js styles -->
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
     <!-- Custom styles -->
-    <link rel="stylesheet" href="assets/css/articlesRefactoring.css">
+    <link rel="stylesheet" href="assets/css/articles.css">
 </head>
 
 <body>
@@ -171,8 +171,9 @@
                 <!-- Codice Della Personal Desk sezione Post www -->
             
                 <%
-                ServiceAllPosts service = new ServiceAllPosts();
-                ArrayList<Post> allPosts = service.caricaAllPosts();
+                int pageNumber =2;
+                ServiceAllPosts service = new ServiceAllPosts(); 
+                ArrayList<Post> allPosts = service.caricaAllPostsOfPage(pageNumber);
                 System.out.println(allPosts.size());
                 request.setAttribute("posts",allPosts);
 				%>
@@ -185,31 +186,6 @@
                                   <c:set var="count" scope="session" value="${count+1}"/>
                  	
                                     <!-- Articles --> 
-                                        <div class="slide-container">
-                                            <div class="slide-content">
-                                                <div class="article-wrapper"></div>
-                                                    <div class="articleNew">
-                                                        <div class="imageNew">
-
-                                                            <span class="overlayNew"></span>
-                                                            <div class="articleNew-image">
-
-                                                                <img src="#" alt="" class="articleNew-img">
-                                                            </div>
-
-                                                            <div class="articleNew-content">
-                                                                <h2 class="content-name">Articolo 1</h2>
-                                                                <p class="content-description">Questo articolo parla di questo e quello</p>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
 
                                         <a  href="${post.link}" class="article featured-article">
                                         <img src="${post.linkImg}" alt="" class="article-image">
@@ -290,11 +266,13 @@
 
 
    
-
+                
             </div>
-
-        </div>
-
+            <div class="bottomline-banner2"> 
+                <a href="articles.jsp"><h3>back</h3></a> 
+                <a href="#"><h3>next</h3></a> 
+            </div>
+        </div> 
     </section>
 
 

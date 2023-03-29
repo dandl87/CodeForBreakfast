@@ -11,22 +11,24 @@ public class Post {
 	private String linkImg;
 	private String category;
 	private Date data;
+	private int page;
 	private ArrayList<SottoscrizionePost> listOfSubcriptions;
 	
 	
 	//costruttore per la creazione di post
-	public Post(String title, String link, String linkImg, String category, Date data) {
+	public Post(String title, String link, String linkImg, String category, Date data, int page) {
 		super(); 
 		this.title = title;
 		this.link = link;
 		this.linkImg = linkImg;
 		this.category = category;
 		this.data = data;
+		this.page=page;
 		this.listOfSubcriptions= new ArrayList<>();
 	}
 	
 	//costruttore per il prelievo di post
-		public Post(int id, String title, String link, String linkImg, String category, Date data) {
+		public Post(int id, String title, String link, String linkImg, String category, Date data, int page) {
 			super();
 			this.id=id;
 			this.title = title;
@@ -34,6 +36,7 @@ public class Post {
 			this.linkImg = linkImg;
 			this.category = category;
 			this.data = data;
+			this.page=page;
 			this.listOfSubcriptions= new ArrayList<>();
 		}
 
@@ -98,6 +101,14 @@ public class Post {
 	}
 
 
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
 	public ArrayList<SottoscrizionePost> getListOfSubcriptions() {
 		return listOfSubcriptions;
 	}
@@ -111,7 +122,7 @@ public class Post {
 	@Override
 	public String toString() {
 		return "Post [id=" + this.id + ", titolo=" + this.title + ", link=" + this.link + ", linkImg=" + this.linkImg + ", category="
-				+ this.category + ", data=" + this.data + " number of subscriptions= "+this.listOfSubcriptions.size()+"]";
+				+ this.category + ", data=" + this.data + "pagina="+this.page+" number of subscriptions= "+this.listOfSubcriptions.size()+"]";
 	} 
 	
 	

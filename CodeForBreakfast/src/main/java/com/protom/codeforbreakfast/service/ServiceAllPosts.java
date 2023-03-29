@@ -35,8 +35,14 @@ public class ServiceAllPosts {
 //		
 //	}
 	
-	public ArrayList<Post>  caricaAllPosts(){
+	public ArrayList<Post> caricaAllPosts(){
 		 ArrayList<Post> listOfAllPosts= postDAO.readAllPosts();
+		 return listOfAllPosts; 
+		
+	}
+	
+	public ArrayList<Post> caricaAllPostsOfPage(int n){
+		 ArrayList<Post> listOfAllPosts= postDAO.readAllPostsOfPage(n);
 		 return listOfAllPosts; 
 		
 	}

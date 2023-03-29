@@ -48,7 +48,8 @@ public class PostDAOimpl implements PostDAO {
 			String linkImgFromDB = rs.getString("link_img");
 			String categoryFromDB = rs.getString("categoria");
 			Date dateFromDB = rs.getDate("data");
-			Post postFromDB = new Post(idFromDB,titleFromDB,linkFromDB,linkImgFromDB, categoryFromDB, dateFromDB); 
+			int pageFromDB = rs.getInt("page");
+			Post postFromDB = new Post(idFromDB,titleFromDB,linkFromDB,linkImgFromDB, categoryFromDB, dateFromDB,pageFromDB); 
 			return postFromDB;
 			
 		} catch (SQLException e) {
@@ -90,7 +91,8 @@ public class PostDAOimpl implements PostDAO {
 			String linkFromDB = rs.getString("link");
 			String linkImgFromDB = rs.getString("link_img");
 			String categoryFromDB = rs.getString("categoria");
-			Date dateFromDB= rs.getDate("data");  
+			Date dateFromDB= rs.getDate("data");
+			int pageFromDB = rs.getInt("page");
 			
 			
 			 
@@ -98,7 +100,50 @@ public class PostDAOimpl implements PostDAO {
 			 
 			
 			//String dateString = dataImmatricolazione.toString();
-			Post post = new Post(idPostFromDB, titleFromDB, linkFromDB, linkImgFromDB, categoryFromDB, dateFromDB);
+			Post post = new Post(idPostFromDB, titleFromDB, linkFromDB, linkImgFromDB, categoryFromDB, dateFromDB, pageFromDB);
+
+			listOfAllPosts.add(post);
+		}
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Errore accesso a db!");
+			e.printStackTrace();
+			return null;
+		}
+
+		return listOfAllPosts;
+	} 
+	
+	@Override
+	public ArrayList<Post> readAllPostsOfPage(int n) {
+		ArrayList<Post> listOfAllPosts = new ArrayList<Post>();
+		ResultSet rs; 
+		
+		try {
+		String query = "SELECT * FROM post Where page="+n; 
+		PreparedStatement ps = connection.prepareStatement(query);
+		
+		
+			rs = ps.executeQuery();
+		
+		while (rs.next()) {
+
+			int idPostFromDB = rs.getInt("id");
+			String titleFromDB = rs.getString("titolo");
+			String linkFromDB = rs.getString("link");
+			String linkImgFromDB = rs.getString("link_img");
+			String categoryFromDB = rs.getString("categoria");
+			Date dateFromDB= rs.getDate("data");
+			int pageFromDB = rs.getInt("page");
+			
+			
+			 
+			
+			 
+			
+			//String dateString = dataImmatricolazione.toString();
+			Post post = new Post(idPostFromDB, titleFromDB, linkFromDB, linkImgFromDB, categoryFromDB, dateFromDB, pageFromDB);
 
 			listOfAllPosts.add(post);
 		}

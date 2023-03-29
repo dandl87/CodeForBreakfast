@@ -312,6 +312,15 @@ body.light-theme{
     font-size: var(--font-size-xsm);
 }
 
+.bottomline-banner2{ 
+    display: flex;
+    align-items: center;
+    gap: var(--gap);
+    font-size: var(--font-size-xsm);
+    height: 5rem;
+}
+
+
 .headline{
     background-color: #000;
     color: var(--light-color);
