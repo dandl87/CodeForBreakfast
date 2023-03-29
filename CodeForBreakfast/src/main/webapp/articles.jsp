@@ -269,7 +269,7 @@
                 
             </div>
             <div class="bottomline-banner2">  
-                <a href="articles#2.jsp"><h3>next</h3></a> 
+                <a href="articles2.jsp"><h3>next</h3></a> 
             </div>
         </div> 
     </section>
