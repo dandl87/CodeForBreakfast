@@ -269,8 +269,7 @@
                 
             </div>
             <div class="bottomline-banner2"> 
-                <a href="articles.jsp"><h3>back</h3></a> 
-                <a href="#"><h3>next</h3></a> 
+                <a href="articles.jsp" style="width: 5.5rem"><h3>back</h3></a>  
             </div>
         </div> 
     </section>

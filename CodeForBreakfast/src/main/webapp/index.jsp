@@ -172,25 +172,39 @@
                 
                 <!-- Codice Della Personal Desk sezione Post -->
                 <c:set var="count" scope="session" value="${0}"/>
+                <c:set var="countInsert" scope="session" value="${0}"/>
                 <c:forEach var="post" items="${personalPostList}">
-                 <c:set var="count" scope="session" value="${count+1}"/>
-                 	
-                 	 <!-- Posts -->
-               			 <a href="${post.link}" class="article featured-article featured-article-${count}">
-                 		     <img src="${post.linkImg}" alt="" class="article-image">
-                 		     <span class="article-category">${post.category}</span>
+                 
+                    <c:if test="${user.sottoscrizioniPost[count].active!=0 and count<6 and countInsert<5}">
+                        <c:set var="countInsert" scope="session" value="${countInsert+1}"/>
+                    
+                        <!-- Posts -->
+                            <div class="article featured-article featured-article-${user.sottoscrizioniPost[count].active}">
+                                <img src="${post.linkImg}" alt="" class="article-image">
+                                <a href ="#" class="article-category">${post.category}</a>
 
-                 		     <div class="article-data-container">
+                                <div class="article-data-container">
 
-                                <div class="article-data">
-                                     <span>${post.data}</span>
-                                     <span class="article-data-spacer"></span> 
+                                    <div class="article-data">
+                                        <!-- remove function-->
+                                        <button class="btn" id="remove-button">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </button>
+
+                                        <span class="article-data-spacer"></span> 
+                                        
+                                        <!-- data of pubblication-->
+                                        <span>${post.data}</span> 
+                                        
+                                       
+                                    </div>
+                                        <h3 class="title article-title">${post.title}</h3>
+
                                 </div>
-                                    <h3 class="title article-title">${post.title}</h3>
-
-                                </div>
-                            </a>
-                    </c:forEach>
+                            </div> 
+                    </c:if>
+                    <c:set var="count" scope="session" value="${count+1}"/>
+                </c:forEach>
 					  
             </div>
             

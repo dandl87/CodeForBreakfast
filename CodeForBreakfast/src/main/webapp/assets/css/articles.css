@@ -316,7 +316,7 @@ body.light-theme{
     display: flex;
     align-items: center;
     gap: var(--gap);
-    font-size: var(--font-size-xsm);
+    font-size: var(--font-size-sm);
     height: 5rem;
 }
 
@@ -831,7 +831,7 @@ body.light-theme{
 
     .sidebar{ 
         
-        grid-auto-rows: 7rem 15rem 15rem 15rem 15rem 20rem;
+        grid-auto-rows: 7rem 15rem 15rem 15rem 15rem 15rem 15rem;
          
         /* grid-template-rows: 5rem repeat(4, 1fr); */
     }

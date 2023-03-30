@@ -171,8 +171,9 @@
                  <!-- Codice Della Personal Desk sezione Post -->
             
                  <%
+                 int pageNumber=1;
                  ServiceAllConferences service = new ServiceAllConferences();
-                 ArrayList<Conference> allConferences = service.caricaAllConferences();
+                 ArrayList<Conference> allConferences = service.caricaAllConferencesOfPage(pageNumber);
                  System.out.println(allConferences.size());
                  request.setAttribute("conferences",allConferences);
                  %>
@@ -260,12 +261,12 @@
                         </div>
                   </a>
    
-                 </c:forEach>
+                 </c:forEach> 
+            </div>
 
-
-
- 
-
+            <!-- page menu -->
+            <div class="bottomline-banner2">  
+                <a href="conferences2.jsp" style="width: 5.5rem"><h3>next</h3></a> 
             </div>
  
          </div>

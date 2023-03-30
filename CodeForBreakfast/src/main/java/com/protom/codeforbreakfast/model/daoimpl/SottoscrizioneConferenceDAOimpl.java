@@ -53,8 +53,8 @@ public class SottoscrizioneConferenceDAOimpl implements SottoscrizioneConference
 	}
 
 	@Override
-	public ArrayList<SottoscrizioneConference> readSottoscrizioneConferenceOfUser(String username, String password) {
-		ArrayList<SottoscrizioneConference> sottoscrizioniConferenceList= new ArrayList<SottoscrizioneConference>();
+	public SottoscrizioneConference[] readSottoscrizioneConferenceOfUser(String username, String password) {
+		SottoscrizioneConference[] sottoscrizioniConferenceList= new SottoscrizioneConference[6];
 		ResultSet rs; 
 		
 		try {
@@ -63,7 +63,7 @@ public class SottoscrizioneConferenceDAOimpl implements SottoscrizioneConference
 		
 		
 			rs = ps.executeQuery();
-		
+		int i=0;
 		while (rs.next()) {
 
 			int idSottoscrizioneConferenceFromDB = rs.getInt("id");
@@ -74,7 +74,8 @@ public class SottoscrizioneConferenceDAOimpl implements SottoscrizioneConference
 			//String dateString = dataImmatricolazione.toString();
 			SottoscrizioneConference sottoscrizioneConference = new SottoscrizioneConference(idSottoscrizioneConferenceFromDB, userUsernameFromDB, userPasswordFromDB, idConference);
 
-			sottoscrizioniConferenceList.add(sottoscrizioneConference);
+			sottoscrizioniConferenceList[i]=sottoscrizioneConference;
+			i++;
 		}
 		
 		} catch (SQLException e) {

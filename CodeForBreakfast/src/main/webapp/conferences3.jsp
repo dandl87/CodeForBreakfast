@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-    <%@ page import="com.protom.codeforbreakfast.service.ServiceAllPosts"%>
+    <%@ page import="com.protom.codeforbreakfast.service.ServiceAllConferences"%>
     <%@ page import="java.util.ArrayList"%>
-    <%@ page import="com.protom.codeforbreakfast.model.entity.Post"%>
+    <%@ page import="com.protom.codeforbreakfast.model.entity.Conference"%>
     <!DOCTYPE >
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code for Breakfast | Articles </title>
+    <title>Code for Breakfast | Conferences Page 3</title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon2.png">
     <!-- Remix icons -->
@@ -18,7 +18,7 @@
     <!-- Swiper.js styles -->
     <link rel="stylesheet" href="assets/css/swiper-bundle.min.css"/>
     <!-- Custom styles -->
-    <link rel="stylesheet" href="assets/css/articles.css">
+    <link rel="stylesheet" href="assets/css/conferences.css">
 </head>
 
 <body>
@@ -36,10 +36,10 @@
                         <a href="index.jsp" class="list-link">Home</a>
                     </li>
                     <li class="list-item">
-                        <a href="conferences.jsp" class="list-link">Conferences</a>
+                        <a href="#" class="list-link current">Conferences</a>
                     </li>
                     <li class="list-item">
-                        <a href="#" class="list-link current">Articles</a>
+                        <a href="articles.jsp" class="list-link">Articles</a>
                     </li>
                     <li class="list-item">
                         <a href="#" class="list-link">News</a>
@@ -52,7 +52,7 @@
                     </li>
                     
                     <li class="list-item screen-lg-hidden">
-                        <a href="signup.html" class="list-link">Sign up</a>
+                        <a href="signUp.html" class="list-link">Sign up</a>
                     </li>
                 </ul>
             </div>
@@ -168,214 +168,111 @@
                     <!--  <span class="headline-description">My articles</span> -->
                 </div>
                 
-                <!-- Codice Della Personal Desk sezione Post  -->
+                 <!-- Codice Della Personal Desk sezione Post -->
             
-                <%
-                int pageNumber =1;
-                ServiceAllPosts service = new ServiceAllPosts(); 
-                ArrayList<Post> allPosts = service.caricaAllPostsOfPage(pageNumber);
-                System.out.println(allPosts.size());
-                request.setAttribute("posts",allPosts);
-				%>
-
-                
+                 <%
+                 int pageNumber=3;
+                 ServiceAllConferences service = new ServiceAllConferences();
+                 ArrayList<Conference> allConferences = service.caricaAllConferencesOfPage(pageNumber);
+                 System.out.println(allConferences.size());
+                 request.setAttribute("conferences",allConferences);
+                 %>
+                 <c:set var="count" scope="session" value="${0}"/>
+                 <c:forEach var="conference" items="${conferences}"> 
+                  <c:set var="count" scope="session" value="${count+1}"/>
+                      
+                       <!-- Conferences  -->
                        
-
-                         <c:set var="count" scope="session" value="${0}"/>
-                             <c:forEach var="post" items="${posts}"> 
-                                  <c:set var="count" scope="session" value="${count+1}"/>
-                 	
-                                    <!-- Articles --> 
-
-                                        <a  href="${post.link}" class="article featured-article">
-                                        <img src="${post.linkImg}" alt="" class="article-image">
-                                            <span class="article-category">${post.category}</span> 
-
-                                            <div class="article-data-container">
-        
-                                                    <div class="article-data">
-                                                    <span>${post.data}</span>
-                                                    <span class="article-data-spacer"></span> 
-                                                    </div>
-        
-                                                    <h3 class="title article-title">${post.title}</h3> 
-                                            </div>
-                                        </a>
-
-                                        <!-- info -->
-                                        <a class="article info-article"> 
-                                            
-
-                                        <div class="info-article-data-container">
-
-                                            <div class="article-data">
-                                                <span class="article-category">${post.category}</span>
-                                                <span>${post.data}</span>
-                                                    
-                                            </div>
-
-                                            <h3 class="title article-title">${post.title}</h3>
-                                            <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                                Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
-                                                Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
-                                                Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. Ut consequat velit metus, quis gravida ante semper a. 
-                                                Donec euismod mauris sed diam feugiat, blandit consequat lorem imperdiet. 
-                                                Phasellus lorem est, malesuada vel sapien consequat, ullamcorper rutrum eros.</h3>
-
-                                            </div>
-                                    </a>
-
-                                </c:forEach>
-					 
-                     
-
-
-
-            </div>
-         
-            <!-- you articles Nav Bar-->
-            <div class="sidebar d-grid">
-
-                <h3 class="title featured-content-title">Your Articles</h3>
-
-
-                
-                <c:set var="count" scope="session" value="${0}"/>
-                <c:forEach var="post" items="${personalPostList}">
-                 <c:set var="count" scope="session" value="${count+1}"/>
-                 	
-                 	 <!-- Posts -->
-               			 <a href="${post.link}" class="trending-news-box">
-                            <div class="trending-news-img-box">
-                                <span class="trending-number place-items-center"><c:out value="${count}" /></span>
-                                <img src="${post.linkImg}" alt="" class="article-image">
-                            </div>
+                       
+                             <a  href="${conference.link}" class="article featured-article">
+                              <img src="${conference.linkImg}" alt="" class="article-image"> 
  
-                 		 <div class="trending-news-data">
+                              <div class="article-data-container">
+    
+                                <div class="article-data">
+                                  <span><c:out value="${conference.data}" /></span>
+                                  <span class="article-data-spacer"></span> 
+                                </div>
+    
+                                 <h3 class="title article-title"><c:out value="${conference.title}" /></h3> 
+                             </div>
+                         </a>
+ 
+                         <!-- info -->
+                         <a class="article info-article"> 
+                             
+ 
+                          <div class="info-article-data-container">
+ 
+                                <div class="article-data"> 
+                                    <span><c:out value ="${conference.data}" /></span>
+                                     
+                                </div>
+ 
+                                <h3 class="title article-title"><c:out value = "${conference.title}" /></h3>
+                                <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                 Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
+                                 Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
+                                 Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. Ut consequat velit metus, quis gravida ante semper a. 
+                                 Donec euismod mauris sed diam feugiat, blandit consequat lorem imperdiet. 
+                                 Phasellus lorem est, malesuada vel sapien consequat, ullamcorper rutrum eros.</h3>
+ 
+                             </div>
+                        </a>
+ 
+                 </c:forEach>
+                      
+                 
+ 
+ 
+ 
+             </div>
+             
+             <!-- Conferences Right Nav-->
+             <div class="sidebar d-grid">
 
-                            <div class="article-data">
-                            <span>${post.data}</span>
-                            <span class="article-data-spacer"></span> 
-                            </div>
-
-                        <h3 class="title article-title">${post.title}</h3>
-
-                    </div>
-                </a>
-                </c:forEach>
+                <h3 class="title featured-content-title">Your Conferences</h3>
 
 
+                 <!-- Codice Della Personal Desk sezione Conferences  -->
+                 <c:set var="count" scope="session" value="${0}"/>
+                 <c:forEach var="conference" items="${personalConferenceList}">
+                  <c:set var="count" scope="session" value="${count+1}"/>
+                      
+                       <!-- Conferences -->
+                         <a href="${conference.link}" class="trending-news-box">
+                             <div class="trending-news-img-box">
+                                <span class="trending-number place-items-center"><c:out value="${count}" /></span>
+                                <img src="${conference.linkImg}" alt="" class="article-image">
+                              </div>
+                              
+                         <div class="trending-news-data">
+
+                            <div class="article-data"> 
+                               <span><c:out value="${conference.data}" /></span>
+                                <span class="article-data-spacer"></span>
+                                <span><c:out value="${conference.dataConference}" /></span>
+                                <span><c:out value="${conference.timeOfConference}" /> </span>
+
+                           </div>
+
+                         <h3 class="title article-title"><c:out value="${conference.title}" /></h3>
+
+                        </div>
+                  </a>
    
-                
+                 </c:forEach> 
             </div>
+
+            <!-- Page menu -->
+ 
             <div class="bottomline-banner2">  
-                <a href="articles2.jsp" style="width: 5.5rem"><h3>next</h3></a> 
+                <a href="conferences2.jsp" style="width: 5.5rem"><h3>back</h3></a>  
             </div>
-        </div> 
-    </section>
+         </div>
+ 
+     </section>
 
-
-
-    <!-- CONFERENCES -->
-    <section class="quick-read section">
-
-        <div class="container">
-
-            <h2 class="title section-title" data-name="latest conferences">Conferences</h2>
-            <!-- Slider main container -->
-            <div class="swiper">
-                <!-- Additional required wrapper -->
-                <div class="swiper-wrapper">
-                    <!-- Slides -->
-                    <a href="#" class="article swiper-slide">
-                        <img src="./assets/images/quick_read/quick_read_1.jpg" alt="" class="article-image">
-
-                        <div class="article-data-container">
-                            <div class="article-data">
-                                <span>23 march 2023</span>
-                                <span>xxxx</span>
-                                <span class="article-data-spacer"></span>
-                                <span>xxxx</span>
-                            </div>
-                            <h3 class="title article-title">OOOOOO</h3>
-                        </div>
-                    </a>
-                    <!-- Slides -->
-                    <a href="#" class="article swiper-slide">
-                        <img src="./assets/images/quick_read/quick_read_2.jpg" alt="" class="article-image">
-
-                        <div class="article-data-container">
-                            <div class="article-data">
-                                <span>23 Dec 2021</span>
-                                <span class="article-data-spacer"></span>
-                                <span>3 Min read</span>
-                            </div>
-                            <h3 class="title article-title">Sample article title</h3>
-                        </div>
-                    </a>
-                    <!-- Slides -->
-                    <a href="#" class="article swiper-slide">
-                        <img src="./assets/images/quick_read/quick_read_3.jpg" alt="" class="article-image">
-
-                        <div class="article-data-container">
-                            <div class="article-data">
-                                <span>23 Dec 2021</span>
-                                <span class="article-data-spacer"></span>
-                                <span>3 Min read</span>
-                            </div>
-                            <h3 class="title article-title">Sample article title</h3>
-                        </div>
-                    </a>
-                    <!-- Slides -->
-                    <a href="#" class="article swiper-slide">
-                        <img src="./assets/images/quick_read/quick_read_4.jpg" alt="" class="article-image">
-
-                        <div class="article-data-container">
-                            <div class="article-data">
-                                <span>23 Dec 2021</span>
-                                <span class="article-data-spacer"></span>
-                                <span>3 Min read</span>
-                            </div>
-                            <h3 class="title article-title">Sample article title</h3>
-                        </div>
-                    </a>
-                    <!-- Slides -->
-                    <a href="#" class="article swiper-slide">
-                        <img src="./assets/images/quick_read/quick_read_5.jpg" alt="" class="article-image">
-
-                        <div class="article-data-container">
-                            <div class="article-data">
-                                <span>23 Dec 2021</span>
-                                <span class="article-data-spacer"></span>
-                                <span>3 Min read</span>
-                            </div>
-                            <h3 class="title article-title">Sample article title</h3>
-                        </div>
-                    </a>
-                    <!-- Slides -->
-                    <a href="#" class="article swiper-slide">
-                        <img src="./assets/images/quick_read/quick_read_6.jpg" alt="" class="article-image">
-
-                        <div class="article-data-container">
-                            <div class="article-data">
-                                <span>23 Dec 2021</span>
-                                <span class="article-data-spacer"></span>
-                                <span>3 Min read</span>
-                            </div>
-                            <h3 class="title article-title">Sample article title</h3>
-                        </div>
-                    </a>
-                </div>
-                <!-- Navigation buttons -->
-                <div class="swiper-button-prev swiper-controls"></div>
-                <div class="swiper-button-next swiper-controls"></div>
-                <!-- Pagination -->
-                <div class="swiper-pagination"></div>
-            </div>
-
-        </div>
-
-    </section>
   
 
     <!-- Footer -->

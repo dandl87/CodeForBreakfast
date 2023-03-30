@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.protom.codeforbreakfast.model.dao.ConferenceDAO;
-import com.protom.codeforbreakfast.model.entity.Conference;
+import com.protom.codeforbreakfast.model.entity.Conference; 
 
  
 
@@ -50,8 +50,9 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 			Date dateFromDB = rs.getDate("data");
 			Date dateConfFromDB = rs.getDate("data_conf");
 			String tempoConfFromDB = rs.getString("tempo_conf");
+			int pageFromDB= rs.getInt("page");
 			
-			Conference conferenceFromDB = new Conference(idFromDB,titleFromDB,linkFromDB,linkImgFromDB, dateFromDB, dateConfFromDB,tempoConfFromDB); 
+			Conference conferenceFromDB = new Conference(idFromDB,titleFromDB,linkFromDB,linkImgFromDB, dateFromDB, dateConfFromDB,tempoConfFromDB, pageFromDB); 
 			return conferenceFromDB;
 			
 		} catch (SQLException e) {
@@ -86,8 +87,9 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 			Date dateFromDB = rs.getDate("data");
 			Date dateConfFromDB = rs.getDate("data_conf");
 			String tempoConfFromDB = rs.getString("tempo_conf");
+			int pageFromDB= rs.getInt("page");
 			
-			Conference conferenceFromDB = new Conference(idFromDB,titleFromDB,linkFromDB,linkImgFromDB, dateFromDB, dateConfFromDB,tempoConfFromDB); 
+			Conference conferenceFromDB = new Conference(idFromDB,titleFromDB,linkFromDB,linkImgFromDB, dateFromDB, dateConfFromDB,tempoConfFromDB,pageFromDB); 
 
 			listOfAllConferences.add(conferenceFromDB);
 		}
@@ -112,6 +114,50 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 	public boolean deleteConference(int idConference) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public ArrayList<Conference> readAllConferencesOfPage(int n) {
+		ArrayList<Conference> listOfAllConferences = new ArrayList<Conference>();
+		ResultSet rs; 
+		
+		try {
+		String query = "SELECT * FROM conference Where page="+n; 
+		PreparedStatement ps = connection.prepareStatement(query);
+		
+		
+			rs = ps.executeQuery();
+		
+		while (rs.next()) {
+
+			int idPostFromDB = rs.getInt("id");
+			String titleFromDB = rs.getString("titolo");
+			String linkFromDB = rs.getString("link");
+			String linkImgFromDB = rs.getString("link_img"); 
+			Date dateFromDB= rs.getDate("data");
+			Date dateConfFromDB= rs.getDate("data_conf");
+			String durationConfFromDB= rs.getString("tempo_conf");
+			int pageFromDB = rs.getInt("page");
+			
+			
+			 
+			
+			 
+			
+			//String dateString = dataImmatricolazione.toString();
+			Conference conference = new Conference(idPostFromDB, titleFromDB, linkFromDB, linkImgFromDB, dateFromDB, dateConfFromDB, durationConfFromDB, pageFromDB);
+
+			listOfAllConferences.add(conference);
+		}
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Errore accesso a db!");
+			e.printStackTrace();
+			return null;
+		}
+
+		return listOfAllConferences;
 	} 
 	
 	

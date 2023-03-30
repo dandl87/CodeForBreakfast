@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.protom.codeforbreakfast.dbconnections.DbConnectionMySql;
 import com.protom.codeforbreakfast.model.dao.ConferenceDAO;
 import com.protom.codeforbreakfast.model.daoimpl.ConferenceDAOimpl;
-import com.protom.codeforbreakfast.model.entity.Conference;
+import com.protom.codeforbreakfast.model.entity.Conference; 
  
 
 public class ServiceAllConferences {
@@ -38,6 +38,12 @@ public class ServiceAllConferences {
 	
 	public ArrayList<Conference> caricaAllConferences(){
 		 ArrayList<Conference> listOfAllConferences= conferenceDAO.readAllConferences(); 
+		 return listOfAllConferences; 
+		
+	}
+	
+	public ArrayList<Conference> caricaAllConferencesOfPage(int n){
+		 ArrayList<Conference> listOfAllConferences= conferenceDAO.readAllConferencesOfPage(n);
 		 return listOfAllConferences; 
 		
 	}

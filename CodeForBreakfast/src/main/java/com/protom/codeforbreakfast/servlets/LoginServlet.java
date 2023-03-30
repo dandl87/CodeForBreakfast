@@ -75,11 +75,11 @@ public class LoginServlet extends HttpServlet{
 				 
  				 
 				//creo la lista di post preferiti facendo read a db 
-				ArrayList<Post> listOfPostOfUser = servicePost.caricaPostForUser(user);
+				Post[] listOfPostOfUser = servicePost.caricaPostForUser(user);
 				currentSession.setAttribute("personalPostList", listOfPostOfUser);
 				
 				//creo la lista di conferences preferite facendo read a db
-				ArrayList<Conference> listOfConferenceOfUser = serviceConference.caricaConferenceForUser(user);
+				Conference[] listOfConferenceOfUser = serviceConference.caricaConferenceForUser(user);
 				currentSession.setAttribute("personalConferenceList", listOfConferenceOfUser);
 				
 				//redirect a index

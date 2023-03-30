@@ -1,6 +1,6 @@
 package com.protom.codeforbreakfast.model.entity;
 
-import java.util.ArrayList;
+
 
 public class User {
 	
@@ -8,8 +8,8 @@ public class User {
 	private String password;
 	private String name;
 	private String surname;
-	private ArrayList<SottoscrizionePost> sottoscrizioniPost;
-	private ArrayList<SottoscrizioneConference> sottoscrizioniConference;
+	private SottoscrizionePost[] sottoscrizioniPost;
+	private SottoscrizioneConference[] sottoscrizioniConference;
 	
 	
 	
@@ -19,17 +19,19 @@ public class User {
 		this.password = password;
 		this.name = name;
 		this.surname = surname;
-		sottoscrizioniPost= new ArrayList<SottoscrizionePost>();
-		sottoscrizioniConference = new ArrayList<SottoscrizioneConference>();
+		sottoscrizioniPost= new SottoscrizionePost[6];
+		sottoscrizioniConference = new SottoscrizioneConference[6];
 	}
 	
-	public User(String username, String name, String surname) {
+	//for membership section
+	public User(String username,String name, String surname) {
 		super();
-		this.username = username; 
+		this.username = username;
+		this.password = password;
 		this.name = name;
 		this.surname = surname;
-		sottoscrizioniPost= new ArrayList<SottoscrizionePost>();
-		sottoscrizioniConference = new ArrayList<SottoscrizioneConference>();
+		sottoscrizioniPost= new SottoscrizionePost[6];
+		sottoscrizioniConference = new SottoscrizioneConference[6];
 	}
 	
 
@@ -74,22 +76,22 @@ public class User {
 	}
 	 
 
-	public ArrayList<SottoscrizionePost> getSottoscrizioniPost() {
+	public SottoscrizionePost[] getSottoscrizioniPost() {
 		return sottoscrizioniPost;
 	}
 
 
-	public void setSottoscrizioniPost(ArrayList<SottoscrizionePost> sottoscrizioniPost) {
+	public void setSottoscrizioniPost(SottoscrizionePost[] sottoscrizioniPost) {
 		this.sottoscrizioniPost = sottoscrizioniPost;
 	}
 
 
-	public ArrayList<SottoscrizioneConference> getSottoscrizioniConference() {
+	public SottoscrizioneConference[] getSottoscrizioniConference() {
 		return sottoscrizioniConference;
 	}
 
 
-	public void setSottoscrizioniConference(ArrayList<SottoscrizioneConference> sottoscrizioniConference) {
+	public void setSottoscrizioniConference(SottoscrizioneConference[] sottoscrizioniConference) {
 		this.sottoscrizioniConference = sottoscrizioniConference;
 	}
 
@@ -97,7 +99,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [username=" + this.username + ", password=" + this.password + ", name=" + this.name + ", surname=" + this.surname
-				+ " numero sottoscrizioni post:"+ this.sottoscrizioniPost.size()+" numero sottoscrizioni Conference:"+this.sottoscrizioniConference.size()+"]";
+				+ " numero sottoscrizioni post:"+ this.sottoscrizioniPost.length+" numero sottoscrizioni Conference:"+this.sottoscrizioniConference.length+"]";
 	}
 	
 	

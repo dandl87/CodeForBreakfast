@@ -35,14 +35,14 @@ public class ServicePost {
 //		
 //	}
 	
-	public ArrayList<Post> caricaPostForUser(User user){
+	public Post[] caricaPostForUser(User user){
 		
-		 ArrayList<Post> listOfPost= new ArrayList<>();
+		 Post[] listOfPost= new Post[6];
 		 
-		 for(int i=0; i<user.getSottoscrizioniPost().size(); i++) {
-			 int idPost=user.getSottoscrizioniPost().get(i).getPostId(); 
+		 for(int i=0; i<user.getSottoscrizioniPost().length; i++) {
+			 int idPost=user.getSottoscrizioniPost()[i].getPostId(); 
 			 Post temporaryPost = postDAO.readPost(idPost);
-			 listOfPost.add(temporaryPost);
+			 listOfPost[i]=temporaryPost;
 		 }
 		 return listOfPost; 
 		

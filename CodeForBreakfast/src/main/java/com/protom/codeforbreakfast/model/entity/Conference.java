@@ -11,10 +11,11 @@ public class Conference {
 	private Date data;
 	private Date dataConference;
 	private String timeOfConference;
+	private int page;
 	
 	
 	public Conference(String title, String link, String linkImg, Date data, Date dataConference,
-			String timeOfConference) {
+			String timeOfConference, int page) {
 		super();
 		this.title = title;
 		this.link = link;
@@ -22,10 +23,11 @@ public class Conference {
 		this.data = data;
 		this.dataConference = dataConference;
 		this.timeOfConference = timeOfConference;
+		this.page = page;
 	}
 	
 	public Conference(int id, String title, String link, String linkImg, Date data, Date dataConference,
-			String timeOfConference) {
+			String timeOfConference, int page) {
 		super();
 		this.id=id;
 		this.title = title;
@@ -34,6 +36,7 @@ public class Conference {
 		this.data = data;
 		this.dataConference = dataConference;
 		this.timeOfConference = timeOfConference;
+		this.page=page;
 	}
 
 
@@ -107,11 +110,19 @@ public class Conference {
 		this.timeOfConference = timeOfConference;
 	}
 
+	
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
 
 	@Override
 	public String toString() {
 		return "Conference [id=" + this.id + ", titolo=" + this.title + ", link=" + this.link + ", linkImg=" + this.linkImg + ", data="
-				+ this.data + ", dataConference=" + this.dataConference + ", timeOfConference=" + this.timeOfConference + "]";
+				+ this.data + ", dataConference=" + this.dataConference + ", timeOfConference=" + this.timeOfConference + " page="+this.page+"]";
 	}
 	
 	

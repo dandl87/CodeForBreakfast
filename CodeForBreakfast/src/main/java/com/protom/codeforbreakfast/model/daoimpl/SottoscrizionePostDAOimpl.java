@@ -51,8 +51,8 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 	}
 
 	@Override
-	public ArrayList<SottoscrizionePost> readSottoscrizionePostOfUser(String username, String password) {
-		ArrayList<SottoscrizionePost> sottoscrizioniPostList= new ArrayList<SottoscrizionePost>();
+	public SottoscrizionePost[] readSottoscrizionePostOfUser(String username, String password) {
+		SottoscrizionePost[] sottoscrizioniPostList= new SottoscrizionePost[6];
 		ResultSet rs; 
 		
 		try {
@@ -61,18 +61,20 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 		
 		
 			rs = ps.executeQuery();
-		
+		int i=0;
 		while (rs.next()) {
 
 			int idSottoscrizionePostFromDB = rs.getInt("id");
 			String userUsernameFromDB = rs.getString("user_username");
 			String userPasswordFromDB = rs.getString("user_password");
-			int idPost = rs.getInt("post_id");  
+			int idPost = rs.getInt("post_id");
+			int activeFromDB = rs.getInt("active");
 			
 			//String dateString = dataImmatricolazione.toString();
-			SottoscrizionePost sottoscrizionePost = new SottoscrizionePost(idSottoscrizionePostFromDB, userUsernameFromDB, userPasswordFromDB, idPost);
+			SottoscrizionePost sottoscrizionePost = new SottoscrizionePost(idSottoscrizionePostFromDB, userUsernameFromDB, userPasswordFromDB, idPost,activeFromDB);
 
-			sottoscrizioniPostList.add(sottoscrizionePost);
+			sottoscrizioniPostList[i]=sottoscrizionePost;
+			i++;
 		}
 		
 		} catch (SQLException e) {

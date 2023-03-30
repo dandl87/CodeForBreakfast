@@ -55,14 +55,23 @@ public class ServiceUser {
 			return null;
 		
 		// carica sottoscrizioni Post
-		ArrayList<SottoscrizionePost> sottoscrizioniPost = sottoscrizionePostDAO.readSottoscrizionePostOfUser(username, password) ;
+		SottoscrizionePost[] sottoscrizioniPost = sottoscrizionePostDAO.readSottoscrizionePostOfUser(username, password) ;
+		
+		//Debug
+		for(SottoscrizionePost sP: sottoscrizioniPost)
+			System.out.println("Debug:"+sP);
+		
 		
 		// carica sottoscrizioni Conference
-		ArrayList<SottoscrizioneConference> sottoscrizioniConference = sottoscrizioneConferenceDAO.readSottoscrizioneConferenceOfUser(username, password) ;
+		SottoscrizioneConference[] sottoscrizioniConference = sottoscrizioneConferenceDAO.readSottoscrizioneConferenceOfUser(username, password) ;
 		 
+		//Debug
+		for(SottoscrizioneConference sC: sottoscrizioniConference)
+			System.out.println("Debug:"+sC);
+				
 		user.setSottoscrizioniPost(sottoscrizioniPost);
 		user.setSottoscrizioniConference(sottoscrizioniConference); 
-  
+		System.out.println("DEBUG: user:"+user);
 		return user ;
 		
 	}
