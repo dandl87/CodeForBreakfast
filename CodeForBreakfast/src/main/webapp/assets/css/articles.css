@@ -793,8 +793,8 @@ body.light-theme{
     }
 
     .trending-news-data{
-        margin: auto;
-        text-align: center;
+        margin: 2rem;
+        text-align: left;
     }
     
     .newsletter-description{

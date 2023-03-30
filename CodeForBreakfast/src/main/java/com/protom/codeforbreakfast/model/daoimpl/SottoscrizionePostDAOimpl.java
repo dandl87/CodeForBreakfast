@@ -56,7 +56,7 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 		ResultSet rs; 
 		
 		try {
-		String query = "SELECT * FROM sottoscrizione_post WHERE user_username = '" + username+"' AND user_password='"+password+"';"; 
+		String query = "SELECT * FROM sottoscrizione_post WHERE user_username = '" + username+"' AND user_password='"+password+"'ORDER BY active;"; 
 		PreparedStatement ps = connection.prepareStatement(query);
 		
 		

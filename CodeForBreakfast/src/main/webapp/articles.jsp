@@ -187,43 +187,47 @@
                  	
                                     <!-- Articles --> 
 
-                                        <a  href="${post.link}" class="article featured-article">
+                                        <div  href="${post.link}" class="article featured-article">
                                         <img src="${post.linkImg}" alt="" class="article-image">
                                             <span class="article-category">${post.category}</span> 
 
                                             <div class="article-data-container">
         
                                                     <div class="article-data">
-                                                    <span>${post.data}</span>
-                                                    <span class="article-data-spacer"></span> 
-                                                    </div>
+                                                        <!-- add function-->
+                                                        <button class="btn" id="add-button">
+                                                            <i class="ri-add-box-line"></i>
+                                                        </button>
+
+                                                        <span>${post.data}</span> 
+                                                        </div>
         
                                                     <h3 class="title article-title">${post.title}</h3> 
                                             </div>
-                                        </a>
+                                        </div>
 
                                         <!-- info -->
-                                        <a class="article info-article"> 
+                                        <a href="http://ww.google.com" class="article info-article"> 
                                             
 
-                                        <div class="info-article-data-container">
+                                            <div class="info-article-data-container">
 
-                                            <div class="article-data">
-                                                <span class="article-category">${post.category}</span>
-                                                <span>${post.data}</span>
-                                                    
+                                                <div class="article-data">
+                                                    <span class="article-category">${post.category}</span>
+                                                    <span>${post.data}</span>
+                                                        
+                                                </div>
+
+                                                <h3 class="title article-title">${post.title}</h3>
+                                                <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                                    Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
+                                                    Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
+                                                    Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. Ut consequat velit metus, quis gravida ante semper a. 
+                                                    Donec euismod mauris sed diam feugiat, blandit consequat lorem imperdiet. 
+                                                    Phasellus lorem est, malesuada vel sapien consequat, ullamcorper rutrum eros.</h3>
+
                                             </div>
-
-                                            <h3 class="title article-title">${post.title}</h3>
-                                            <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                                Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
-                                                Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
-                                                Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. Ut consequat velit metus, quis gravida ante semper a. 
-                                                Donec euismod mauris sed diam feugiat, blandit consequat lorem imperdiet. 
-                                                Phasellus lorem est, malesuada vel sapien consequat, ullamcorper rutrum eros.</h3>
-
-                                            </div>
-                                    </a>
+                                        </a>
 
                                 </c:forEach>
 					 
@@ -245,23 +249,33 @@
                  <c:set var="count" scope="session" value="${count+1}"/>
                  	
                  	 <!-- Posts -->
-               			 <a href="${post.link}" class="trending-news-box">
+               			 <div href="${post.link}" class="trending-news-box">
                             <div class="trending-news-img-box">
                                 <span class="trending-number place-items-center"><c:out value="${count}" /></span>
-                                <img src="${post.linkImg}" alt="" class="article-image">
+                               <a href="http://www.google.com""> <img src="${post.linkImg}" alt="" class="article-image"> </a>
                             </div>
  
                  		 <div class="trending-news-data">
 
-                            <div class="article-data">
-                            <span>${post.data}</span>
-                            <span class="article-data-spacer"></span> 
+                            <div class="article-data"> 
+
+                            
+
+                              <!-- arrow up function-->
+                              <button class="btn" id="add-button" style="gap: 0.5rem">
+                                <i class="ri-arrow-up-circle-line"></i>
+                            </button>
+
+                            <!-- arrow up function-->
+                            <button class="btn" id="add-button" >
+                                <i class="ri-arrow-down-circle-line"></i>
+                            </button> 
                             </div>
 
                         <h3 class="title article-title">${post.title}</h3>
-
+                        <span>${post.data}</span>
                     </div>
-                </a>
+                </div>
                 </c:forEach>
 
 

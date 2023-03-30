@@ -175,7 +175,7 @@
                 <c:set var="countInsert" scope="session" value="${0}"/>
                 <c:forEach var="post" items="${personalPostList}">
                  
-                    <c:if test="${user.sottoscrizioniPost[count].active!=0 and count<6 and countInsert<5}">
+                    <c:if test="${user.sottoscrizioniPost[count].active<5 and count<6 and countInsert<5}">
                         <c:set var="countInsert" scope="session" value="${countInsert+1}"/>
                     
                         <!-- Posts -->
