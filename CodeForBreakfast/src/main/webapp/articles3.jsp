@@ -4,6 +4,9 @@
     <%@ page import="com.protom.codeforbreakfast.service.ServiceAllPosts"%>
     <%@ page import="java.util.ArrayList"%>
     <%@ page import="com.protom.codeforbreakfast.model.entity.Post"%>
+    <%@ page import="com.protom.codeforbreakfast.model.entity.User"%>
+    <%@ page import="com.protom.codeforbreakfast.model.entity.SottoscrizionePost"%>
+    <%@ page import="com.protom.codeforbreakfast.model.entity.Msg"%>
     <!DOCTYPE >
 <html lang="en">
 <head>
@@ -158,9 +161,9 @@
                     </h3>
                     <!--  console Msg Area  -->
                     <c:choose>
-							<c:when test="${user.username!=null}"> <span class="headline-description">Welcome back <c:out value="${user.name }"/></span>
+							<c:when test="${user.username!=null && infoMsg==null}"> <span class="headline-description">Welcome back <c:out value="${user.name }"/></span>
 							</c:when> 
-							<c:when test="${errorMsg!=null}"> <span class="headline-description"><c:out value="${errorMsg }"/></span>
+							<c:when test="${infoMsg!=null}"> <span class="headline-description"><c:out value="${infoMsg.getMessage() }"/></span>
 							</c:when>
 							<c:otherwise> <span class="headline-description"> Welcome to a world made of code & coffee</span>
 							</c:otherwise>
@@ -171,7 +174,7 @@
                 <!-- Codice Della Personal Desk sezione Post  -->
             
                 <%
-                int pageNumber =1;
+                int pageNumber = 3;
                 ServiceAllPosts service = new ServiceAllPosts(); 
                 ArrayList<Post> allPosts = service.caricaAllPostsOfPage(pageNumber);
                 System.out.println(allPosts.size());
@@ -184,7 +187,7 @@
                          <c:set var="count" scope="session" value="${0}"/>
                              <c:forEach var="post" items="${posts}"> 
                                   <c:set var="count" scope="session" value="${count+1}"/>
-                 	
+                 				 
                                     <!-- Articles --> 
 
                                         <div  href="${post.link}" class="article featured-article">
@@ -194,10 +197,56 @@
                                             <div class="article-data-container">
         
                                                     <div class="article-data">
-                                                        <!-- add function-->
-                                                        <button class="btn" id="add-button">
-                                                            <i class="ri-add-box-line"></i>
-                                                        </button>
+                                                    
+                                                        <!-- add or remove function-->
+                                                        <c:set var="found" value="${false}" />
+                                                        <c:forEach var="sottoscrizione" items="${user.getSottoscrizioniPost()}"> 
+                                                        	 
+	                                                        <c:if test="${post.getId().equals(sottoscrizione.getPost().getId())==true}">
+	                                                        	<c:set var="found" value="${true}" /> 
+	                                                        </c:if> 
+	                                                     </c:forEach>
+	                                                     
+	                                                      
+	                                                        <!-- Add -->
+	                                                        <c:choose>
+	                                                        <c:when test="${found==false}"> 
+	                                                         	 <c:set var="titleURL">
+	                                                        	 <c:url value="http://localhost:8086/CodeForBreakfast/addPost" >
+	                                                       		 	<c:param name="postId" value="${post.getId()}"/>
+	                                                       		 	<c:param name="articlesPage" value="${3}"/> 
+	                                                         	 </c:url>
+	                                                         </c:set>
+	                                                         
+	                                                         <a href="${titleURL}" > 
+	                                                        <button class="btn" id="add-button">
+	                                                            <i class="ri-add-box-line"></i>
+	                                                        </button>
+	                                                       
+	                                                        </a>
+															</c:when>
+															<c:otherwise> 
+																<c:set var="titleURL">
+		                                                        	 <c:url value="http://localhost:8086/CodeForBreakfast/removePostFromArticle" >
+		                                                       		 	<c:param name="postId" value="${post.getId()}"/>
+		                                                       		 	<c:param name="articlesPage" value="${3}"/> 
+		                                                         	 </c:url>
+		                                                         </c:set>
+		                                                         
+		                                                         <a href="${titleURL}" > 
+		                                                        <button class="btn" id="add-button">
+		                                                            <i class="ri-delete-bin-line"></i>
+		                                                        </button>
+		                                                       
+		                                                        </a>
+															</c:otherwise>
+															</c:choose>
+	                                                        
+                                                        <!-- end add function-->
+                                                        
+                                                        
+							            
+							            
 
                                                         <span>${post.data}</span> 
                                                         </div>
@@ -245,14 +294,14 @@
 
                 
                 <c:set var="count" scope="session" value="${0}"/>
-                <c:forEach var="post" items="${personalPostList}">
+                <c:forEach var="sottoscrizione" items="${user.getSottoscrizioniPost()}">
                  <c:set var="count" scope="session" value="${count+1}"/>
                  	
                  	 <!-- Posts -->
-               			 <div href="${post.link}" class="trending-news-box">
+               			 <div href="${sottoscrizione.getPost().getLink()}" class="trending-news-box">
                             <div class="trending-news-img-box">
                                 <span class="trending-number place-items-center"><c:out value="${count}" /></span>
-                               <a href="http://www.google.com""> <img src="${post.linkImg}" alt="" class="article-image"> </a>
+                               <a href="http://www.google.com""> <img src="${sottoscrizione.getPost().getLinkImg()}" alt="" class="article-image"> </a>
                             </div>
  
                  		 <div class="trending-news-data">
@@ -272,8 +321,8 @@
                             </button> 
                             </div>
 
-                        <h3 class="title article-title">${post.title}</h3>
-                        <span>${post.data}</span>
+                        <h3 class="title article-title">${sottoscrizione.getPost().getTitle()}</h3>
+                        <span>${sottoscrizione.getPost().getData()}</span>
                     </div>
                 </div>
                 </c:forEach>
@@ -283,7 +332,8 @@
                 
             </div>
             <div class="bottomline-banner2">  
-                <a href="articles2.jsp" style="width: 5.5rem"><h3>next</h3></a> 
+                <a href="articles2.jsp" style="width: 5.5rem"><h3>back</h3></a>
+                <a href="#" style="width: 6rem"><h3>next</h3></a> 
             </div>
         </div> 
     </section>

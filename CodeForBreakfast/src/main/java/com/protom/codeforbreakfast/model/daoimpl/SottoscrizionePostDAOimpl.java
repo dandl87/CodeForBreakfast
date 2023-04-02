@@ -6,7 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.protom.codeforbreakfast.model.dao.PostDAO;
 import com.protom.codeforbreakfast.model.dao.SottoscrizionePostDAO;
+import com.protom.codeforbreakfast.model.entity.Post;
 import com.protom.codeforbreakfast.model.entity.SottoscrizionePost;
 
  
@@ -21,9 +23,30 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 	}
 
 	@Override
-	public boolean createSottoscrizioneP(SottoscrizionePost sottoscrizioneP) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean createSottoscrizioneP(SottoscrizionePost sottoscrizioneP) { 
+		try {
+			  
+			 
+			 
+			PreparedStatement ps;
+
+				ps = connection.prepareStatement(
+						"INSERT INTO sottoscrizione_post(position, user_username, user_password, post_id) VALUES ('"
+								+ sottoscrizioneP.getPosition() + "', '" + sottoscrizioneP.getUsername() + "','" + sottoscrizioneP.getPassword()+ "','"
+								+ sottoscrizioneP.getPost().getId() + "');");
+				System.out.println(ps.executeUpdate() + "Log: sottoscrizione Post inserted");
+				
+				
+				
+			 
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace(); 
+				return false;
+			} 
+			return true; 
+	 
 	}
 
 	@Override
@@ -34,15 +57,29 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 
 	@Override
 	public boolean updateSottoscrizioneP(SottoscrizionePost sottoscrizioneP) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean deleteSottoscrizioneP(int idSottoscrizioneP) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteSottoscrizionePost(int idSottoscrizioneP) {
+		try { 
+			String query = "DELETE FROM sottoscrizione_post WHERE id = " + idSottoscrizioneP;
+			PreparedStatement ps = connection.prepareStatement(query);
+			int result= ps.executeUpdate() ;
+			 if(result==0)
+				 return false;
+			 
+			 
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Errore accesso a db!");
+				return false;
+			}
+
+			return true;
 	}
+	
+ 
 
 	@Override
 	public ArrayList<SottoscrizionePost> readSottoscrizionePostOfPost(int idPost) {
@@ -51,8 +88,8 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 	}
 
 	@Override
-	public SottoscrizionePost[] readSottoscrizionePostOfUser(String username, String password) {
-		SottoscrizionePost[] sottoscrizioniPostList= new SottoscrizionePost[6];
+	public ArrayList<SottoscrizionePost> readSottoscrizionePostOfUser(String username, String password) {
+		ArrayList<SottoscrizionePost> sottoscrizioniPostList= new ArrayList<>(6);
 		ResultSet rs; 
 		
 		try {
@@ -61,21 +98,22 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 		
 		
 			rs = ps.executeQuery();
-		int i=0;
+		
 		while (rs.next()) {
 
 			int idSottoscrizionePostFromDB = rs.getInt("id");
 			String userUsernameFromDB = rs.getString("user_username");
 			String userPasswordFromDB = rs.getString("user_password");
 			int idPostFromDB = rs.getInt("post_id");
-			int positionFromDB= rs.getInt("position");
-			int activeFromDB = rs.getInt("active");
+			int positionFromDB= rs.getInt("position"); 
 			
+			PostDAO postDao = new PostDAOimpl(connection);
+			Post postFromDB = postDao.readPost(idPostFromDB);
 			//String dateString = dataImmatricolazione.toString();
-			SottoscrizionePost sottoscrizionePost = new SottoscrizionePost(idSottoscrizionePostFromDB, userUsernameFromDB, userPasswordFromDB, idPostFromDB,positionFromDB, activeFromDB);
+			SottoscrizionePost sottoscrizionePost = new SottoscrizionePost(idSottoscrizionePostFromDB, userUsernameFromDB, userPasswordFromDB, postFromDB,positionFromDB);
 
-			sottoscrizioniPostList[i]=sottoscrizionePost;
-			i++;
+			sottoscrizioniPostList.add(sottoscrizionePost);
+			
 		}
 		
 		} catch (SQLException e) {

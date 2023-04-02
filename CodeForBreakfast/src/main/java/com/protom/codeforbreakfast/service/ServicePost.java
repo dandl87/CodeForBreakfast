@@ -35,17 +35,13 @@ public class ServicePost {
 //		
 //	}
 	
-	public Post[] caricaPostForUser(User user){
-		
-		 Post[] listOfPost= new Post[6];
-		 
-		 for(int i=0; i<user.getSottoscrizioniPost().length; i++) {
-			 int idPost=user.getSottoscrizioniPost()[i].getPostId(); 
-			 Post temporaryPost = postDAO.readPost(idPost);
-			 listOfPost[i]=temporaryPost;
-		 }
-		 return listOfPost; 
+	public Post cercaPost(int postId) {
+		Post post = postDAO.readPost(postId);
+		return post;
 		
 	}
+	 
+	
+ 
 
 }

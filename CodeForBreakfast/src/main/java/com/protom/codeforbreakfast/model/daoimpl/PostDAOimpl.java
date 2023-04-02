@@ -53,7 +53,7 @@ public class PostDAOimpl implements PostDAO {
 			return postFromDB;
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch block 
 			System.out.println("Errore accesso a db!");
 			return null;
 		}
@@ -106,7 +106,7 @@ public class PostDAOimpl implements PostDAO {
 		}
 		
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch block 
 			System.out.println("Errore accesso a db!");
 			e.printStackTrace();
 			return null;

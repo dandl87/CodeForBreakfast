@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.protom.codeforbreakfast.model.entity.Conference;
+import com.protom.codeforbreakfast.model.entity.Msg;
 import com.protom.codeforbreakfast.model.entity.Post;
 import com.protom.codeforbreakfast.model.entity.User;
 import com.protom.codeforbreakfast.service.ServiceConference;
@@ -74,12 +75,10 @@ public class LoginServlet extends HttpServlet{
 				currentSession.setAttribute("user", user);
 				 
  				 
-				//creo la lista di post preferiti facendo read a db 
-				Post[] listOfPostOfUser = servicePost.caricaPostForUser(user);
-				currentSession.setAttribute("personalPostList", listOfPostOfUser);
+				 
 				
 				//creo la lista di conferences preferite facendo read a db
-				Conference[] listOfConferenceOfUser = serviceConference.caricaConferenceForUser(user);
+				ArrayList<Conference> listOfConferenceOfUser = serviceConference.caricaConferenceForUser(user);
 				currentSession.setAttribute("personalConferenceList", listOfConferenceOfUser);
 				
 				//redirect a index
@@ -89,9 +88,9 @@ public class LoginServlet extends HttpServlet{
 				
 				}else { 					
 					 
-					String msg ="Login fallito!";
+					Msg msg = new Msg(false, "Login failed!");
 					
-					request.setAttribute("errorMsg", msg); 
+					request.setAttribute("infoMsg", msg); 
 					 
 					
 					RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 

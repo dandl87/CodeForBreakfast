@@ -4,13 +4,16 @@
     <%@ page import="com.protom.codeforbreakfast.service.ServiceAllPosts"%>
     <%@ page import="java.util.ArrayList"%>
     <%@ page import="com.protom.codeforbreakfast.model.entity.Post"%>
+    <%@ page import="com.protom.codeforbreakfast.model.entity.User"%>
+    <%@ page import="com.protom.codeforbreakfast.model.entity.SottoscrizionePost"%>
+    <%@ page import="com.protom.codeforbreakfast.model.entity.Msg"%>
     <!DOCTYPE >
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code for Breakfast | Articles page #2</title>
+    <title>Code for Breakfast | Articles </title>
     <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon2.png">
     <!-- Remix icons -->
@@ -158,9 +161,9 @@
                     </h3>
                     <!--  console Msg Area  -->
                     <c:choose>
-							<c:when test="${user.username!=null}"> <span class="headline-description">Welcome back <c:out value="${user.name }"/></span>
+							<c:when test="${user.username!=null && infoMsg==null}"> <span class="headline-description">Welcome back <c:out value="${user.name }"/></span>
 							</c:when> 
-							<c:when test="${errorMsg!=null}"> <span class="headline-description"><c:out value="${errorMsg }"/></span>
+							<c:when test="${infoMsg!=null}"> <span class="headline-description"><c:out value="${infoMsg.getMessage() }"/></span>
 							</c:when>
 							<c:otherwise> <span class="headline-description"> Welcome to a world made of code & coffee</span>
 							</c:otherwise>
@@ -168,10 +171,10 @@
                     <!--  <span class="headline-description">My articles</span> -->
                 </div>
                 
-                <!-- Codice Della Personal Desk sezione Post www -->
+                <!-- Codice Della Personal Desk sezione Post  -->
             
                 <%
-                int pageNumber =2;
+                int pageNumber = 2;
                 ServiceAllPosts service = new ServiceAllPosts(); 
                 ArrayList<Post> allPosts = service.caricaAllPostsOfPage(pageNumber);
                 System.out.println(allPosts.size());
@@ -179,51 +182,101 @@
 				%>
 
                 
-
+                       
 
                          <c:set var="count" scope="session" value="${0}"/>
                              <c:forEach var="post" items="${posts}"> 
                                   <c:set var="count" scope="session" value="${count+1}"/>
-                 	
+                 				 
                                     <!-- Articles --> 
 
-                                        <a  href="${post.link}" class="article featured-article">
+                                        <div  href="${post.link}" class="article featured-article">
                                         <img src="${post.linkImg}" alt="" class="article-image">
                                             <span class="article-category">${post.category}</span> 
 
                                             <div class="article-data-container">
         
                                                     <div class="article-data">
-                                                    <span>${post.data}</span>
-                                                    <span class="article-data-spacer"></span> 
-                                                    </div>
+                                                    
+                                                        <!-- add or remove function-->
+                                                        <c:set var="found" value="${false}" />
+                                                        <c:forEach var="sottoscrizione" items="${user.getSottoscrizioniPost()}"> 
+                                                        	 
+	                                                        <c:if test="${post.getId().equals(sottoscrizione.getPost().getId())==true}">
+	                                                        	<c:set var="found" value="${true}" /> 
+	                                                        </c:if> 
+	                                                     </c:forEach>
+	                                                     
+	                                                      
+	                                                        <!-- Add -->
+	                                                        <c:choose>
+	                                                        <c:when test="${found==false}"> 
+	                                                         	 <c:set var="titleURL">
+	                                                        	 <c:url value="http://localhost:8086/CodeForBreakfast/addPost" >
+	                                                       		 	<c:param name="postId" value="${post.getId()}"/>
+	                                                       		 	<c:param name="articlesPage" value="${2}"/> 
+	                                                         	 </c:url>
+	                                                         </c:set>
+	                                                         
+	                                                         <a href="${titleURL}" > 
+	                                                        <button class="btn" id="add-button">
+	                                                            <i class="ri-add-box-line"></i>
+	                                                        </button>
+	                                                       
+	                                                        </a>
+															</c:when>
+															<c:otherwise> 
+																<c:set var="titleURL">
+		                                                        	 <c:url value="http://localhost:8086/CodeForBreakfast/removePostFromArticle" >
+		                                                       		 	<c:param name="postId" value="${post.getId()}"/>
+		                                                       		 	<c:param name="articlesPage" value="${2}"/> 
+		                                                         	 </c:url>
+		                                                         </c:set>
+		                                                         
+		                                                         <a href="${titleURL}" > 
+		                                                        <button class="btn" id="add-button">
+		                                                            <i class="ri-delete-bin-line"></i>
+		                                                        </button>
+		                                                       
+		                                                        </a>
+															</c:otherwise>
+															</c:choose>
+	                                                        
+                                                        <!-- end add function-->
+                                                        
+                                                        
+							            
+							            
+
+                                                        <span>${post.data}</span> 
+                                                        </div>
         
                                                     <h3 class="title article-title">${post.title}</h3> 
                                             </div>
-                                        </a>
+                                        </div>
 
                                         <!-- info -->
-                                        <a class="article info-article"> 
+                                        <a href="http://ww.google.com" class="article info-article"> 
                                             
 
-                                        <div class="info-article-data-container">
+                                            <div class="info-article-data-container">
 
-                                            <div class="article-data">
-                                                <span class="article-category">${post.category}</span>
-                                                <span>${post.data}</span>
-                                                    
+                                                <div class="article-data">
+                                                    <span class="article-category">${post.category}</span>
+                                                    <span>${post.data}</span>
+                                                        
+                                                </div>
+
+                                                <h3 class="title article-title">${post.title}</h3>
+                                                <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                                    Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
+                                                    Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
+                                                    Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. Ut consequat velit metus, quis gravida ante semper a. 
+                                                    Donec euismod mauris sed diam feugiat, blandit consequat lorem imperdiet. 
+                                                    Phasellus lorem est, malesuada vel sapien consequat, ullamcorper rutrum eros.</h3>
+
                                             </div>
-
-                                            <h3 class="title article-title">${post.title}</h3>
-                                            <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                                Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
-                                                Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
-                                                Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. Ut consequat velit metus, quis gravida ante semper a. 
-                                                Donec euismod mauris sed diam feugiat, blandit consequat lorem imperdiet. 
-                                                Phasellus lorem est, malesuada vel sapien consequat, ullamcorper rutrum eros.</h3>
-
-                                            </div>
-                                    </a>
+                                        </a>
 
                                 </c:forEach>
 					 
@@ -232,44 +285,55 @@
 
 
             </div>
-            
+         
             <!-- you articles Nav Bar-->
             <div class="sidebar d-grid">
 
                 <h3 class="title featured-content-title">Your Articles</h3>
 
 
-                <!-- Codice Della Personal Desk sezione Post -->
+                
                 <c:set var="count" scope="session" value="${0}"/>
-                <c:forEach var="post" items="${personalPostList}">
+                <c:forEach var="sottoscrizione" items="${user.getSottoscrizioniPost()}">
                  <c:set var="count" scope="session" value="${count+1}"/>
                  	
                  	 <!-- Posts -->
-               			 <a href="${post.link}" class="trending-news-box">
+               			 <div href="${sottoscrizione.getPost().getLink()}" class="trending-news-box">
                             <div class="trending-news-img-box">
                                 <span class="trending-number place-items-center"><c:out value="${count}" /></span>
-                                <img src="${post.linkImg}" alt="" class="article-image">
+                               <a href="http://www.google.com""> <img src="${sottoscrizione.getPost().getLinkImg()}" alt="" class="article-image"> </a>
                             </div>
  
                  		 <div class="trending-news-data">
 
-                            <div class="article-data">
-                            <span>${post.data}</span>
-                            <span class="article-data-spacer"></span> 
+                            <div class="article-data"> 
+
+                            
+
+                              <!-- arrow up function-->
+                              <button class="btn" id="add-button" style="gap: 0.5rem">
+                                <i class="ri-arrow-up-circle-line"></i>
+                            </button>
+
+                            <!-- arrow up function-->
+                            <button class="btn" id="add-button" >
+                                <i class="ri-arrow-down-circle-line"></i>
+                            </button> 
                             </div>
 
-                        <h3 class="title article-title">${post.title}</h3>
-
+                        <h3 class="title article-title">${sottoscrizione.getPost().getTitle()}</h3>
+                        <span>${sottoscrizione.getPost().getData()}</span>
                     </div>
-                </a>
+                </div>
                 </c:forEach>
 
 
    
                 
             </div>
-            <div class="bottomline-banner2"> 
-                <a href="articles.jsp" style="width: 5.5rem"><h3>back</h3></a>  
+            <div class="bottomline-banner2">  
+                <a href="articles1.jsp" style="width: 5.5rem"><h3>back</h3></a>
+                <a href="articles3.jsp" style="width: 6rem"><h3>next</h3></a> 
             </div>
         </div> 
     </section>

@@ -39,7 +39,7 @@
                         <a href="#" class="list-link current">Conferences</a>
                     </li>
                     <li class="list-item">
-                        <a href="articles.jsp" class="list-link">Articles</a>
+                        <a href="articles1.jsp" class="list-link">Articles</a>
                     </li>
                     <li class="list-item">
                         <a href="#" class="list-link">News</a>

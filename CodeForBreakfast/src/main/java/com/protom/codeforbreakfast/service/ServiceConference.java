@@ -35,13 +35,13 @@ public class ServiceConference {
 //		
 //	}
 	
-	public Conference[] caricaConferenceForUser(User user){
+	public ArrayList<Conference> caricaConferenceForUser(User user){
 		
-		 Conference[] listOfConference= new Conference[6];
-		 for(int i=0; i<user.getSottoscrizioniConference().length; i++) {
-			 int idConference=user.getSottoscrizioniConference()[i].getConferenceId(); 
+		 ArrayList<Conference> listOfConference= new ArrayList<>(6);
+		 for(int i=0; i<user.getSottoscrizioniConference().size(); i++) {
+			 int idConference=user.getSottoscrizioniConference().get(i).getConferenceId(); 
 			 Conference temporaryConference = conferenceDAO.readConference(idConference);
-			 listOfConference[i]=temporaryConference;
+			 listOfConference.add(temporaryConference);
 		 }
 		
 		 return listOfConference; 

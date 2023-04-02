@@ -8,9 +8,9 @@ public interface SottoscrizionePostDAO {
 	
 	boolean createSottoscrizioneP(SottoscrizionePost sottoscrizioneP);
 	SottoscrizionePost readSottoscrizioneP(int idSottoscrizioneP);
-	boolean updateSottoscrizioneP(SottoscrizionePost sottoscrizioneP); 
-	boolean deleteSottoscrizioneP(int idSottoscrizioneP);
+	boolean updateSottoscrizioneP(SottoscrizionePost sottoscrizioneP);
+	boolean deleteSottoscrizionePost(int idSottoscrizioneP); 
 	ArrayList<SottoscrizionePost> readSottoscrizionePostOfPost(int idPost);
-	SottoscrizionePost[] readSottoscrizionePostOfUser(String username, String password);
+	ArrayList<SottoscrizionePost> readSottoscrizionePostOfUser(String username, String password);
 
 }

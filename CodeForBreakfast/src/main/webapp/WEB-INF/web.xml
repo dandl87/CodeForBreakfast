@@ -27,4 +27,34 @@
 			<url-pattern>/logout</url-pattern>
 		</servlet-mapping>
 		
+		 <servlet>
+			<servlet-name>RemovePostServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.RemovePostServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping>
+			<servlet-name>RemovePostServlet</servlet-name>
+			<url-pattern>/removePost</url-pattern>
+		</servlet-mapping>
+		
+		 <servlet>
+			<servlet-name>RemovePostFromArticleSectionServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.RemovePostFromArticleSectionServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping>
+			<servlet-name>RemovePostFromArticleSectionServlet</servlet-name>
+			<url-pattern>/removePostFromArticle</url-pattern>
+		</servlet-mapping>
+		
+		 <servlet>
+			<servlet-name>AddPostServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.AddPostServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping>
+			<servlet-name>AddPostServlet</servlet-name>
+			<url-pattern>/addPost</url-pattern>
+		</servlet-mapping>
+		
 </web-app>

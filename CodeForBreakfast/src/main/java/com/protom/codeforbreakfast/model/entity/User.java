@@ -1,6 +1,6 @@
 package com.protom.codeforbreakfast.model.entity;
 
-
+import java.util.ArrayList;
 
 public class User {
 	
@@ -8,8 +8,8 @@ public class User {
 	private String password;
 	private String name;
 	private String surname;
-	private SottoscrizionePost[] sottoscrizioniPost;
-	private SottoscrizioneConference[] sottoscrizioniConference;
+	private ArrayList<SottoscrizionePost> sottoscrizioniPost;
+	private ArrayList<SottoscrizioneConference> sottoscrizioniConference;
 	
 	
 	
@@ -19,8 +19,8 @@ public class User {
 		this.password = password;
 		this.name = name;
 		this.surname = surname;
-		sottoscrizioniPost= new SottoscrizionePost[6];
-		sottoscrizioniConference = new SottoscrizioneConference[6];
+		sottoscrizioniPost= new ArrayList<>(6);
+		sottoscrizioniConference = new ArrayList<>(6);
 	}
 	
 	//for membership section
@@ -30,8 +30,8 @@ public class User {
 		this.password = password;
 		this.name = name;
 		this.surname = surname;
-		sottoscrizioniPost= new SottoscrizionePost[6];
-		sottoscrizioniConference = new SottoscrizioneConference[6];
+		sottoscrizioniPost= new ArrayList<>(6);
+		sottoscrizioniConference = new ArrayList<>(6);
 	}
 	
 
@@ -76,22 +76,22 @@ public class User {
 	}
 	 
 
-	public SottoscrizionePost[] getSottoscrizioniPost() {
+	public ArrayList<SottoscrizionePost> getSottoscrizioniPost() {
 		return sottoscrizioniPost;
 	}
 
 
-	public void setSottoscrizioniPost(SottoscrizionePost[] sottoscrizioniPost) {
+	public void setSottoscrizioniPost(ArrayList<SottoscrizionePost> sottoscrizioniPost) {
 		this.sottoscrizioniPost = sottoscrizioniPost;
 	}
 
 
-	public SottoscrizioneConference[] getSottoscrizioniConference() {
+	public ArrayList<SottoscrizioneConference> getSottoscrizioniConference() {
 		return sottoscrizioniConference;
 	}
 
 
-	public void setSottoscrizioniConference(SottoscrizioneConference[] sottoscrizioniConference) {
+	public void setSottoscrizioniConference(ArrayList<SottoscrizioneConference> sottoscrizioniConference) {
 		this.sottoscrizioniConference = sottoscrizioniConference;
 	}
 
@@ -99,7 +99,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [username=" + this.username + ", password=" + this.password + ", name=" + this.name + ", surname=" + this.surname
-				+ " numero sottoscrizioni post:"+ this.sottoscrizioniPost.length+" numero sottoscrizioni Conference:"+this.sottoscrizioniConference.length+"]";
+				+ " numero sottoscrizioni post:"+ this.sottoscrizioniPost.size()+" numero sottoscrizioni Conference:"+this.sottoscrizioniConference.size()+"]";
 	}
 	
 	
