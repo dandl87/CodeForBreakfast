@@ -199,9 +199,9 @@
 							                  <c:param name="postId" value="${sottoscrizione.getPost().getId()}"/>   
 							                </c:url>  
 							           </c:set>
+							           
 							            <a href="${titleURL}" >  
-                                         	
-                                    		
+                                         		
                                             <button class="btn" id="remove-button">
                                                 <i class="ri-delete-bin-line"></i>
                                             </button>

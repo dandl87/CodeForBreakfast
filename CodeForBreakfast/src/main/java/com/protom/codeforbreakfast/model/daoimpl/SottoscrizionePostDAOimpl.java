@@ -57,7 +57,23 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 
 	@Override
 	public boolean updateSottoscrizioneP(SottoscrizionePost sottoscrizioneP) {
-		return false;
+		
+		try {
+			 
+			String query = "UPDATE sottoscrizione_post SET position='"+sottoscrizioneP.getPosition()+"', user_username='"+sottoscrizioneP.getUsername()+"',user_password='"+sottoscrizioneP.getPassword()+"', "
+					+ "post_id='"+sottoscrizioneP.getPost().getId()+  
+					"' WHERE id = " + sottoscrizioneP.getId();
+			
+			PreparedStatement ps = connection.prepareStatement(query);
+			System.out.println(ps.executeUpdate() + " sottoscrizione post aggiornata");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Errore accesso a db!");
+				e.getStackTrace() ;
+				return false;
+			}
+
+			return true; 
 	}
 
 	@Override

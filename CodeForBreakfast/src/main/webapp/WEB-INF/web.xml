@@ -57,4 +57,24 @@
 			<url-pattern>/addPost</url-pattern>
 		</servlet-mapping>
 		
+		<servlet>
+			<servlet-name>MoveUpServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.MoveUpServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping>
+			<servlet-name>MoveUpServlet</servlet-name>
+			<url-pattern>/moveUpPost</url-pattern>
+		</servlet-mapping>
+		
+		<servlet>
+			<servlet-name>MoveDownServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.MoveDownServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping>
+			<servlet-name>MoveDownServlet</servlet-name>
+			<url-pattern>/moveDownPost</url-pattern>
+		</servlet-mapping>
+		
 </web-app>

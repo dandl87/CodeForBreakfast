@@ -293,14 +293,13 @@
 
 
                 
-                <c:set var="count" scope="session" value="${0}"/>
-                <c:forEach var="sottoscrizione" items="${user.getSottoscrizioniPost()}">
-                 <c:set var="count" scope="session" value="${count+1}"/>
+   
+                <c:forEach var="sottoscrizione" items="${user.getSottoscrizioniPost()}"> 
                  	
                  	 <!-- Posts -->
                			 <div href="${sottoscrizione.getPost().getLink()}" class="trending-news-box">
                             <div class="trending-news-img-box">
-                                <span class="trending-number place-items-center"><c:out value="${count}" /></span>
+                                <span class="trending-number place-items-center"><c:out value="${sottoscrizione.getPosition()}" /></span>
                                <a href="http://www.google.com""> <img src="${sottoscrizione.getPost().getLinkImg()}" alt="" class="article-image"> </a>
                             </div>
  
@@ -308,17 +307,54 @@
 
                             <div class="article-data"> 
 
+                             
+                           <!--  remove Article -->
                             
-
+                            <c:set var="titleURL">
+		                    	<c:url value="http://localhost:8086/CodeForBreakfast/removePostFromArticle" >
+		                    		<c:param name="postId" value="${sottoscrizione.getPost().getId()}"/>
+		                    		<c:param name="articlesPage" value="${1}"/> 
+		                    	</c:url>
+		 					</c:set>		                                                         
+							<a href="${titleURL}" > 
+							<button class="btn" id="add-button">
+								<i class="ri-delete-bin-line"></i>
+							</button> 
+							</a>
+							<span class="article-data-spacer"></span> 
+							
                               <!-- arrow up function-->
-                              <button class="btn" id="add-button" style="gap: 0.5rem">
-                                <i class="ri-arrow-up-circle-line"></i>
-                            </button>
-
-                            <!-- arrow up function-->
-                            <button class="btn" id="add-button" >
-                                <i class="ri-arrow-down-circle-line"></i>
-                            </button> 
+                              	  <c:if test="${sottoscrizione.getPosition()!=1}">
+                            	    <c:set var="titleURL2">
+				                    		<c:url value="http://localhost:8086/CodeForBreakfast/moveUpPost" >
+				                    			<c:param name="SottoscrizioneId" value="${sottoscrizione.getId()}"/>
+				                    			  <c:param name="articlesPage" value="${2}"/>   
+				                    		</c:url>
+		 								</c:set>   	 
+									<a href="${titleURL2}" >                                                   
+									<button class="btn" id="arrow-up-button" >
+										<i class="ri-arrow-up-circle-line"></i>
+	 								</button>
+	 								 </a>  
+								</c:if>        
+								
+                            <!-- arrow down function-->
+                            
+                             	<c:if test="${sottoscrizione.getPosition()!=6}">
+                            	    <c:set var="titleURL3">
+				                    		<c:url value="http://localhost:8086/CodeForBreakfast/moveDownPost" >
+				                    			<c:param name="SottoscrizioneId" value="${sottoscrizione.getId()}"/>
+				                    			  <c:param name="articlesPage" value="${2}"/>   
+				                    		</c:url>
+		 								</c:set>   	 
+									<a href="${titleURL3}" >                                                   
+										<button class="btn" id="arrow-down-button" >
+	                                		<i class="ri-arrow-down-circle-line"></i>
+	                            		</button> 
+	 								 </a>  
+								</c:if> 
+                            
+                            
                             </div>
 
                         <h3 class="title article-title">${sottoscrizione.getPost().getTitle()}</h3>
