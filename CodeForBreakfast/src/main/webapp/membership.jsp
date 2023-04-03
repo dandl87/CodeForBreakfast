@@ -4,6 +4,7 @@
     <%@ page import="com.protom.codeforbreakfast.service.ServiceAllUsers"%>
     <%@ page import="java.util.ArrayList"%>
     <%@ page import="com.protom.codeforbreakfast.model.entity.User"%>
+    <%@ page import="com.protom.codeforbreakfast.dbconnections.DbConnectionMySql"%>
     <!DOCTYPE >
 <html lang="en">
 <head>
@@ -78,11 +79,12 @@
                     <i class="ri-login-circle-fill"></i>
                 </button>
 
-                <!-- Log Out visible only when you are logged -->
-                
-                <button class="btn" id="logout-button">
-                    <i class="ri-logout-circle-r-line"></i>
-                </button>
+                <!-- Log Out Icon -->
+                    <a href="http://localhost:8086/CodeForBreakfast/logout">
+                        <button class="btn" id="logout-button">
+                            <i class="ri-logout-circle-r-line"></i>
+                        </button>
+                    </a>
 
                 <a href="signUp.html" class="btn sign-up-btn fancy-border screen-sm-hidden">
                     <span>Sign up</span>
@@ -171,10 +173,12 @@
                 <!-- Codice Della Personal Desk sezione Post www -->
             
                 <%
+                DbConnectionMySql connection= DbConnectionMySql.getInstance();
+   				connection.avviaConnessione();
                 ServiceAllUsers service = new ServiceAllUsers();
                 ArrayList<User> allUsers = service.caricaAllUsers();
-                System.out.println(allUsers.size());
                 request.setAttribute("users",allUsers);
+                connection.chiudiConnessione();
 				%>
                 <c:set var="count" scope="session" value="${0}"/>
                 <c:forEach var="user" items="${users}"> 

@@ -10,20 +10,20 @@ import com.protom.codeforbreakfast.model.entity.Post;
 
 public class ServiceAllPosts {
 	
-	private Connection connessione;
+	private DbConnectionMySql dbConnection;
 	private PostDAO postDAO;  
 	
 	
 	public ServiceAllPosts( ) {
 		super();
-		this.connessione=DbConnectionMySql.avviaConnessione(); 
-		this.postDAO = new PostDAOimpl(connessione); 
+		this.dbConnection=DbConnectionMySql.getInstance(); 
+		this.postDAO = new PostDAOimpl(dbConnection); 
 		
 	}
 	
 	
 	public void chiudiConnessione() {
-		DbConnectionMySql.chiudiConnessione(connessione);
+		dbConnection.chiudiConnessione();
 		
 	}
 	

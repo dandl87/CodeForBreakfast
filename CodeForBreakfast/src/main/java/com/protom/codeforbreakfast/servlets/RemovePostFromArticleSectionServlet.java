@@ -52,7 +52,8 @@ public class RemovePostFromArticleSectionServlet extends HttpServlet {
 					//Fase 2
 				 
 					ServiceUser serviceUser = new ServiceUser();   
-					ServiceConference serviceConference = new ServiceConference();
+					
+					serviceUser.avviaConnessione();
 					 
 					HttpSession currentSession = request.getSession();
 					User user = (User) currentSession.getAttribute("user"); 
@@ -81,9 +82,7 @@ public class RemovePostFromArticleSectionServlet extends HttpServlet {
 					 
 	 				 
 			 
-					//creo la lista di conferences preferite facendo read a db
-					ArrayList<Conference> listOfConferenceOfUser = serviceConference.caricaConferenceForUser(userNew);
-					currentSessionNew.setAttribute("personalConferenceList", listOfConferenceOfUser);
+				
 					
 					//messaggio in console 
 					request.setAttribute("infoMsg", msg); 

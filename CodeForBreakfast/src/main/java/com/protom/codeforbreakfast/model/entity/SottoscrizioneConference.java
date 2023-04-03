@@ -5,21 +5,21 @@ public class SottoscrizioneConference {
 	private int id;
 	private String username;
 	private String password;
-	private int conferenceId;
+	private Conference conference;
 	
-	public SottoscrizioneConference(String username, String password, int conferenceId) {
+	public SottoscrizioneConference(String username, String password, Conference conference) {
 		super(); 
 		this.username = username;
 		this.password = password;
-		this.conferenceId = conferenceId;
+		this.conference = conference;
 	}
 	
-	public SottoscrizioneConference(int id, String username, String password, int conferenceId) {
+	public SottoscrizioneConference(int id, String username, String password, Conference conference) {
 		super(); 
 		this.id=id;
 		this.username = username;
 		this.password = password;
-		this.conferenceId = conferenceId;
+		this.conference = conference;
 	}
 
 	public int getId() {
@@ -46,18 +46,18 @@ public class SottoscrizioneConference {
 		this.password = password;
 	}
 
-	public int getConferenceId() {
-		return conferenceId;
+	public Conference getConference() {
+		return conference;
 	}
 
-	public void setConferenceId(int conferenceId) {
-		this.conferenceId = conferenceId;
+	public void setConferenceId(Conference conference) {
+		this.conference = conference;
 	}
 
 	@Override
 	public String toString() {
 		return "SottoscrizioneConference [id=" + id + ", username=" + username + ", password=" + password
-				+ ", conferenceId=" + conferenceId + "]";
+				+ ",  conference=" + conference.getId() + "]";
 	}
 	
 	

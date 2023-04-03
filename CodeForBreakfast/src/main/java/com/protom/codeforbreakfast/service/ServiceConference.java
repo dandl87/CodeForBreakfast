@@ -11,19 +11,24 @@ import com.protom.codeforbreakfast.model.entity.User;
 
 public class ServiceConference {
 	
-	private Connection connessione;
+	private DbConnectionMySql dbConnection;
 	private ConferenceDAO conferenceDAO; 
 	
 	
 	public ServiceConference( ) {
 		super();
-		this.connessione=DbConnectionMySql.avviaConnessione(); 
-		this.conferenceDAO = new ConferenceDAOimpl(connessione); 
+		this.dbConnection=DbConnectionMySql.getInstance(); 
+		this.conferenceDAO = new ConferenceDAOimpl(dbConnection); 
 	}
 	
 	
+	public void avviaConnessione() {
+		dbConnection.avviaConnessione();
+		
+	}
+	
 	public void chiudiConnessione() {
-		DbConnectionMySql.chiudiConnessione(connessione);
+		dbConnection.chiudiConnessione();
 		
 	}
 	
@@ -35,17 +40,6 @@ public class ServiceConference {
 //		
 //	}
 	
-	public ArrayList<Conference> caricaConferenceForUser(User user){
-		
-		 ArrayList<Conference> listOfConference= new ArrayList<>(6);
-		 for(int i=0; i<user.getSottoscrizioniConference().size(); i++) {
-			 int idConference=user.getSottoscrizioniConference().get(i).getConferenceId(); 
-			 Conference temporaryConference = conferenceDAO.readConference(idConference);
-			 listOfConference.add(temporaryConference);
-		 }
-		
-		 return listOfConference; 
-		
-	}
+	
 
 }

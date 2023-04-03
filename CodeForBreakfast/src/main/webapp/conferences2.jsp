@@ -4,6 +4,7 @@
     <%@ page import="com.protom.codeforbreakfast.service.ServiceAllConferences"%>
     <%@ page import="java.util.ArrayList"%>
     <%@ page import="com.protom.codeforbreakfast.model.entity.Conference"%>
+    <%@ page import="com.protom.codeforbreakfast.dbconnections.DbConnectionMySql"%>
     <!DOCTYPE >
 <html lang="en">
 <head>
@@ -39,7 +40,7 @@
                         <a href="#" class="list-link current">Conferences</a>
                     </li>
                     <li class="list-item">
-                        <a href="articles.jsp" class="list-link">Articles</a>
+                        <a href="articles1.jsp" class="list-link">Articles</a>
                     </li>
                     <li class="list-item">
                         <a href="#" class="list-link">News</a>
@@ -78,11 +79,12 @@
                     <i class="ri-login-circle-fill"></i>
                 </button>
 
-                <!-- Log Out visible only when you are logged -->
-                
-                <button class="btn" id="logout-button">
-                    <i class="ri-logout-circle-r-line"></i>
-                </button>
+                 <!-- Log Out Icon -->
+                    <a href="http://localhost:8086/CodeForBreakfast/logout">
+                        <button class="btn" id="logout-button">
+                            <i class="ri-logout-circle-r-line"></i>
+                        </button>
+                    </a>
 
                 <a href="signUp.html" class="btn sign-up-btn fancy-border screen-sm-hidden">
                     <span>Sign up</span>
@@ -171,11 +173,13 @@
                  <!-- Codice Della Personal Desk sezione Post -->
             
                  <%
+                 DbConnectionMySql connection= DbConnectionMySql.getInstance();
+    			 connection.avviaConnessione();
                  int pageNumber=2;
                  ServiceAllConferences service = new ServiceAllConferences();
                  ArrayList<Conference> allConferences = service.caricaAllConferencesOfPage(pageNumber);
-                 System.out.println(allConferences.size());
                  request.setAttribute("conferences",allConferences);
+                 connection.chiudiConnessione();
                  %>
                  <c:set var="count" scope="session" value="${0}"/>
                  <c:forEach var="conference" items="${conferences}"> 
@@ -236,27 +240,27 @@
 
                  <!-- Codice Della Personal Desk sezione Conferences  -->
                  <c:set var="count" scope="session" value="${0}"/>
-                 <c:forEach var="conference" items="${personalConferenceList}">
+                 <c:forEach var="conferenceSubscription" items="${user.getSottoscrizioniConference()}">
                   <c:set var="count" scope="session" value="${count+1}"/>
                       
                        <!-- Conferences -->
-                         <a href="${conference.link}" class="trending-news-box">
+                         <a href="${conferenceSubscription.getConference().getLink()}" class="trending-news-box">
                              <div class="trending-news-img-box">
                                 <span class="trending-number place-items-center"><c:out value="${count}" /></span>
-                                <img src="${conference.linkImg}" alt="" class="article-image">
+                                <img src="${conferenceSubscription.getConference().getLinkImg()}" alt="" class="article-image">
                               </div>
                               
                          <div class="trending-news-data">
 
                             <div class="article-data"> 
-                               <span><c:out value="${conference.data}" /></span>
+                               <span><c:out value="${conferenceSubscription.getConference().getData()}" /></span>
                                 <span class="article-data-spacer"></span>
-                                <span><c:out value="${conference.dataConference}" /></span>
-                                <span><c:out value="${conference.timeOfConference}" /> </span>
+                                <span><c:out value="${conferenceSubscription.getConference().getDataConference()}" /></span>
+                                <span><c:out value="${conferenceSubscription.getConference().getTimeOfConference()}" /> </span>
 
                            </div>
 
-                         <h3 class="title article-title"><c:out value="${conference.title}" /></h3>
+                         <h3 class="title article-title"><c:out value="${conferenceSubscription.getConference().getTitle()}" /></h3>
 
                         </div>
                   </a>

@@ -1,6 +1,5 @@
 package com.protom.codeforbreakfast.service;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -10,7 +9,8 @@ import com.protom.codeforbreakfast.model.dao.SottoscrizionePostDAO;
 import com.protom.codeforbreakfast.model.dao.UserDAO;
 import com.protom.codeforbreakfast.model.daoimpl.SottoscrizioneConferenceDAOimpl;
 import com.protom.codeforbreakfast.model.daoimpl.SottoscrizionePostDAOimpl;
-import com.protom.codeforbreakfast.model.daoimpl.UserDAOimpl; 
+import com.protom.codeforbreakfast.model.daoimpl.UserDAOimpl;
+import com.protom.codeforbreakfast.model.entity.Conference;
 import com.protom.codeforbreakfast.model.entity.Msg;
 import com.protom.codeforbreakfast.model.entity.Post;
 import com.protom.codeforbreakfast.model.entity.SottoscrizioneConference;
@@ -20,7 +20,7 @@ import com.protom.codeforbreakfast.model.entity.User;
 
 public class ServiceUser {
 	
-	private Connection connessione;
+	private DbConnectionMySql connessioneDb;
 	private UserDAO userDAO;
 	private SottoscrizionePostDAO sottoscrizionePostDAO;
 	private SottoscrizioneConferenceDAO sottoscrizioneConferenceDAO;
@@ -28,15 +28,19 @@ public class ServiceUser {
 	
 	public ServiceUser( ) {
 		super();
-		this.connessione=DbConnectionMySql.avviaConnessione(); 
-		this.userDAO = new UserDAOimpl(connessione);
-		this.sottoscrizionePostDAO = new SottoscrizionePostDAOimpl(connessione);
-		this.sottoscrizioneConferenceDAO = new SottoscrizioneConferenceDAOimpl(connessione);
+		this.connessioneDb=DbConnectionMySql.getInstance(); 
+		this.userDAO = new UserDAOimpl(connessioneDb);
+		this.sottoscrizionePostDAO = new SottoscrizionePostDAOimpl(connessioneDb);
+		this.sottoscrizioneConferenceDAO = new SottoscrizioneConferenceDAOimpl(connessioneDb);
 	}
 	
+	public void avviaConnessione() {
+		connessioneDb.avviaConnessione();
+		
+	}
 	
 	public void chiudiConnessione() {
-		DbConnectionMySql.chiudiConnessione(connessione);
+		connessioneDb.chiudiConnessione();
 		
 	}
 	
@@ -78,6 +82,8 @@ public class ServiceUser {
 		return user ;
 		
 	}
+	
+
 	
 	//Rimuovo post dalla Personal Area
 	public Msg removePost(User user, int postId) { 
@@ -161,10 +167,12 @@ public class ServiceUser {
 		}
 	
 	public Msg moveDownPost(User user, int idSP) {
+		
 		boolean result;
 		Msg messageResult; 
 		
 		ArrayList<SottoscrizionePost> sottoscrizioniPost = user.getSottoscrizioniPost(); 
+		
 		
 		int position = findPositionById(sottoscrizioniPost, idSP);
 		
@@ -173,6 +181,8 @@ public class ServiceUser {
 			return new Msg(false,"impossibile cambiare l'ordinamento");
 		  
 		SottoscrizionePost sP1 =  findSottoscrizionePost(sottoscrizioniPost,idSP);
+		
+		System.out.println("debug swap Dawn sottoscrizioni:"+sP1);
 		
 		int idSP2 = findIdByPosition(sottoscrizioniPost, position + 1);
 		
@@ -190,6 +200,7 @@ public class ServiceUser {
 		messageResult= new Msg(true, "Article - "+sP1.getPost().getTitle()+" - moved Down ");
 		
 		result = sottoscrizionePostDAO.updateSottoscrizioneP(sP1);
+		System.out.println("Debug swap down:"+result);
 		 
 		if(sP2!=null)
 			result = sottoscrizionePostDAO.updateSottoscrizioneP(sP2);   

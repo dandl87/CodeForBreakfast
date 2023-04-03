@@ -1,11 +1,11 @@
 package com.protom.codeforbreakfast.model.daoimpl;
 
-import java.sql.Connection; 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.protom.codeforbreakfast.dbconnections.DbConnectionMySql;
 import com.protom.codeforbreakfast.model.dao.PostDAO;
 import com.protom.codeforbreakfast.model.dao.SottoscrizionePostDAO;
 import com.protom.codeforbreakfast.model.entity.Post;
@@ -15,11 +15,11 @@ import com.protom.codeforbreakfast.model.entity.SottoscrizionePost;
 
 public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 	
-	private Connection connection; 
+	private DbConnectionMySql dbConnection; 
 
-	public SottoscrizionePostDAOimpl(Connection connection) {
+	public SottoscrizionePostDAOimpl(DbConnectionMySql dbConnection) {
 		super();
-		this.connection = connection;
+		this.dbConnection = dbConnection;
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 			 
 			PreparedStatement ps;
 
-				ps = connection.prepareStatement(
+				ps = dbConnection.getConnection().prepareStatement(
 						"INSERT INTO sottoscrizione_post(position, user_username, user_password, post_id) VALUES ('"
 								+ sottoscrizioneP.getPosition() + "', '" + sottoscrizioneP.getUsername() + "','" + sottoscrizioneP.getPassword()+ "','"
 								+ sottoscrizioneP.getPost().getId() + "');");
@@ -64,12 +64,12 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 					+ "post_id='"+sottoscrizioneP.getPost().getId()+  
 					"' WHERE id = " + sottoscrizioneP.getId();
 			
-			PreparedStatement ps = connection.prepareStatement(query);
+			PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 			System.out.println(ps.executeUpdate() + " sottoscrizione post aggiornata");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				System.out.println("Errore accesso a db!");
-				e.getStackTrace() ;
+				e.printStackTrace();
 				return false;
 			}
 
@@ -80,7 +80,7 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 	public boolean deleteSottoscrizionePost(int idSottoscrizioneP) {
 		try { 
 			String query = "DELETE FROM sottoscrizione_post WHERE id = " + idSottoscrizioneP;
-			PreparedStatement ps = connection.prepareStatement(query);
+			PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 			int result= ps.executeUpdate() ;
 			 if(result==0)
 				 return false;
@@ -110,7 +110,7 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 		
 		try {
 		String query = "SELECT * FROM sottoscrizione_post WHERE user_username = '" + username+"' AND user_password='"+password+"'ORDER BY position;"; 
-		PreparedStatement ps = connection.prepareStatement(query);
+		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 		
 		
 			rs = ps.executeQuery();
@@ -123,7 +123,7 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 			int idPostFromDB = rs.getInt("post_id");
 			int positionFromDB= rs.getInt("position"); 
 			
-			PostDAO postDao = new PostDAOimpl(connection);
+			PostDAO postDao = new PostDAOimpl(dbConnection);
 			Post postFromDB = postDao.readPost(idPostFromDB);
 			//String dateString = dataImmatricolazione.toString();
 			SottoscrizionePost sottoscrizionePost = new SottoscrizionePost(idSottoscrizionePostFromDB, userUsernameFromDB, userPasswordFromDB, postFromDB,positionFromDB);

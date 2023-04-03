@@ -50,9 +50,9 @@ public class RemovePostServlet extends HttpServlet {
 					
 					//Fase 2
 				 
-					ServiceUser serviceUser = new ServiceUser();  
-					ServicePost servicePost = new ServicePost();
-					ServiceConference serviceConference = new ServiceConference();
+					ServiceUser serviceUser = new ServiceUser();   
+					
+					serviceUser.avviaConnessione();
 					 
 					HttpSession currentSession = request.getSession();
 					User user = (User) currentSession.getAttribute("user"); 
@@ -81,9 +81,6 @@ public class RemovePostServlet extends HttpServlet {
 					 
 	 				 
 			 
-					//creo la lista di conferences preferite facendo read a db
-					ArrayList<Conference> listOfConferenceOfUser = serviceConference.caricaConferenceForUser(userNew);
-					currentSessionNew.setAttribute("personalConferenceList", listOfConferenceOfUser);
 					
 					//messaggio in console 
 					request.setAttribute("infoMsg", msg); 

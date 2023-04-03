@@ -11,19 +11,19 @@ import com.protom.codeforbreakfast.model.entity.User;
 
 public class ServicePost {
 	
-	private Connection connessione;
+	private DbConnectionMySql connessioneDb;
 	private PostDAO postDAO; 
 	
 	
 	public ServicePost( ) {
 		super();
-		this.connessione=DbConnectionMySql.avviaConnessione(); 
-		this.postDAO = new PostDAOimpl(connessione); 
+		this.connessioneDb=DbConnectionMySql.getInstance();
+		this.postDAO = new PostDAOimpl(connessioneDb); 
 	}
 	
 	
 	public void chiudiConnessione() {
-		DbConnectionMySql.chiudiConnessione(connessione);
+		connessioneDb.chiudiConnessione();
 		
 	}
 	

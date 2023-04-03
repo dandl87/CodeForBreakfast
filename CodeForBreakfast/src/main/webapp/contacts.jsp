@@ -76,11 +76,12 @@
                     <i class="ri-login-circle-fill"></i>
                 </button>
 
-                <!-- Log Out visible only when you are logged -->
-                
-                <button class="btn" id="logout-button">
-                    <i class="ri-logout-circle-r-line"></i>
-                </button>
+                <!-- Log Out Icon -->
+                    <a href="http://localhost:8086/CodeForBreakfast/logout">
+                        <button class="btn" id="logout-button">
+                            <i class="ri-logout-circle-r-line"></i>
+                        </button>
+                    </a>
 
                 <a href="signUp.html" class="btn sign-up-btn fancy-border screen-sm-hidden">
                     <span>Sign up</span>

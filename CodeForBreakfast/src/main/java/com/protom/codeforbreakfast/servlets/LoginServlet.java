@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.protom.codeforbreakfast.dbconnections.DbConnectionMySql;
 import com.protom.codeforbreakfast.model.entity.Conference;
 import com.protom.codeforbreakfast.model.entity.Msg;
 import com.protom.codeforbreakfast.model.entity.Post;
@@ -40,18 +41,19 @@ public class LoginServlet extends HttpServlet{
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 
- 
+				
 				
 				//Fase 1
 				String username   =  request.getParameter("username");
 				String password = request.getParameter("password"); 
 				
 				
+				 
 				//Fase 2
 			 
 				ServiceUser serviceUser = new ServiceUser();  
-				ServicePost servicePost = new ServicePost();
-				ServiceConference serviceConference = new ServiceConference();
+				
+				serviceUser.avviaConnessione();
 				
 				User user = serviceUser.cercaUser(username, password);
 				
@@ -77,9 +79,6 @@ public class LoginServlet extends HttpServlet{
  				 
 				 
 				
-				//creo la lista di conferences preferite facendo read a db
-				ArrayList<Conference> listOfConferenceOfUser = serviceConference.caricaConferenceForUser(user);
-				currentSession.setAttribute("personalConferenceList", listOfConferenceOfUser);
 				
 				//redirect a index
 				response.sendRedirect("index.jsp"); 

@@ -2,6 +2,12 @@
     pageEncoding="ISO-8859-1"%>
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
    <%@ page import="com.protom.codeforbreakfast.model.entity.Msg"%>
+   <%@ page import="com.protom.codeforbreakfast.service.ServiceAllConferences"%>
+    <%@ page import="java.util.ArrayList"%>
+    <%@ page import="com.protom.codeforbreakfast.model.entity.Conference"%>
+     <%@ page import="com.protom.codeforbreakfast.dbconnections.DbConnectionMySql"%>
+   
+   
 	  <!DOCTYPE >
 		<html lang="en">
 			<head>
@@ -232,27 +238,27 @@
 
                  <!-- Codice Della Personal Desk sezione Conferences  -->
                  <c:set var="count" scope="session" value="${0}"/>
-                 <c:forEach var="conference" items="${personalConferenceList}">
+                 <c:forEach var="conferenceSubscription" items="${user.getSottoscrizioniConference()}">
                   <c:set var="count" scope="session" value="${count+1}"/>
                       
                        <!-- Conferences -->
-                         <a href="${conference.link}" class="trending-news-box">
+                         <a href="${conferenceSubscription.getConference().getLink()}" class="trending-news-box">
                              <div class="trending-news-img-box">
                                 <span class="trending-number place-items-center"><c:out value="${count}" /></span>
-                                <img src="${conference.linkImg}" alt="" class="article-image">
+                                <img src="${conferenceSubscription.getConference().getLinkImg()}" alt="" class="article-image">
                               </div>
                               
                          <div class="trending-news-data">
 
                             <div class="article-data"> 
-                               <span><c:out value="${conference.data}" /></span>
+                               <span><c:out value="${conferenceSubscription.getConference().getData()}" /></span>
                                 <span class="article-data-spacer"></span>
-                                <span><c:out value="${conference.dataConference}" /></span>
-                                <span><c:out value="${conference.timeOfConference}" /> </span>
+                                <span><c:out value="${conferenceSubscription.getConference().getDataConference()}" /></span>
+                                <span><c:out value="${conferenceSubscription.getConference().getTimeOfConference()}" /> </span>
 
                            </div>
 
-                         <h3 class="title article-title"><c:out value="${conference.title}" /></h3>
+                         <h3 class="title article-title"><c:out value="${conferenceSubscription.getConference().getTitle()}" /></h3>
 
                         </div>
                   </a>
@@ -270,6 +276,20 @@
     </section>
 
     <!-- CONFERENCES -->
+    
+    
+    <%			
+    			 DbConnectionMySql connection= DbConnectionMySql.getInstance();
+    			 connection.avviaConnessione();
+                 int pageNumber=1;
+                 ServiceAllConferences service = new ServiceAllConferences();
+                 ArrayList<Conference> allConferences = service.caricaAllConferencesOfPage(pageNumber);
+                 request.setAttribute("NewConferences",allConferences);
+                 connection.chiudiConnessione(); 
+                 %>
+                 
+                 
+                 
     <section class="quick-read section">
 
         <div class="container">
@@ -279,85 +299,36 @@
             <div class="swiper">
                 <!-- Additional required wrapper -->
                 <div class="swiper-wrapper">
-                    <!-- Slides -->
-                    <a href="#" class="article swiper-slide">
-                        <img src="./assets/images/quick_read/quick_read_1.jpg" alt="" class="article-image">
-
-                        <div class="article-data-container">
-                            <div class="article-data">
-                                <span>23 march 2023</span>
-                                <span>xxxx</span>
-                                <span class="article-data-spacer"></span>
-                                <span>xxxx</span>
-                            </div>
-                            <h3 class="title article-title">OOOOOO</h3>
-                        </div>
-                    </a>
-                    <!-- Slides -->
-                    <a href="#" class="article swiper-slide">
-                        <img src="./assets/images/quick_read/quick_read_2.jpg" alt="" class="article-image">
-
-                        <div class="article-data-container">
-                            <div class="article-data">
-                                <span>23 Dec 2021</span>
-                                <span class="article-data-spacer"></span>
-                                <span>3 Min read</span>
-                            </div>
-                            <h3 class="title article-title">Sample article title</h3>
-                        </div>
-                    </a>
-                    <!-- Slides -->
-                    <a href="#" class="article swiper-slide">
-                        <img src="./assets/images/quick_read/quick_read_3.jpg" alt="" class="article-image">
-
-                        <div class="article-data-container">
-                            <div class="article-data">
-                                <span>23 Dec 2021</span>
-                                <span class="article-data-spacer"></span>
-                                <span>3 Min read</span>
-                            </div>
-                            <h3 class="title article-title">Sample article title</h3>
-                        </div>
-                    </a>
-                    <!-- Slides -->
-                    <a href="#" class="article swiper-slide">
-                        <img src="./assets/images/quick_read/quick_read_4.jpg" alt="" class="article-image">
-
-                        <div class="article-data-container">
-                            <div class="article-data">
-                                <span>23 Dec 2021</span>
-                                <span class="article-data-spacer"></span>
-                                <span>3 Min read</span>
-                            </div>
-                            <h3 class="title article-title">Sample article title</h3>
-                        </div>
-                    </a>
-                    <!-- Slides -->
-                    <a href="#" class="article swiper-slide">
-                        <img src="./assets/images/quick_read/quick_read_5.jpg" alt="" class="article-image">
-
-                        <div class="article-data-container">
-                            <div class="article-data">
-                                <span>23 Dec 2021</span>
-                                <span class="article-data-spacer"></span>
-                                <span>3 Min read</span>
-                            </div>
-                            <h3 class="title article-title">Sample article title</h3>
-                        </div>
-                    </a>
-                    <!-- Slides -->
-                    <a href="#" class="article swiper-slide">
-                        <img src="./assets/images/quick_read/quick_read_6.jpg" alt="" class="article-image">
-
-                        <div class="article-data-container">
-                            <div class="article-data">
-                                <span>23 Dec 2021</span>
-                                <span class="article-data-spacer"></span>
-                                <span>3 Min read</span>
-                            </div>
-                            <h3 class="title article-title">Sample article title</h3>
-                        </div>
-                    </a>
+                
+                 <!-- Codice Dello Slider -- Conferences  -->
+                 <c:set var="count" scope="session" value="${0}"/>
+                 <c:forEach var="newConference" items="${NewConferences}">
+                  <c:set var="count" scope="session" value="${count+1}"/>
+                      
+                       <!-- Conferences -->
+                        <!-- Slides -->
+	                    <a href="${newConference.link}" class="article swiper-slide">
+	                        <img src="${newConference.linkImg}" alt="" class="article-image">
+	
+	                        <div class="article-data-container">
+	                            <div class="article-data">
+	                                <span><c:out value="${newConference.data}" /></span> 
+	                                <span class="article-data-spacer"></span>
+	                                <span><c:out value="${newConference.dataConference}" /></span>
+	                                <span><c:out value="${newConference.timeOfConference}" /> </span>
+	                            </div>
+	                           <h3 class="title article-title"><c:out value="${newConference.title}" /></h3>
+	                        </div>
+	                    </a>
+                       
+                       
+                        
+   
+                 </c:forEach>
+                
+                
+                   
+                     
                 </div>
                 <!-- Navigation buttons -->
                 <div class="swiper-button-prev swiper-controls"></div>

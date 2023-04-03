@@ -10,20 +10,20 @@ import com.protom.codeforbreakfast.model.entity.User;
  
 public class ServiceAllUsers {
 	
-	private Connection connessione;
+	private DbConnectionMySql dbConnection;
 	private UserDAO userDAO;  
 	
 	
 	public ServiceAllUsers( ) {
 		super();
-		this.connessione=DbConnectionMySql.avviaConnessione(); 
-		this.userDAO = new UserDAOimpl(connessione); 
+		this.dbConnection=DbConnectionMySql.getInstance(); 
+		this.userDAO = new UserDAOimpl(dbConnection); 
 		
 	}
 	
 	
 	public void chiudiConnessione() {
-		DbConnectionMySql.chiudiConnessione(connessione);
+		dbConnection.chiudiConnessione();
 		
 	}
 	

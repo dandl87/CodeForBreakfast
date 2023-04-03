@@ -11,20 +11,20 @@ import com.protom.codeforbreakfast.model.entity.Conference;
 
 public class ServiceAllConferences {
 	
-	private Connection connessione;
+	private DbConnectionMySql dbConnection;
 	private ConferenceDAO conferenceDAO;  
 	
 	
 	public ServiceAllConferences( ) {
 		super();
-		this.connessione=DbConnectionMySql.avviaConnessione(); 
-		this.conferenceDAO = new ConferenceDAOimpl(connessione); 
+		this.dbConnection=DbConnectionMySql.getInstance(); 
+		this.conferenceDAO = new ConferenceDAOimpl(dbConnection); 
 		
 	}
 	
 	
 	public void chiudiConnessione() {
-		DbConnectionMySql.chiudiConnessione(connessione);
+		dbConnection.chiudiConnessione();
 		
 	}
 	

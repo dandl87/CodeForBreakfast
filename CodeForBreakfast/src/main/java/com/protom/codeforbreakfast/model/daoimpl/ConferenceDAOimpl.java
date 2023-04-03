@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.protom.codeforbreakfast.dbconnections.DbConnectionMySql;
 import com.protom.codeforbreakfast.model.dao.ConferenceDAO;
 import com.protom.codeforbreakfast.model.entity.Conference; 
 
@@ -14,11 +15,11 @@ import com.protom.codeforbreakfast.model.entity.Conference;
 
 public class ConferenceDAOimpl implements ConferenceDAO {
 	
-	private Connection connection;
+	private DbConnectionMySql dbConnection;
 
-	public ConferenceDAOimpl(Connection connection) {
+	public ConferenceDAOimpl(DbConnectionMySql dbConnection) {
 		super();
-		this.connection = connection;
+		this.dbConnection = dbConnection;
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 		try {
 		String query = "SELECT * FROM conference WHERE id = " + idConference +";";
 		
-		PreparedStatement ps = connection.prepareStatement(query);
+		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 		
 		
 			rs = ps.executeQuery();
@@ -72,7 +73,7 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 		
 		try {
 		String query = "SELECT * FROM conference"; 
-		PreparedStatement ps = connection.prepareStatement(query);
+		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 		
 		
 			rs = ps.executeQuery();
@@ -123,7 +124,7 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 		
 		try {
 		String query = "SELECT * FROM conference Where page="+n; 
-		PreparedStatement ps = connection.prepareStatement(query);
+		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 		
 		
 			rs = ps.executeQuery();

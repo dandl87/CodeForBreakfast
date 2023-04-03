@@ -51,7 +51,9 @@ public class MoveUpServlet extends HttpServlet{
 						//Fase 2
 					 
 						ServiceUser serviceUser = new ServiceUser();   
-						ServiceConference serviceConference = new ServiceConference();
+						
+						
+						serviceUser.avviaConnessione();
 						 
 						HttpSession currentSession = request.getSession();
 						User user = (User) currentSession.getAttribute("user"); 
@@ -82,11 +84,7 @@ public class MoveUpServlet extends HttpServlet{
 						currentSessionNew.setAttribute("user", userNew);
 						 
 		 				 
-				 
-						//creo la lista di conferences preferite facendo read a db
-						ArrayList<Conference> listOfConferenceOfUser = serviceConference.caricaConferenceForUser(userNew);
-						currentSessionNew.setAttribute("personalConferenceList", listOfConferenceOfUser);
-						
+			
 						 
 						
 						//messaggio in console 

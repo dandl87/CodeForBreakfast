@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.protom.codeforbreakfast.dbconnections.DbConnectionMySql;
 import com.protom.codeforbreakfast.model.dao.PostDAO;
 import com.protom.codeforbreakfast.model.entity.Post;
 
@@ -14,11 +15,11 @@ import com.protom.codeforbreakfast.model.entity.Post;
 
 public class PostDAOimpl implements PostDAO {
 	
-	private Connection connection;
+	private DbConnectionMySql dbConnection;
 
-	public PostDAOimpl(Connection connection) {
+	public PostDAOimpl(DbConnectionMySql dbConnection) {
 		super();
-		this.connection = connection;
+		this.dbConnection = dbConnection;
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class PostDAOimpl implements PostDAO {
 		try {
 		String query = "SELECT * FROM post WHERE id = " + idPost +";";
 		
-		PreparedStatement ps = connection.prepareStatement(query);
+		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 		
 		
 			rs = ps.executeQuery();
@@ -79,7 +80,7 @@ public class PostDAOimpl implements PostDAO {
 		
 		try {
 		String query = "SELECT * FROM post"; 
-		PreparedStatement ps = connection.prepareStatement(query);
+		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 		
 		
 			rs = ps.executeQuery();
@@ -122,7 +123,7 @@ public class PostDAOimpl implements PostDAO {
 		
 		try {
 		String query = "SELECT * FROM post Where page="+n; 
-		PreparedStatement ps = connection.prepareStatement(query);
+		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 		
 		
 			rs = ps.executeQuery();

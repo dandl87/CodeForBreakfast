@@ -6,19 +6,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.protom.codeforbreakfast.dbconnections.DbConnectionMySql;
 import com.protom.codeforbreakfast.model.dao.UserDAO;
 import com.protom.codeforbreakfast.model.entity.User;
 
  
 public class UserDAOimpl implements UserDAO{
 	
-	private Connection connection;
+	private DbConnectionMySql dbConnection;
 	
 	
 	
-	public UserDAOimpl(Connection connection) {
+	public UserDAOimpl(DbConnectionMySql dbConnection) {
 		super();
-		this.connection = connection;
+		this.dbConnection = dbConnection;
 	}
 
 
@@ -31,7 +32,7 @@ public class UserDAOimpl implements UserDAO{
 			try {
 			String query = "SELECT * FROM user WHERE username = '" + username +"' AND password = '"+password+"';";
 			
-			PreparedStatement ps = connection.prepareStatement(query);
+			PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 			
 			
 				rs = ps.executeQuery();
@@ -63,7 +64,7 @@ public class UserDAOimpl implements UserDAO{
 		 
 		PreparedStatement ps;
 
-			ps = connection.prepareStatement(
+			ps = dbConnection.getConnection().prepareStatement(
 					"INSERT INTO user (username, password, nome, cognome) VALUES ('"
 							+ user.getUsername() + "', '" + user.getPassword() + "','" + user.getSurname() + "','"
 							+ user.getName() + "');");
@@ -91,7 +92,7 @@ public class UserDAOimpl implements UserDAO{
 				+ "cognome='"+user.getSurname()+  
 				"' WHERE username = " + user.getUsername()+" && password = "+user.getPassword();
 		
-		PreparedStatement ps = connection.prepareStatement(query);
+		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 		System.out.println(ps.executeUpdate() + "Log: user updated");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -109,7 +110,7 @@ public class UserDAOimpl implements UserDAO{
 
 		try { 
 		String query = "DELETE FROM user WHERE username = " + username + " && password = "+password;
-		PreparedStatement ps = connection.prepareStatement(query);
+		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 		int result= ps.executeUpdate() ;
 		
 		if(result==0)
@@ -132,7 +133,7 @@ public class UserDAOimpl implements UserDAO{
 		
 		try {
 		String query = "SELECT * FROM user"; 
-		PreparedStatement ps = connection.prepareStatement(query);
+		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 		
 		
 			rs = ps.executeQuery();
