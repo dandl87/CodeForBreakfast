@@ -765,6 +765,7 @@ body.light-theme{
 
     .trending-news-img-box{
         width: 50%;
+        height: 60%;
     }
 
     .trending-news-data{
@@ -850,7 +851,7 @@ body.light-theme{
     }
 }
 
-@media screen and (min-width: 1024px) {
+ @media screen and (min-width: 1200px) {
     .menu{
         position: static;
         width: initial;
@@ -876,7 +877,7 @@ body.light-theme{
         padding: 4px;
     }
 
-    /* Fancy button animation effect */
+    Fancy button animation effect
     .btn.fancy-border:hover::before{
         animation: animate_border .75s linear infinite
     }
@@ -919,13 +920,12 @@ body.light-theme{
     .blog-post-data img{
         height: 40rem;
     }
-}
-
-@media screen and (min-width: 1200px) {
     .older-posts-grid-wrapper{
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+
 @media screen and (min-width: 1500px) {
     .featured-article{
         grid-column: 3/-1;

@@ -14,6 +14,7 @@ import com.protom.codeforbreakfast.model.entity.Conference;
 import com.protom.codeforbreakfast.model.entity.Msg;
 import com.protom.codeforbreakfast.model.entity.User;
 import com.protom.codeforbreakfast.service.ServiceConference;
+import com.protom.codeforbreakfast.service.ServiceMsg;
 import com.protom.codeforbreakfast.service.ServicePost;
 import com.protom.codeforbreakfast.service.ServiceUser;
 
@@ -51,21 +52,23 @@ public class MoveDownServlet extends HttpServlet{
 						//Fase 2
 					 
 						ServiceUser serviceUser = new ServiceUser();
-						serviceUser.avviaConnessione();
+						ServiceMsg serviceMsg = new ServiceMsg();  
+						
 						
 						HttpSession currentSession = request.getSession();
+						
+					 
 						User user = (User) currentSession.getAttribute("user"); 
 						
-						
-						
+						 
+						if(user!=null ) {
+							
+						serviceUser.avviaConnessione();	
+							
 						Msg msg = serviceUser.moveDownPost(user, sPId);
-						
-						System.out.println("Debug down : "+ msg);
-						
-						if(user!=null && msg.getResult()) {
 							
 								
-						System.out.println("Log: match User");
+						if(msg.getResult()) {
 								
 						//invalido una sessione esistente
 						HttpSession pastSession = request.getSession(false);
@@ -82,11 +85,15 @@ public class MoveDownServlet extends HttpServlet{
 						currentSessionNew.setAttribute("user", userNew);
 						 
 		 				 
+						serviceMsg.verifyStatus();
+						
+						msg = serviceMsg.getMsg();
 				 
 						 
 						
 						//messaggio in console 
-						request.setAttribute("infoMsg", msg); 
+						currentSessionNew.removeAttribute("infoMsg"); 
+						currentSessionNew.setAttribute("infoMsg", msg); 
 						
 						
 						
@@ -116,7 +123,12 @@ public class MoveDownServlet extends HttpServlet{
 							serviceUser.chiudiConnessione();
 		 
 						}
-
+				}else {
+				
+				request.setAttribute("infoMsg", new Msg(false, "Sorry, your session has expired"));
+				RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
+				dis.forward(request, response);  
+				}
 			}
 
 }

@@ -57,6 +57,16 @@
 			<url-pattern>/addPost</url-pattern>
 		</servlet-mapping>
 		
+		 <servlet>
+			<servlet-name>AddConferenceServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.AddConferenceServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping>
+			<servlet-name>AddConferenceServlet</servlet-name>
+			<url-pattern>/addConference</url-pattern>
+		</servlet-mapping>
+		
 		<servlet>
 			<servlet-name>MoveUpServlet</servlet-name>
 			<servlet-class>com.protom.codeforbreakfast.servlets.MoveUpServlet</servlet-class>
@@ -75,6 +85,26 @@
 		<servlet-mapping>
 			<servlet-name>MoveDownServlet</servlet-name>
 			<url-pattern>/moveDownPost</url-pattern>
+		</servlet-mapping>
+		
+		<servlet>
+			<servlet-name>RemoveConferenceServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.RemoveConferenceServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping>
+			<servlet-name>RemoveConferenceServlet</servlet-name>
+			<url-pattern>/removeConference</url-pattern>
+		</servlet-mapping>
+		
+		 <servlet>
+			<servlet-name>RemoveConferenceFromConferenceSectionServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.RemoveConferenceFromConferenceSectionServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping>
+			<servlet-name>RemoveConferenceFromConferenceSectionServlet</servlet-name>
+			<url-pattern>/removeConferenceFromConference</url-pattern>
 		</servlet-mapping>
 		
 </web-app>

@@ -19,14 +19,14 @@ import com.protom.codeforbreakfast.service.ServiceMsg;
 import com.protom.codeforbreakfast.service.ServicePost;
 import com.protom.codeforbreakfast.service.ServiceUser;
 
-public class RemovePostFromArticleSectionServlet extends HttpServlet {
+public class RemoveConferenceFromConferenceSectionServlet extends HttpServlet {
 	
 	 /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public RemovePostFromArticleSectionServlet() {
+	public RemoveConferenceFromConferenceSectionServlet() {
 	        super(); 
 	    }
 
@@ -47,8 +47,8 @@ public class RemovePostFromArticleSectionServlet extends HttpServlet {
 					
 					//Fase 1
 					 
-					int postId = Integer.parseInt(request.getParameter("postId"));
-					int articlesPage = Integer.parseInt(request.getParameter("articlesPage"));
+					int conferenceId = Integer.parseInt(request.getParameter("conferenceId"));
+					int conferencePage = Integer.parseInt(request.getParameter("conferencePage"));
 					
 					//Fase 2
 				 
@@ -66,8 +66,9 @@ public class RemovePostFromArticleSectionServlet extends HttpServlet {
 						
 					serviceUser.avviaConnessione();
 					
-					Msg msg = serviceUser.removePost(user, postId);
+					Msg msg = serviceUser.removeConference(user, conferenceId);
 					
+					System.out.println(msg);
 					if(msg.getResult()) {
 						
 							
@@ -99,7 +100,7 @@ public class RemovePostFromArticleSectionServlet extends HttpServlet {
 					currentSessionNew.setAttribute("infoMsg", msg); 
 					
 					//redirect a index
-					RequestDispatcher dis = request.getRequestDispatcher("articles"+articlesPage+".jsp"); 
+					RequestDispatcher dis = request.getRequestDispatcher("conferences"+conferencePage+".jsp"); 
 //					
 				
 					dis.forward(request, response); 
@@ -115,7 +116,7 @@ public class RemovePostFromArticleSectionServlet extends HttpServlet {
 						request.setAttribute("infoMsg", msg); 
 						 
 						
-						RequestDispatcher dis = request.getRequestDispatcher("articles"+articlesPage+".jsp"); 
+						RequestDispatcher dis = request.getRequestDispatcher("articles"+conferencePage+".jsp"); 
 						
 						dis.forward(request, response);
 	 

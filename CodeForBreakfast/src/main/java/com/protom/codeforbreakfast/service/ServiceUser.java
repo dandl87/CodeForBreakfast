@@ -62,23 +62,16 @@ public class ServiceUser {
 			return null;
 		
 		// carica sottoscrizioni Post
-		ArrayList<SottoscrizionePost> sottoscrizioniPost = sottoscrizionePostDAO.readSottoscrizionePostOfUser(username, password) ;
-		
-		//Debug
-		for(SottoscrizionePost sP: sottoscrizioniPost)
-			System.out.println("Debug:"+sP);
-		
+		ArrayList<SottoscrizionePost> sottoscrizioniPost = sottoscrizionePostDAO.readSottoscrizionePostOfUser(username) ;
+		 
 		
 		// carica sottoscrizioni Conference
-		ArrayList<SottoscrizioneConference> sottoscrizioniConference = sottoscrizioneConferenceDAO.readSottoscrizioneConferenceOfUser(username, password) ;
+		ArrayList<SottoscrizioneConference> sottoscrizioniConference = sottoscrizioneConferenceDAO.readSottoscrizioneConferenceOfUser(username) ;
 		 
-		//Debug
-		for(SottoscrizioneConference sC: sottoscrizioniConference)
-			System.out.println("Debug:"+sC);
+	 
 				
 		user.setSottoscrizioniPost(sottoscrizioniPost);
-		user.setSottoscrizioniConference(sottoscrizioniConference); 
-		System.out.println("DEBUG: user:"+user);
+		user.setSottoscrizioniConference(sottoscrizioniConference);  
 		return user ;
 		
 	}
@@ -102,6 +95,23 @@ public class ServiceUser {
 	
 	
 	
+	//Rimuovo conference dalla Personal Area
+		public Msg removeConference(User user, int conferenceId) { 
+			
+			ArrayList<SottoscrizioneConference> sottoscrizioniConference = user.getSottoscrizioniConference();
+			
+			for(SottoscrizioneConference sC: sottoscrizioniConference) {
+				if(sC.getConference().getId()==conferenceId) { 
+					sottoscrizioneConferenceDAO.deleteSottoscrizioneC(sC.getId());
+					return new Msg(true,"Conference - "+sC.getConference().getTitle()+" - removed");
+				}	
+			}
+		
+		return new Msg(false, "Article remotion failed!");
+		}
+	
+	
+	
 	public Msg addPost(User user, int postId) {
 		Msg messageResult;
 		ServicePost servicePost = new ServicePost();
@@ -111,7 +121,7 @@ public class ServiceUser {
 			return new Msg(false,"Articles Area is full!");
 		
 		// se il post è già presente l'add non avviene
-		boolean isPresent = checkPresence(sottoscrizioniPost, postId);
+		boolean isPresent = checkPresenceSP(sottoscrizioniPost, postId);
 		
 		if(isPresent)
 			return new Msg(false,"Articles is in your Desk!");
@@ -119,9 +129,35 @@ public class ServiceUser {
 		//creiamo un Post, una sottoscrizionePost 
 		Post post = servicePost.cercaPost(postId); 
 		int position=findPosition(sottoscrizioniPost);
-		SottoscrizionePost sottoscrizionePost = new SottoscrizionePost(user.getUsername(),user.getPassword(),post, position);
+		SottoscrizionePost sottoscrizionePost = new SottoscrizionePost(user.getUsername(),post, position);
 		messageResult= new Msg(true, "Article - "+sottoscrizionePost.getPost().getTitle()+" - inserted in position "+position );
 		boolean result = sottoscrizionePostDAO.createSottoscrizioneP(sottoscrizionePost);
+		if(result)
+			return messageResult;
+		else return new Msg(false, "sottoscrizione non riuscita!");
+		 
+		}
+	
+	public Msg addConference(User user, int conferenceId) {
+		Msg messageResult;
+		ServiceConference serviceConference = new ServiceConference();
+		ArrayList<SottoscrizioneConference> sottoscrizioniConference = user.getSottoscrizioniConference(); 
+		
+		if(sottoscrizioniConference.size()==6)
+			return new Msg(false,"Conference Area is full!");
+		
+		// se il post è già presente l'add non avviene
+		boolean isPresent = checkPresenceSC(sottoscrizioniConference, conferenceId);
+		
+		if(isPresent)
+			return new Msg(false,"Conference is in your Desk!");
+		
+		//creiamo un Post, una sottoscrizionePost 
+		Conference conference = serviceConference.cercaConference(conferenceId); 
+		 
+		SottoscrizioneConference sottoscrizioneConference = new SottoscrizioneConference(user.getUsername(),conference);
+		messageResult= new Msg(true, "Conference - "+sottoscrizioneConference.getConference().getTitle()+" - inserted");
+		boolean result = sottoscrizioneConferenceDAO.createSottoscrizioneC(sottoscrizioneConference);
 		if(result)
 			return messageResult;
 		else return new Msg(false, "sottoscrizione non riuscita!");
@@ -212,15 +248,23 @@ public class ServiceUser {
 		}
 	
 	
-	private boolean checkPresence(ArrayList<SottoscrizionePost> sottoscrizioniPost, int postId) {
+	private boolean checkPresenceSP(ArrayList<SottoscrizionePost> sottoscrizioniPost, int postId) {
 		for(SottoscrizionePost sP: sottoscrizioniPost) {
 			if(sP.getPost().getId()==postId)
 				return true;
 		}
-		return false;
-		
-		
+		return false; 
 	}
+	
+	private boolean checkPresenceSC(ArrayList<SottoscrizioneConference> sottoscrizioniConference, int conferenceId) {
+		for(SottoscrizioneConference sC: sottoscrizioniConference) {
+			if(sC.getConference().getId()==conferenceId)
+				return true;
+		}
+		return false; 
+	}
+	
+	
 	private int findPosition(ArrayList<SottoscrizionePost> sottoscrizioniPost) {
 		TreeMap<Integer, SottoscrizionePost> sottoscrizioniOrdinate = new TreeMap<>();
 		for(SottoscrizionePost sP: sottoscrizioniPost)
@@ -228,11 +272,10 @@ public class ServiceUser {
 		int i =1;
 		while(sottoscrizioniOrdinate.get(i)!=null)
 			i++;
-		return i;
-		
-		
-		
+		return i; 
 	}
+	
+	
 	
 	private int findPositionById(ArrayList<SottoscrizionePost> sottoscrizioniPost,int idSP) { 
 		for(SottoscrizionePost sP: sottoscrizioniPost)

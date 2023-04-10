@@ -185,7 +185,7 @@
 	                 <%
 	                 DbConnectionMySql connection= DbConnectionMySql.getInstance();
 	    			 connection.avviaConnessione();
-	                 int pageNumber=3;
+	                 int pageNumber=1;
 	                 ServiceAllConferences service = new ServiceAllConferences();
 	                 ArrayList<Conference> allConferences = service.caricaAllConferencesOfPage(pageNumber);
 	                 request.setAttribute("conferences",allConferences);
@@ -220,7 +220,7 @@
 		                              <c:set var="titleURL">
 		                              <c:url value="http://192.168.1.109:8086/CodeForBreakfast/addConference" >
 		                               	<c:param name="conferenceId" value="${conference.getId()}"/>
-		                              	<c:param name="conferencePage" value="${3}"/> 
+		                              	<c:param name="conferencePage" value="${1}"/> 
 		                              </c:url>
 		                              </c:set>
 		                                                        
@@ -235,7 +235,7 @@
 										<c:set var="titleURL">
 			                            <c:url value="http://192.168.1.109:8086/CodeForBreakfast/removeConferenceFromConference" >
 			                            <c:param name="conferenceId" value="${conference.getId()}"/>
-			                            <c:param name="conferencePage" value="${3}"/> 
+			                            <c:param name="conferencePage" value="${1}"/> 
 			                            </c:url>
 			                            </c:set> 
 			                                                         
@@ -315,7 +315,7 @@
 	                            <c:set var="titleURL1">
 			                    	<c:url value="http://192.168.1.109:8086/CodeForBreakfast/removeConferenceFromConference" >
 			                    		<c:param name="conferenceId" value="${conferenceSubscription.getConference().getId()}"/>
-			                    		<c:param name="conferencePage" value="${2}"/> 
+			                    		<c:param name="conferencePage" value="${1}"/> 
 			                    	</c:url>
 			 					</c:set>		                                                         
 								 
@@ -332,7 +332,7 @@
 	                           </div>
 	
 	                         <h3 class="title article-title"><c:out value="${conferenceSubscription.getConference().getTitle()}" /></h3>
-							<h5  ><c:out value="${conferenceSubscription.getConference().getTitle()}" /></h5> <!-- Inserire il posto della conferenza aggiornare db ed entity e dao -->
+							
 	                        </div>
 	                  </div>
 	   
@@ -341,7 +341,7 @@
 	
 	            <!-- page menu -->
 	            <div class="bottomline-banner2">  
-	            	<a href="conferences2.jsp" style="width: 5.5rem"><h3>back</h3></a>  
+	                <a href="conferences2.jsp" style="width: 5.5rem"><h3>next</h3></a> 
 	            </div>
 	 
 	         </div>

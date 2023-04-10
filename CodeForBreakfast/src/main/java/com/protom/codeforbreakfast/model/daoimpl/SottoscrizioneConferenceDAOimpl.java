@@ -26,8 +26,26 @@ public class SottoscrizioneConferenceDAOimpl implements SottoscrizioneConference
 
 	@Override
 	public boolean createSottoscrizioneC(SottoscrizioneConference sottoscrizioneC) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			   
+			PreparedStatement ps;
+
+				ps = dbConnection.getConnection().prepareStatement(
+						"INSERT INTO sottoscrizione_conference(user_username, conference_id) VALUES ('"
+								+  sottoscrizioneC.getUsername() +"','"
+								+ sottoscrizioneC.getConference().getId() + "');");
+				System.out.println(ps.executeUpdate() + "Log: sottoscrizione Conference inserted");
+				
+				
+				
+			 
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace(); 
+				return false;
+			} 
+			return true; 
 	}
 
 	@Override
@@ -44,8 +62,21 @@ public class SottoscrizioneConferenceDAOimpl implements SottoscrizioneConference
 
 	@Override
 	public boolean deleteSottoscrizioneC(int idSottoscrizioneC) {
-		// TODO Auto-generated method stub
-		return false;
+		try { 
+			String query = "DELETE FROM sottoscrizione_conference WHERE id = " + idSottoscrizioneC;
+			PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
+			int result= ps.executeUpdate() ;
+			 if(result==0)
+				 return false;
+			 
+			 
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Errore accesso a db!");
+				return false;
+			}
+
+			return true;
 	}
 
 	@Override
@@ -55,12 +86,12 @@ public class SottoscrizioneConferenceDAOimpl implements SottoscrizioneConference
 	}
 
 	@Override
-	public ArrayList<SottoscrizioneConference> readSottoscrizioneConferenceOfUser(String username, String password) {
+	public ArrayList<SottoscrizioneConference> readSottoscrizioneConferenceOfUser(String username) {
 		ArrayList<SottoscrizioneConference> sottoscrizioniConferenceList= new ArrayList<>(6);
 		ResultSet rs; 
 		
 		try {
-		String query = "SELECT * FROM sottoscrizione_conference WHERE user_username = '" + username+"' AND user_password='"+password+"';"; 
+		String query = "SELECT * FROM sottoscrizione_conference WHERE user_username = '" + username+"';"; 
 		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 		
 		
@@ -70,14 +101,13 @@ public class SottoscrizioneConferenceDAOimpl implements SottoscrizioneConference
 
 			int idSottoscrizioneConferenceFromDB = rs.getInt("id");
 			String userUsernameFromDB = rs.getString("user_username");
-			String userPasswordFromDB = rs.getString("user_password");
 			int idConferenceFromDb = rs.getInt("conference_id");
 			
 			ConferenceDAO conferenceDao = new ConferenceDAOimpl(dbConnection);
 			Conference conferenceFromDb = conferenceDao.readConference(idConferenceFromDb);
 			
 			//String dateString = dataImmatricolazione.toString();
-			SottoscrizioneConference sottoscrizioneConference = new SottoscrizioneConference(idSottoscrizioneConferenceFromDB, userUsernameFromDB, userPasswordFromDB, conferenceFromDb);
+			SottoscrizioneConference sottoscrizioneConference = new SottoscrizioneConference(idSottoscrizioneConferenceFromDB, userUsernameFromDB, conferenceFromDb);
 
 			sottoscrizioniConferenceList.add(sottoscrizioneConference);
 			

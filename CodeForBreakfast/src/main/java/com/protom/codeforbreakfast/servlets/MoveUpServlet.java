@@ -14,6 +14,7 @@ import com.protom.codeforbreakfast.model.entity.Conference;
 import com.protom.codeforbreakfast.model.entity.Msg;
 import com.protom.codeforbreakfast.model.entity.User;
 import com.protom.codeforbreakfast.service.ServiceConference;
+import com.protom.codeforbreakfast.service.ServiceMsg;
 import com.protom.codeforbreakfast.service.ServicePost;
 import com.protom.codeforbreakfast.service.ServiceUser;
 
@@ -50,24 +51,33 @@ public class MoveUpServlet extends HttpServlet{
 						
 						//Fase 2
 					 
-						ServiceUser serviceUser = new ServiceUser();   
+						ServiceUser serviceUser = new ServiceUser();  
+						ServiceMsg serviceMsg = new ServiceMsg();  
 						
 						
-						serviceUser.avviaConnessione();
+						
 						 
 						HttpSession currentSession = request.getSession();
+						
+					 
+						
+						
 						User user = (User) currentSession.getAttribute("user"); 
 						
-						System.out.println("Debug move UP: "+ user);
+						 
+						
+						
+						
+						
+						
+						if(user!=null) {
+							
+						serviceUser.avviaConnessione();
 						
 						Msg msg = serviceUser.moveUpPost(user, sPId);
-						
-						
-						
-						if(user!=null && msg.getResult()) {
 							
 								
-						System.out.println("Log: match User");
+						if(msg.getResult()) {
 								
 						//invalido una sessione esistente
 						HttpSession pastSession = request.getSession(false);
@@ -84,11 +94,14 @@ public class MoveUpServlet extends HttpServlet{
 						currentSessionNew.setAttribute("user", userNew);
 						 
 		 				 
-			
+						serviceMsg.verifyStatus();
+						
+						msg = serviceMsg.getMsg();
 						 
 						
 						//messaggio in console 
-						request.setAttribute("infoMsg", msg); 
+						currentSessionNew.removeAttribute("infoMsg"); 
+						currentSessionNew.setAttribute("infoMsg", msg);  
 						
 						
 						
@@ -118,7 +131,13 @@ public class MoveUpServlet extends HttpServlet{
 							serviceUser.chiudiConnessione();
 		 
 						}
-
+				}else {
+					
+				request.setAttribute("infoMsg", new Msg(false, "Sorry, your session has expired"));
+				RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
+				dis.forward(request, response);  
+				
+				}
 			}
 
 }

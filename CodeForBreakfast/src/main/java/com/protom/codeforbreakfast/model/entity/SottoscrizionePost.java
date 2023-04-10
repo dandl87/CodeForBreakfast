@@ -4,25 +4,22 @@ public class SottoscrizionePost {
 	
 	private int id;
 	private String username;
-	private String password;
 	private Post post;
 	private int position; 
 	
 	//costruttore di inserimento nuova sottoscrizione
-	public SottoscrizionePost(String username, String password, Post post, int position) {
+	public SottoscrizionePost(String username,Post post, int position) {
 		super(); 
 		this.username = username;
-		this.password = password;
 		this.post = post;
 		this.position=position; 
 	}
 	
 	//costruttore di prelievo sottoscrizione
-	public SottoscrizionePost(int id, String username, String password, Post post, int position) {
+	public SottoscrizionePost(int id, String username,Post post, int position) {
 		super(); 
 		this.id=id;
 		this.username = username;
-		this.password = password;
 		this.post = post;
 		this.position=position; 
 	}
@@ -48,14 +45,7 @@ public class SottoscrizionePost {
 	}
 
 
-	public String getPassword() {
-		return password;
-	}
 
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 
 	public Post getPost() {
@@ -82,7 +72,7 @@ public class SottoscrizionePost {
 
 	@Override
 	public String toString() {
-		return "SottoscrizionePost [id=" + id + ", username=" + username + ", password=" + password + ", postId="
+		return "SottoscrizionePost [id=" + id + ", username=" + username + ", postId="
 				+ post.getId() + "position:"+this.position+"]";
 	}
 	

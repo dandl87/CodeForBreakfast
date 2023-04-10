@@ -15,6 +15,7 @@ import com.protom.codeforbreakfast.model.entity.Msg;
 import com.protom.codeforbreakfast.model.entity.Post;
 import com.protom.codeforbreakfast.model.entity.User;
 import com.protom.codeforbreakfast.service.ServiceConference;
+import com.protom.codeforbreakfast.service.ServiceMsg;
 import com.protom.codeforbreakfast.service.ServicePost;
 import com.protom.codeforbreakfast.service.ServiceUser;
 
@@ -50,20 +51,23 @@ public class RemovePostServlet extends HttpServlet {
 					
 					//Fase 2
 				 
-					ServiceUser serviceUser = new ServiceUser();   
-					
-					serviceUser.avviaConnessione();
+					ServiceUser serviceUser = new ServiceUser(); 
+					ServiceMsg serviceMsg = new ServiceMsg(); 
 					 
 					HttpSession currentSession = request.getSession();
+					
+					 
+					
 					User user = (User) currentSession.getAttribute("user"); 
 					
+					 
+					if(user!=null) {
+						
+					serviceUser.avviaConnessione();
 					
 					Msg msg = serviceUser.removePost(user, postId); 
-					
-					if(user!=null && msg.getResult()) {
 						
-							
-					System.out.println("Log: match User");
+					if(msg.getResult()) { 
 							
 					//invalido una sessione esistente
 					HttpSession pastSession = request.getSession(false);
@@ -79,11 +83,16 @@ public class RemovePostServlet extends HttpServlet {
 					currentSessionNew.setMaxInactiveInterval(10*60); 
 					currentSessionNew.setAttribute("user", userNew);
 					 
+					
+					serviceMsg.verifyStatus();
+					
+					msg = serviceMsg.getMsg();
 	 				 
 			 
 					
 					//messaggio in console 
-					request.setAttribute("infoMsg", msg); 
+					currentSessionNew.removeAttribute("infoMsg"); 
+					currentSessionNew.setAttribute("infoMsg", msg);  
 					
 					//redirect a index
 					RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
@@ -109,7 +118,11 @@ public class RemovePostServlet extends HttpServlet {
 						serviceUser.chiudiConnessione();
 	 
 					}
-
+			}else {
+			request.setAttribute("infoMsg", new Msg(false, "Sorry, your session has expired"));
+			RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
+			dis.forward(request, response); 
+			}
 		}
 		
 }

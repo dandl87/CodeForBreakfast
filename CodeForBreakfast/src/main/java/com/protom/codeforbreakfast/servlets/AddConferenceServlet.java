@@ -1,8 +1,6 @@
 package com.protom.codeforbreakfast.servlets;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
+import java.io.IOException; 
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,23 +8,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.protom.codeforbreakfast.model.entity.Conference;
+ 
 import com.protom.codeforbreakfast.model.entity.Msg;
-import com.protom.codeforbreakfast.model.entity.User;
-import com.protom.codeforbreakfast.service.ServiceConference;
-import com.protom.codeforbreakfast.service.ServiceMsg;
-import com.protom.codeforbreakfast.service.ServicePost;
+import com.protom.codeforbreakfast.model.entity.User; 
+import com.protom.codeforbreakfast.service.ServiceMsg; 
 import com.protom.codeforbreakfast.service.ServiceUser;
 
-public class AddPostServlet extends HttpServlet{
+public class AddConferenceServlet extends HttpServlet{
 	
 	 /**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public AddPostServlet() {
+		public AddConferenceServlet() {
 		        super(); 
 		    }
 
@@ -49,8 +44,8 @@ public class AddPostServlet extends HttpServlet{
 						
 						//Fase 1
 						 
-						int postId = Integer.parseInt(request.getParameter("postId"));
-						int articlesPage = Integer.parseInt(request.getParameter("articlesPage"));
+						int conferenceId = Integer.parseInt(request.getParameter("conferenceId"));
+						int conferencePage = Integer.parseInt(request.getParameter("conferencePage"));
 						
 						//Fase 2
 					 
@@ -74,7 +69,7 @@ public class AddPostServlet extends HttpServlet{
 							
 							
 							
-						Msg msg = serviceUser.addPost(user, postId); 	
+						Msg msg = serviceUser.addConference(user, conferenceId); 	
 							
 						// se l'add è andato a buon fine		
 						if(msg.getResult()) { 
@@ -108,7 +103,7 @@ public class AddPostServlet extends HttpServlet{
 						
 						
 						//redirect a index
-						RequestDispatcher dis = request.getRequestDispatcher("articles"+articlesPage+".jsp"); 
+						RequestDispatcher dis = request.getRequestDispatcher("conferences"+conferencePage+".jsp"); 
 						
 						dis.forward(request, response);
 	 
@@ -125,7 +120,7 @@ public class AddPostServlet extends HttpServlet{
 							request.setAttribute("infoMsg", msg); 
 							 
 							
-							RequestDispatcher dis = request.getRequestDispatcher("articles"+articlesPage+".jsp"); 
+							RequestDispatcher dis = request.getRequestDispatcher("conferences"+conferencePage+".jsp"); 
 							
 							dis.forward(request, response);
 		 

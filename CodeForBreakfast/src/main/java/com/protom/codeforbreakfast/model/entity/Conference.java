@@ -8,31 +8,34 @@ public class Conference {
 	private String title;
 	private String link;
 	private String linkImg;
+	private String linkImgSmall;
 	private Date data;
 	private Date dataConference;
 	private String timeOfConference;
 	private int page;
 	
 	
-	public Conference(String title, String link, String linkImg, Date data, Date dataConference,
+	public Conference(String title, String link, String linkImg, String linkImgSmall,  Date data, Date dataConference,
 			String timeOfConference, int page) {
 		super();
 		this.title = title;
 		this.link = link;
 		this.linkImg = linkImg;
+		this.linkImgSmall = linkImgSmall;
 		this.data = data;
 		this.dataConference = dataConference;
 		this.timeOfConference = timeOfConference;
 		this.page = page;
 	}
 	
-	public Conference(int id, String title, String link, String linkImg, Date data, Date dataConference,
+	public Conference(int id, String title, String link, String linkImg, String linkImgSmall, Date data, Date dataConference,
 			String timeOfConference, int page) {
 		super();
 		this.id=id;
 		this.title = title;
 		this.link = link;
 		this.linkImg = linkImg;
+		this.linkImgSmall = linkImgSmall;
 		this.data = data;
 		this.dataConference = dataConference;
 		this.timeOfConference = timeOfConference;
@@ -78,6 +81,15 @@ public class Conference {
 
 	public void setLinkImg(String linkImg) {
 		this.linkImg = linkImg;
+	}
+	
+	public String getLinkImgSmall() {
+		return linkImgSmall;
+	}
+
+
+	public void setLinkImgSmall(String linkImgSmall) {
+		this.linkImgSmall = linkImgSmall;
 	}
 
 

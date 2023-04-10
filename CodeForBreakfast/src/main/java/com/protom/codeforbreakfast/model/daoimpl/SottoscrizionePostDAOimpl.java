@@ -31,8 +31,8 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 			PreparedStatement ps;
 
 				ps = dbConnection.getConnection().prepareStatement(
-						"INSERT INTO sottoscrizione_post(position, user_username, user_password, post_id) VALUES ('"
-								+ sottoscrizioneP.getPosition() + "', '" + sottoscrizioneP.getUsername() + "','" + sottoscrizioneP.getPassword()+ "','"
+						"INSERT INTO sottoscrizione_post(position, user_username, post_id) VALUES ('"
+								+ sottoscrizioneP.getPosition() + "', '" + sottoscrizioneP.getUsername() +"','"
 								+ sottoscrizioneP.getPost().getId() + "');");
 				System.out.println(ps.executeUpdate() + "Log: sottoscrizione Post inserted");
 				
@@ -60,7 +60,7 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 		
 		try {
 			 
-			String query = "UPDATE sottoscrizione_post SET position='"+sottoscrizioneP.getPosition()+"', user_username='"+sottoscrizioneP.getUsername()+"',user_password='"+sottoscrizioneP.getPassword()+"', "
+			String query = "UPDATE sottoscrizione_post SET position='"+sottoscrizioneP.getPosition()+"', user_username='"+sottoscrizioneP.getUsername()+"', "
 					+ "post_id='"+sottoscrizioneP.getPost().getId()+  
 					"' WHERE id = " + sottoscrizioneP.getId();
 			
@@ -104,12 +104,12 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 	}
 
 	@Override
-	public ArrayList<SottoscrizionePost> readSottoscrizionePostOfUser(String username, String password) {
+	public ArrayList<SottoscrizionePost> readSottoscrizionePostOfUser(String username) {
 		ArrayList<SottoscrizionePost> sottoscrizioniPostList= new ArrayList<>(6);
 		ResultSet rs; 
 		
 		try {
-		String query = "SELECT * FROM sottoscrizione_post WHERE user_username = '" + username+"' AND user_password='"+password+"'ORDER BY position;"; 
+		String query = "SELECT * FROM sottoscrizione_post WHERE user_username = '" + username+"' ORDER BY position;"; 
 		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 		
 		
@@ -119,14 +119,13 @@ public class SottoscrizionePostDAOimpl implements SottoscrizionePostDAO {
 
 			int idSottoscrizionePostFromDB = rs.getInt("id");
 			String userUsernameFromDB = rs.getString("user_username");
-			String userPasswordFromDB = rs.getString("user_password");
 			int idPostFromDB = rs.getInt("post_id");
 			int positionFromDB= rs.getInt("position"); 
 			
 			PostDAO postDao = new PostDAOimpl(dbConnection);
 			Post postFromDB = postDao.readPost(idPostFromDB);
 			//String dateString = dataImmatricolazione.toString();
-			SottoscrizionePost sottoscrizionePost = new SottoscrizionePost(idSottoscrizionePostFromDB, userUsernameFromDB, userPasswordFromDB, postFromDB,positionFromDB);
+			SottoscrizionePost sottoscrizionePost = new SottoscrizionePost(idSottoscrizionePostFromDB, userUsernameFromDB, postFromDB,positionFromDB);
 
 			sottoscrizioniPostList.add(sottoscrizionePost);
 			

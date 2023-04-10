@@ -16,6 +16,7 @@ import com.protom.codeforbreakfast.model.entity.Msg;
 import com.protom.codeforbreakfast.model.entity.Post;
 import com.protom.codeforbreakfast.model.entity.User;
 import com.protom.codeforbreakfast.service.ServiceConference;
+import com.protom.codeforbreakfast.service.ServiceMsg;
 import com.protom.codeforbreakfast.service.ServicePost;
 import com.protom.codeforbreakfast.service.ServiceUser;
  
@@ -51,7 +52,9 @@ public class LoginServlet extends HttpServlet{
 				 
 				//Fase 2
 			 
-				ServiceUser serviceUser = new ServiceUser();  
+				ServiceUser serviceUser = new ServiceUser(); 
+				
+				ServiceMsg serviceMsg = new ServiceMsg(); 
 				
 				serviceUser.avviaConnessione();
 				
@@ -75,10 +78,12 @@ public class LoginServlet extends HttpServlet{
 				HttpSession currentSession = request.getSession();
 				currentSession.setMaxInactiveInterval(10*60); 
 				currentSession.setAttribute("user", user);
-				 
- 				 
-				 
 				
+				serviceMsg.verifyStatus();
+				
+				Msg msg = serviceMsg.getMsg();
+				 
+				currentSession.setAttribute("infoMsg", msg); 
 				
 				//redirect a index
 				response.sendRedirect("index.jsp"); 

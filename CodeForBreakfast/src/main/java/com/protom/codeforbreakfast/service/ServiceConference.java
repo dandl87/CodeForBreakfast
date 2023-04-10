@@ -1,13 +1,10 @@
 package com.protom.codeforbreakfast.service;
-
-import java.sql.Connection;
-import java.util.ArrayList;
+ 
 
 import com.protom.codeforbreakfast.dbconnections.DbConnectionMySql;
 import com.protom.codeforbreakfast.model.dao.ConferenceDAO;
 import com.protom.codeforbreakfast.model.daoimpl.ConferenceDAOimpl;
-import com.protom.codeforbreakfast.model.entity.Conference;
-import com.protom.codeforbreakfast.model.entity.User; 
+import com.protom.codeforbreakfast.model.entity.Conference; 
 
 public class ServiceConference {
 	
@@ -32,6 +29,11 @@ public class ServiceConference {
 		
 	}
 	
+	public Conference cercaConference(int conferenceId) {
+		Conference conference = conferenceDAO.readConference(conferenceId);
+		return conference;
+		
+	}
 	 
  
 //	public boolean insertNewPost(Post post) {

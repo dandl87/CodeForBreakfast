@@ -6,8 +6,7 @@
     <%@ page import="java.util.ArrayList"%>
     <%@ page import="com.protom.codeforbreakfast.model.entity.Conference"%>
      <%@ page import="com.protom.codeforbreakfast.dbconnections.DbConnectionMySql"%>
-   
-   
+  
 	  <!DOCTYPE >
 		<html lang="en">
 			<head>
@@ -40,7 +39,7 @@
                         <a href="#" class="list-link current">Home</a>
                     </li>
                     <li class="list-item">
-                        <a href="conferences.jsp" class="list-link">Conferences</a>
+                        <a href="conferences1.jsp" class="list-link">Conferences</a>
                     </li>
                     <li class="list-item">
                         <a href="articles1.jsp" class="list-link">Articles</a>
@@ -83,7 +82,7 @@
                 </button>
 
                 <!-- Log Out Icon -->
-                    <a href="http://localhost:8086/CodeForBreakfast/logout">
+                    <a href="http://192.168.1.109:8086/CodeForBreakfast/logout">
                         <button class="btn" id="logout-button">
                             <i class="ri-logout-circle-r-line"></i>
                         </button>
@@ -104,7 +103,7 @@
 
         <div class="form-container-inner">
 
-           <form action="http://localhost:8086/CodeForBreakfast/login" class="form" method="post">
+           <form action="http://192.168.1.109:8086/CodeForBreakfast/login" class="form" method="post">
            <input class="form-input" type="text" placeholder="username" name="username">
            <input class="form-input" type="text" placeholder="password" name="password">
              <button class="btn form-btn" type="submit">
@@ -156,7 +155,7 @@
                 <div class="headline-banner">
                     <h3 class="headline fancy-border">
                     
-                    <!--  console UserArea -->
+                     <!--  console UserArea -->
                     	 <c:choose>
 							<c:when test="${user.username!=null}"> <span class="place-items-center"> <c:out value="${user.username }"/></span>
 							</c:when>  
@@ -166,14 +165,21 @@
                      
                     </h3>
                     <!--  console Msg Area  -->
-                    <c:choose>
-							<c:when test="${user.username!=null && infoMsg==null}"> <span class="headline-description">Welcome back <c:out value="${user.name }"/></span>
-							</c:when> 
-							<c:when test="${infoMsg!=null}"> <span class="headline-description"><c:out value="${infoMsg.getMessage() }"/></span>
-							</c:when>
-							<c:otherwise> <span class="headline-description"> Welcome to a world made of code and coffee</span>
-							</c:otherwise>
-						</c:choose>
+                    <span class="headline-description"> 
+                   
+							 <c:choose>
+								<c:when test="${user==null}"> 
+									Welcome to a world made of code & coffee
+								</c:when>
+								<c:otherwise>
+									<c:out value="${infoMsg.getMessage() }"/>
+								</c:otherwise>
+							</c:choose>	
+							</span>
+							 
+							
+						
+						
                     <!--  <span class="headline-description">My articles</span> -->
                 </div>
                 
@@ -186,7 +192,7 @@
                         <c:set var="countInsert" scope="session" value="${countInsert+1}"/>
                         
 
-                        <!-- Posts -->
+                        <!-- Articles -->
                        
 
                             <div class="article featured-article featured-article-${user.getSottoscrizioniPost().get(count).getPosition()}">
@@ -201,7 +207,7 @@
                                         <!-- remove function-->
 
                                         <c:set var="titleURL">
-							               <c:url value="http://localhost:8086/CodeForBreakfast/removePost" > 
+							               <c:url value="http://192.168.1.109:8086/CodeForBreakfast/removePost" > 
 							                  <c:param name="postId" value="${sottoscrizione.getPost().getId()}"/>   
 							                </c:url>  
 							           </c:set>
@@ -231,7 +237,7 @@
             </div>
             
             <!-- Conferences Right Nav-->
-            <div class="sidebar d-grid">
+             <div class="sidebar d-grid">
 
                 <h3 class="title featured-content-title">Your Conferences</h3>
 
@@ -242,33 +248,44 @@
                   <c:set var="count" scope="session" value="${count+1}"/>
                       
                        <!-- Conferences -->
-                         <a href="${conferenceSubscription.getConference().getLink()}" class="trending-news-box">
+                         <div href="${conferenceSubscription.getConference().getLink()}" class="trending-news-box">
                              <div class="trending-news-img-box">
                                 <span class="trending-number place-items-center"><c:out value="${count}" /></span>
-                                <img src="${conferenceSubscription.getConference().getLinkImg()}" alt="" class="article-image">
+                                <a href="http://www.google.com""> <img src="${conferenceSubscription.getConference().getLinkImgSmall()}" alt="" class="article-image"> </a>
                               </div>
                               
-                         <div class="trending-news-data">
+                         	<div class="trending-news-data">
 
                             <div class="article-data"> 
-                               <span><c:out value="${conferenceSubscription.getConference().getData()}" /></span>
-                                <span class="article-data-spacer"></span>
-                                <span><c:out value="${conferenceSubscription.getConference().getDataConference()}" /></span>
+                            
+                            
+                            <!--  remove Conference -->
+                            <c:set var="titleURL1">
+		                    	<c:url value="http://192.168.1.109:8086/CodeForBreakfast/removeConference" >
+		                    		<c:param name="conferenceId" value="${conferenceSubscription.getConference().getId()}"/>
+		                    		<c:param name="conferencesPage" value="${1}"/> 
+		                    	</c:url>
+		 					</c:set>		                                                         
+							 
+							<button class="btn" id="remove-button" onClick="callServletWithAjax('${titleURL1}')">
+								<i class="ri-delete-bin-line"></i>
+							</button> 
+							 
+							
+							<span class="article-data-spacer"></span> 
+                            
+                               
+                                
                                 <span><c:out value="${conferenceSubscription.getConference().getTimeOfConference()}" /> </span>
 
                            </div>
 
                          <h3 class="title article-title"><c:out value="${conferenceSubscription.getConference().getTitle()}" /></h3>
-
+						
                         </div>
-                  </a>
+                  </div>
    
-                 </c:forEach>
-
-
-
- 
-
+                 </c:forEach> 
             </div>
 
         </div>
@@ -651,5 +668,30 @@
     <script src="./assets/js/swiper-bundle.min.js"></script>
     <!-- Custom script -->
     <script src="./assets/js/main.js"></script>
+    
+     <script type="text/javascript"> 
+    function callServletWithAjax(urlTitle){ 
+        console.log(urlTitle); 
+        
+         
+		 
+    			var xmlHttp = new XMLHttpRequest();
+    			
+    			xmlHttp.onload = function(urlTitle){ 
+    		       	document.location.reload();   
+            		    }
+        			  
+ 
+    			xmlHttp.open('POST',urlTitle,true);
+    	    	xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    	    	xmlHttp.send(urlTitle.params); 
+		       
+    	    	
+				}
+
+ 
+    </script>
+    
+    
 </body>
 </html>

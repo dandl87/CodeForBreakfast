@@ -1,6 +1,5 @@
 package com.protom.codeforbreakfast.model.daoimpl;
 
-import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,16 +43,16 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 			rs.next();
 
 			int idFromDB= rs.getInt("id");
-			String titleFromDB =rs.getString("titolo");
-			String linkFromDB = rs.getString("link");
-			String linkImgFromDB = rs.getString("link_img");
-			 
-			Date dateFromDB = rs.getDate("data");
-			Date dateConfFromDB = rs.getDate("data_conf");
-			String tempoConfFromDB = rs.getString("tempo_conf");
-			int pageFromDB= rs.getInt("page");
+			String title =rs.getString("titolo");
+			String link = rs.getString("link");
+			String linkImg = rs.getString("link_img");
+			String linkImgSmall = rs.getString("link_img_small");			 
+			Date date = rs.getDate("data");
+			Date dateConf = rs.getDate("data_conf");
+			String tempoConf = rs.getString("tempo_conf");
+			int page= rs.getInt("page");
 			
-			Conference conferenceFromDB = new Conference(idFromDB,titleFromDB,linkFromDB,linkImgFromDB, dateFromDB, dateConfFromDB,tempoConfFromDB, pageFromDB); 
+			Conference conferenceFromDB = new Conference(idFromDB,title,link,linkImg,linkImgSmall, date, date,tempoConf, page); 
 			return conferenceFromDB;
 			
 		} catch (SQLException e) {
@@ -81,16 +80,16 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 		while (rs.next()) {
 
 			int idFromDB= rs.getInt("id");
-			String titleFromDB =rs.getString("titolo");
-			String linkFromDB = rs.getString("link");
-			String linkImgFromDB = rs.getString("link_img");
-			 
-			Date dateFromDB = rs.getDate("data");
-			Date dateConfFromDB = rs.getDate("data_conf");
-			String tempoConfFromDB = rs.getString("tempo_conf");
-			int pageFromDB= rs.getInt("page");
+			String title =rs.getString("titolo");
+			String link = rs.getString("link");
+			String linkImg = rs.getString("link_img");
+			String linkImgSmall = rs.getString("link_img_small");
+			Date date = rs.getDate("data");
+			Date dateConf = rs.getDate("data_conf");
+			String tempoConf = rs.getString("tempo_conf");
+			int page= rs.getInt("page");
 			
-			Conference conferenceFromDB = new Conference(idFromDB,titleFromDB,linkFromDB,linkImgFromDB, dateFromDB, dateConfFromDB,tempoConfFromDB,pageFromDB); 
+			Conference conferenceFromDB = new Conference(idFromDB,title,link,linkImg,linkImgSmall, date, dateConf,tempoConf,page); 
 
 			listOfAllConferences.add(conferenceFromDB);
 		}
@@ -131,13 +130,14 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 		
 		while (rs.next()) {
 
-			int idPostFromDB = rs.getInt("id");
-			String titleFromDB = rs.getString("titolo");
-			String linkFromDB = rs.getString("link");
-			String linkImgFromDB = rs.getString("link_img"); 
-			Date dateFromDB= rs.getDate("data");
-			Date dateConfFromDB= rs.getDate("data_conf");
-			String durationConfFromDB= rs.getString("tempo_conf");
+			int idPost = rs.getInt("id");
+			String title = rs.getString("titolo");
+			String link = rs.getString("link");
+			String linkImg = rs.getString("link_img");
+			String linkImgSmall = rs.getString("link_img_small");
+			Date date= rs.getDate("data");
+			Date dateConf= rs.getDate("data_conf");
+			String durationConf= rs.getString("tempo_conf");
 			int pageFromDB = rs.getInt("page");
 			
 			
@@ -146,7 +146,7 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 			 
 			
 			//String dateString = dataImmatricolazione.toString();
-			Conference conference = new Conference(idPostFromDB, titleFromDB, linkFromDB, linkImgFromDB, dateFromDB, dateConfFromDB, durationConfFromDB, pageFromDB);
+			Conference conference = new Conference(idPost, title, link, linkImg,linkImgSmall, date, dateConf, durationConf, pageFromDB);
 
 			listOfAllConferences.add(conference);
 		}

@@ -5,6 +5,12 @@
     <%@ page import="java.util.ArrayList"%>
     <%@ page import="com.protom.codeforbreakfast.model.entity.User"%>
     <%@ page import="com.protom.codeforbreakfast.dbconnections.DbConnectionMySql"%>
+    
+     <%   if(session.getAttribute("user")==null)
+   			 response.sendRedirect("index.jsp"); 
+	 %>
+	 
+	 
     <!DOCTYPE >
 <html lang="en">
 <head>
@@ -37,7 +43,7 @@
                         <a href="index.jsp" class="list-link">Home</a>
                     </li>
                     <li class="list-item">
-                        <a href="conferences.jsp" class="list-link">Conferences</a>
+                        <a href="conferences1.jsp" class="list-link">Conferences</a>
                     </li>
                     <li class="list-item">
                         <a href="articles1.jsp" class="list-link">Articles</a>
@@ -80,7 +86,7 @@
                 </button>
 
                 <!-- Log Out Icon -->
-                    <a href="http://localhost:8086/CodeForBreakfast/logout">
+                    <a href="http://192.168.1.109:8086/CodeForBreakfast/logout">
                         <button class="btn" id="logout-button">
                             <i class="ri-logout-circle-r-line"></i>
                         </button>
@@ -100,7 +106,7 @@
 
         <div class="form-container-inner">
 
-           <form action="http://localhost:8086/CodeForBreakfast/login" class="form" method="post">
+           <form action="http://192.168.1.109:8086/CodeForBreakfast/login" class="form" method="post">
            <input class="form-input" type="text" placeholder="username" name="username">
            <input class="form-input" type="text" placeholder="password" name="password">
              <button class="btn form-btn" type="submit">
@@ -158,15 +164,23 @@
 						</c:choose>
                      
                     </h3>
-                    <!--  console Msg Area  -->
-                    <c:choose>
-							<c:when test="${user.username!=null}"> <span class="headline-description">Welcome back <c:out value="${user.name }"/></span>
-							</c:when> 
-							<c:when test="${errorMsg!=null}"> <span class="headline-description"><c:out value="${errorMsg }"/></span>
-							</c:when>
-							<c:otherwise> <span class="headline-description"> Welcome to a world made of code & coffee</span>
-							</c:otherwise>
-						</c:choose>
+              <!--  console Msg Area  -->
+                    <span class="headline-description"> 
+                   
+							 <c:choose>
+								<c:when test="${user==null}"> 
+									Welcome to a world made of code & coffee
+								</c:when>
+								<c:otherwise>
+									<c:out value="${infoMsg.getMessage() }"/>
+								</c:otherwise>
+							</c:choose>	
+							</span>
+							 
+						
+						
+						
+						
                     <!--  <span class="headline-description">My articles</span> -->
                 </div>
                 
