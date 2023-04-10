@@ -6,39 +6,48 @@ public class Conference {
 	
 	private int id;
 	private String title;
+	private String speaker;
+	private String subTitle;
 	private String link;
 	private String linkImg;
 	private String linkImgSmall;
 	private Date data;
 	private Date dataConference;
 	private String timeOfConference;
+	private String description;
 	private int page;
 	
 	
-	public Conference(String title, String link, String linkImg, String linkImgSmall,  Date data, Date dataConference,
-			String timeOfConference, int page) {
+	public Conference(String title, String speaker, String subTitle, String link, String linkImg, String linkImgSmall,  Date data, Date dataConference,
+			String timeOfConference, String description, int page) {
 		super();
 		this.title = title;
+		this.speaker = speaker;
+		this.subTitle = subTitle;
 		this.link = link;
 		this.linkImg = linkImg;
 		this.linkImgSmall = linkImgSmall;
 		this.data = data;
 		this.dataConference = dataConference;
 		this.timeOfConference = timeOfConference;
+		this.description = description;
 		this.page = page;
 	}
 	
-	public Conference(int id, String title, String link, String linkImg, String linkImgSmall, Date data, Date dataConference,
-			String timeOfConference, int page) {
+	public Conference(int id, String title, String speaker,  String subTitle, String link, String linkImg, String linkImgSmall, Date data, Date dataConference,
+			String timeOfConference, String description, int page) {
 		super();
 		this.id=id;
 		this.title = title;
+		this.speaker = speaker;
+		this.subTitle = subTitle;
 		this.link = link;
 		this.linkImg = linkImg;
 		this.linkImgSmall = linkImgSmall;
 		this.data = data;
 		this.dataConference = dataConference;
 		this.timeOfConference = timeOfConference;
+		this.description=description;
 		this.page=page;
 	}
 
@@ -63,6 +72,22 @@ public class Conference {
 		this.title = title;
 	}
 
+
+	public String getSpeaker() {
+		return speaker;
+	}
+
+	public void setSpeaker(String speaker) {
+		this.speaker = speaker;
+	}
+
+	public String getSubTitle() {
+		return subTitle;
+	}
+
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
+	}
 
 	public String getLink() {
 		return link;
@@ -123,6 +148,15 @@ public class Conference {
 	}
 
 	
+	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public int getPage() {
 		return page;
 	}
@@ -133,8 +167,8 @@ public class Conference {
 
 	@Override
 	public String toString() {
-		return "Conference [id=" + this.id + ", titolo=" + this.title + ", link=" + this.link + ", linkImg=" + this.linkImg + ", data="
-				+ this.data + ", dataConference=" + this.dataConference + ", timeOfConference=" + this.timeOfConference + " page="+this.page+"]";
+		return "Conference [id=" + this.id + ", titolo=" + this.title + ", speaker ="+this.speaker+", subTitle="+this.subTitle+", link=" + this.link + ", linkImg=" + this.linkImg + ", data="
+				+ this.data + ", dataConference=" + this.dataConference + ", timeOfConference=" + this.timeOfConference + ", description= "+this.description+", page="+this.page+"]";
 	}
 	
 	

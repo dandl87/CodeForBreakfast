@@ -226,7 +226,7 @@
                                         
                                        
                                     </div>
-                                        <h3 class="title article-title">${sottoscrizione.getPost().getTitle()}</h3>
+                                       <a href="${sottoscrizione.getPost().getLink()}" ><h3 class="title article-title">${sottoscrizione.getPost().getTitle()}</h3> </a>
 
                                 </div>
                             </div> 
@@ -251,7 +251,7 @@
                          <div href="${conferenceSubscription.getConference().getLink()}" class="trending-news-box">
                              <div class="trending-news-img-box">
                                 <span class="trending-number place-items-center"><c:out value="${count}" /></span>
-                                <a href="http://www.google.com""> <img src="${conferenceSubscription.getConference().getLinkImgSmall()}" alt="" class="article-image"> </a>
+                                <a href="${conferenceSubscription.getConference().getLink()}"> <img src="${conferenceSubscription.getConference().getLinkImgSmall()}" alt="" class="article-image"> </a>
                               </div>
                               
                          	<div class="trending-news-data">
@@ -535,29 +535,7 @@
         </div>
     </section>
 
-    <!-- Newsletter -->
-    <section class="newsletter section">
-
-        <div class="container">
-
-            <h2 class="title section-title" data-name="Newsletter">Newsletter</h2>
-
-            <div class="form-container-inner">
-                <h6 class="title newsletter-title">Subscribe to NewsFlash</h6>
-                <p class="newsletter-description">Lorem ipsum dolor sit amet consectetur adipisicing quaerat dignissimos.</p>
-
-                <form action="" class="form">
-                    <input class="form-input" type="text" placeholder="Enter your email address">
-                    <button class="btn form-btn" type="submit">
-                        <i class="ri-mail-send-line"></i>
-                    </button>
-                </form>
-
-            </div>
-
-        </div>
-
-    </section>
+    
 
     <!-- Footer -->
     <footer class="footer section">
@@ -584,8 +562,7 @@
                         <a href="#" class="list-link"><i class="ri-pinterest-line"></i></a>
                     </li>
                 </ul>
-
-                <span class="copyright-notice">&copy;2023 Code for Breakfast. All rights reserved.</span>
+                <span class="copyright-notice">&copy;2023 CodeforBreakfast. All rights reserved.</span>
             </div>
 
             <div>

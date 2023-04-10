@@ -44,14 +44,18 @@ public class PostDAOimpl implements PostDAO {
 			rs.next();
 
 			int idFromDB= rs.getInt("id");
-			String titleFromDB =rs.getString("titolo");
-			String linkFromDB = rs.getString("link");
-			String linkImgFromDB = rs.getString("link_img");
-			String categoryFromDB = rs.getString("categoria");
-			Date dateFromDB = rs.getDate("data");
-			int pageFromDB = rs.getInt("page");
-			Post postFromDB = new Post(idFromDB,titleFromDB,linkFromDB,linkImgFromDB, categoryFromDB, dateFromDB,pageFromDB); 
-			return postFromDB;
+			String title =rs.getString("titolo");
+			String subTitle =rs.getString("sotto_titolo");
+			String link = rs.getString("link");
+			String linkImg = rs.getString("link_img");
+			String linkImgSmall = rs.getString("link_img_small");
+			String category = rs.getString("categoria");
+			Date date = rs.getDate("data");
+			String description = rs.getString("descrizione");
+			int page = rs.getInt("page");
+			
+			Post post = new Post(idFromDB, title, subTitle, link, linkImg, linkImgSmall, category, date, description, page ); 
+			return post;
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block 
@@ -87,13 +91,16 @@ public class PostDAOimpl implements PostDAO {
 		
 		while (rs.next()) {
 
-			int idPostFromDB = rs.getInt("id");
-			String titleFromDB = rs.getString("titolo");
-			String linkFromDB = rs.getString("link");
-			String linkImgFromDB = rs.getString("link_img");
-			String categoryFromDB = rs.getString("categoria");
-			Date dateFromDB= rs.getDate("data");
-			int pageFromDB = rs.getInt("page");
+			int idPost = rs.getInt("id");
+			String title = rs.getString("titolo");
+			String subTitle =rs.getString("sotto_titolo");
+			String link = rs.getString("link");
+			String linkImg = rs.getString("link_img");
+			String linkImgSmall = rs.getString("link_img_small");
+			String category = rs.getString("categoria");
+			Date date= rs.getDate("data");
+			String description = rs.getString("descrizione");
+			int page = rs.getInt("page");
 			
 			
 			 
@@ -101,7 +108,7 @@ public class PostDAOimpl implements PostDAO {
 			 
 			
 			//String dateString = dataImmatricolazione.toString();
-			Post post = new Post(idPostFromDB, titleFromDB, linkFromDB, linkImgFromDB, categoryFromDB, dateFromDB, pageFromDB);
+			Post post = new Post(idPost, title, subTitle, link, linkImg, linkImgSmall, category, date,description, page);
 
 			listOfAllPosts.add(post);
 		}
@@ -130,12 +137,15 @@ public class PostDAOimpl implements PostDAO {
 		
 		while (rs.next()) {
 
-			int idPostFromDB = rs.getInt("id");
-			String titleFromDB = rs.getString("titolo");
-			String linkFromDB = rs.getString("link");
-			String linkImgFromDB = rs.getString("link_img");
-			String categoryFromDB = rs.getString("categoria");
-			Date dateFromDB= rs.getDate("data");
+			int idPost = rs.getInt("id");
+			String title = rs.getString("titolo");
+			String subTitle =rs.getString("sotto_titolo");
+			String link = rs.getString("link");
+			String linkImg = rs.getString("link_img");
+			String linkImgSmall = rs.getString("link_img_small");
+			String category = rs.getString("categoria");
+			Date date= rs.getDate("data");
+			String description = rs.getString("descrizione");
 			int pageFromDB = rs.getInt("page");
 			
 			
@@ -144,7 +154,7 @@ public class PostDAOimpl implements PostDAO {
 			 
 			
 			//String dateString = dataImmatricolazione.toString();
-			Post post = new Post(idPostFromDB, titleFromDB, linkFromDB, linkImgFromDB, categoryFromDB, dateFromDB, pageFromDB);
+			Post post = new Post(idPost, title, subTitle, link, linkImg, linkImgSmall, category, date, description, pageFromDB);
 
 			listOfAllPosts.add(post);
 		}

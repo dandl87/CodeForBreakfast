@@ -7,36 +7,45 @@ public class Post {
 	
 	private int id;
 	private String title;
+	private String subTitle;	
 	private String link;
 	private String linkImg;
+	private String linkImgSmall;
 	private String category;
 	private Date data;
-	private int page;
+	private String description;
+	private int page; 
 	private ArrayList<SottoscrizionePost> listOfSubcriptions;
 	
 	
 	//costruttore per la creazione di post
-	public Post(String title, String link, String linkImg, String category, Date data, int page) {
+	public Post(String title, String subTitle, String link, String linkImg, String linkImgSmall, String category, Date data, String description, int page) {
 		super(); 
 		this.title = title;
+		this.subTitle = subTitle;
 		this.link = link;
 		this.linkImg = linkImg;
+		this.linkImgSmall = linkImgSmall;
 		this.category = category;
 		this.data = data;
-		this.page=page;
+		this.description=description;
+		this.page=page; 
 		this.listOfSubcriptions= new ArrayList<>();
 	}
 	
 	//costruttore per il prelievo di post
-		public Post(int id, String title, String link, String linkImg, String category, Date data, int page) {
+		public Post(int id, String title, String subTitle, String link, String linkImg,String linkImgSmall, String category, Date data, String description, int page) {
 			super();
 			this.id=id;
 			this.title = title;
+			this.subTitle = subTitle;
 			this.link = link;
 			this.linkImg = linkImg;
+			this.linkImgSmall = linkImgSmall;
 			this.category = category;
 			this.data = data;
-			this.page=page;
+			this.description=description;
+			this.page=page; 
 			this.listOfSubcriptions= new ArrayList<>();
 		}
 
@@ -60,6 +69,15 @@ public class Post {
 		this.title = title;
 	}
 
+	
+
+	public String getSubTitle() {
+		return subTitle;
+	}
+
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
+	}
 
 	public String getLink() {
 		return link;
@@ -80,6 +98,14 @@ public class Post {
 		this.linkImg = linkImg;
 	}
 
+
+	public String getLinkImgSmall() {
+		return linkImgSmall;
+	}
+
+	public void setLinkImgSmall(String linkImgSmall) {
+		this.linkImgSmall = linkImgSmall;
+	}
 
 	public String getCategory() {
 		return category;
@@ -108,6 +134,14 @@ public class Post {
 	public void setPage(int page) {
 		this.page = page;
 	}
+ 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public ArrayList<SottoscrizionePost> getListOfSubcriptions() {
 		return listOfSubcriptions;
@@ -121,8 +155,8 @@ public class Post {
 
 	@Override
 	public String toString() {
-		return "Post [id=" + this.id + ", titolo=" + this.title + ", link=" + this.link + ", linkImg=" + this.linkImg + ", category="
-				+ this.category + ", data=" + this.data + "pagina="+this.page+" number of subscriptions= "+this.listOfSubcriptions.size()+"]";
+		return "Post [id=" + this.id + ", titolo=" + this.title + ",subTitle="+this.subTitle+", link=" + this.link + ", linkImg=" + this.linkImg +", linkImgSmall="+this.linkImgSmall+ ", category="
+				+ this.category + ", data=" + this.data + ", description="+this.description+"+pagina="+this.page+", number of subscriptions= "+this.listOfSubcriptions.size()+"]";
 	} 
 	
 	

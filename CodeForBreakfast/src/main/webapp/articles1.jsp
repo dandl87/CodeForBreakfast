@@ -282,13 +282,8 @@
 	                                                        
 	                                                </div>
 	
-	                                                <h3 class="title article-title">${post.title}</h3>
-	                                                <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-	                                                    Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
-	                                                    Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
-	                                                    Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. Ut consequat velit metus, quis gravida ante semper a. 
-	                                                    Donec euismod mauris sed diam feugiat, blandit consequat lorem imperdiet. 
-	                                                    Phasellus lorem est, malesuada vel sapien consequat, ullamcorper rutrum eros.</h3>
+	                                                <h3 class="title article-title">${post.subTitle}</h3>
+	                                                <h3 class="article-info"> ${post.description}</h3>
 	
 	                                            </div>
 	                                        </a>
@@ -315,7 +310,7 @@
 	               			 <div href="${sottoscrizione.getPost().getLink()}" class="trending-news-box">
 	                            <div class="trending-news-img-box">
 	                                <span class="trending-number place-items-center"><c:out value="${sottoscrizione.getPosition()}" /></span>
-	                               <a href="http://www.google.com""> <img src="${sottoscrizione.getPost().getLinkImg()}" alt="" class="article-image"> </a>
+	                               <a href="http://www.google.com""> <img src="${sottoscrizione.getPost().getLinkImgSmall()}" alt="" class="article-image"> </a>
 	                            </div>
 	 
 	                 		 <div class="trending-news-data">

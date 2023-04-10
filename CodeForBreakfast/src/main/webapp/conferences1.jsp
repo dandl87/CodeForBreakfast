@@ -197,7 +197,7 @@
 	                      
 	                       <!-- Conferences  --> 
 	                        
-	                             <div  href="${conference.link}" class="article featured-article">
+	                             <div  class="article featured-article">
 	                             <img src="${conference.linkImg}" alt="" class="article-image"> 
 	 
 	                              <div class="article-data-container">
@@ -252,13 +252,14 @@
 	                                    
 	                                    <span>${conference.data}</span> 
 	                                	</div>
-	        
-	                                 	<h3 class="title article-title">${conference.title}</h3> 
+	                                	
+	       								<h6>${conference.speaker}</h6> 
+	                                 	<h6>${conference.subTitle}</h6> 
 	                                    </div>
 	                                    </div>
 	                                        
 	                                    <!-- info -->
-	                                    <a href="http://ww.google.com" class="article info-article">  
+	                                    <div  class="article info-article">  
 	                             
 	 
 	                         		 <div class="info-article-data-container">
@@ -268,14 +269,11 @@
 	                                     
 	                                </div>
 	 
-	                                <h3 class="title article-title"><c:out value = "${conference.title}" /></h3>
-	                                <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-	                                 Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
-	                                 Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
-	                                 Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. .</h3>
+	                                <a href="${conference.getLink()}" ><h3 class="title article-title"><c:out value = "${conference.title}" /></h3></a>
+	                                <h3 class="article-info"><c:out value = "${conference.description}" /> </h3>
 	 
 	                          </div>
-	                        </a>
+	                        </div>
 	                     
 	 
 	                 </c:forEach>
@@ -303,7 +301,9 @@
 	                         <div href="${conferenceSubscription.getConference().getLink()}" class="trending-news-box">
 	                             <div class="trending-news-img-box">
 	                                <span class="trending-number place-items-center"><c:out value="${count}" /></span>
-	                                <a href="http://www.google.com""> <img src="${conferenceSubscription.getConference().getLinkImgSmall()}" alt="" class="article-image"> </a>
+	                                <a href="${conferenceSubscription.getConference().getLink()}"> 
+	                                	<img src="${conferenceSubscription.getConference().getLinkImgSmall()}" alt="" class="article-image"> 
+	                                </a>
 	                              </div>
 	                              
 	                         	<div class="trending-news-data">
@@ -331,7 +331,7 @@
 	
 	                           </div>
 	
-	                         <h3 class="title article-title"><c:out value="${conferenceSubscription.getConference().getTitle()}" /></h3>
+	                         <h3 class="title article-title"><c:out value="${conferenceSubscription.getConference().getTitle()}" /></h3> 
 							
 	                        </div>
 	                  </div>

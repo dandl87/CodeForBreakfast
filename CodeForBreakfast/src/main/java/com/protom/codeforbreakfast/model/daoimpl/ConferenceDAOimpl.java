@@ -44,15 +44,18 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 
 			int idFromDB= rs.getInt("id");
 			String title =rs.getString("titolo");
+			String speaker =rs.getString("speaker");
+			String subTitle =rs.getString("sotto_titolo");
 			String link = rs.getString("link");
 			String linkImg = rs.getString("link_img");
 			String linkImgSmall = rs.getString("link_img_small");			 
 			Date date = rs.getDate("data");
 			Date dateConf = rs.getDate("data_conf");
 			String tempoConf = rs.getString("tempo_conf");
+			String description = rs.getString("descrizione");
 			int page= rs.getInt("page");
 			
-			Conference conferenceFromDB = new Conference(idFromDB,title,link,linkImg,linkImgSmall, date, date,tempoConf, page); 
+			Conference conferenceFromDB = new Conference(idFromDB, title, speaker, subTitle, link, linkImg, linkImgSmall, date, date, tempoConf, description, page); 
 			return conferenceFromDB;
 			
 		} catch (SQLException e) {
@@ -81,15 +84,18 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 
 			int idFromDB= rs.getInt("id");
 			String title =rs.getString("titolo");
+			String speaker =rs.getString("speaker");
+			String subTitle =rs.getString("sotto_titolo");
 			String link = rs.getString("link");
 			String linkImg = rs.getString("link_img");
 			String linkImgSmall = rs.getString("link_img_small");
 			Date date = rs.getDate("data");
 			Date dateConf = rs.getDate("data_conf");
 			String tempoConf = rs.getString("tempo_conf");
+			String description = rs.getString("descrizione");
 			int page= rs.getInt("page");
 			
-			Conference conferenceFromDB = new Conference(idFromDB,title,link,linkImg,linkImgSmall, date, dateConf,tempoConf,page); 
+			Conference conferenceFromDB = new Conference(idFromDB, title, speaker, subTitle, link, linkImg, linkImgSmall, date, dateConf, tempoConf, description, page); 
 
 			listOfAllConferences.add(conferenceFromDB);
 		}
@@ -132,12 +138,15 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 
 			int idPost = rs.getInt("id");
 			String title = rs.getString("titolo");
+			String speaker = rs.getString("speaker");
+			String subTitle =rs.getString("sotto_titolo");
 			String link = rs.getString("link");
 			String linkImg = rs.getString("link_img");
 			String linkImgSmall = rs.getString("link_img_small");
 			Date date= rs.getDate("data");
 			Date dateConf= rs.getDate("data_conf");
 			String durationConf= rs.getString("tempo_conf");
+			String description = rs.getString("descrizione");
 			int pageFromDB = rs.getInt("page");
 			
 			
@@ -146,7 +155,7 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 			 
 			
 			//String dateString = dataImmatricolazione.toString();
-			Conference conference = new Conference(idPost, title, link, linkImg,linkImgSmall, date, dateConf, durationConf, pageFromDB);
+			Conference conference = new Conference(idPost, title, speaker,  subTitle, link, linkImg,linkImgSmall, date, dateConf, durationConf,description, pageFromDB);
 
 			listOfAllConferences.add(conference);
 		}
