@@ -47,8 +47,8 @@ public class PostDAOimpl implements PostDAO {
 			String title =rs.getString("titolo");
 			String subTitle =rs.getString("sotto_titolo");
 			String link = rs.getString("link");
-			String linkImg = rs.getString("link_img");
-			String linkImgSmall = rs.getString("link_img_small");
+			String linkImg = rs.getString("link_img"); 
+			String linkImgSmall = rs.getString("link_img_small"); 
 			String category = rs.getString("categoria");
 			Date date = rs.getDate("data");
 			String description = rs.getString("descrizione");
@@ -96,7 +96,7 @@ public class PostDAOimpl implements PostDAO {
 			String subTitle =rs.getString("sotto_titolo");
 			String link = rs.getString("link");
 			String linkImg = rs.getString("link_img");
-			String linkImgSmall = rs.getString("link_img_small");
+			String linkImgSmall = rs.getString("link_img_small"); 
 			String category = rs.getString("categoria");
 			Date date= rs.getDate("data");
 			String description = rs.getString("descrizione");
@@ -108,7 +108,7 @@ public class PostDAOimpl implements PostDAO {
 			 
 			
 			//String dateString = dataImmatricolazione.toString();
-			Post post = new Post(idPost, title, subTitle, link, linkImg, linkImgSmall, category, date,description, page);
+			Post post = new Post(idPost, title, subTitle, link, linkImg,linkImgSmall, category, date,description, page);
 
 			listOfAllPosts.add(post);
 		}
@@ -141,8 +141,8 @@ public class PostDAOimpl implements PostDAO {
 			String title = rs.getString("titolo");
 			String subTitle =rs.getString("sotto_titolo");
 			String link = rs.getString("link");
-			String linkImg = rs.getString("link_img");
-			String linkImgSmall = rs.getString("link_img_small");
+			String linkImg = rs.getString("link_img"); 
+			String linkImgSmall = rs.getString("link_img_small"); 
 			String category = rs.getString("categoria");
 			Date date= rs.getDate("data");
 			String description = rs.getString("descrizione");
@@ -154,7 +154,7 @@ public class PostDAOimpl implements PostDAO {
 			 
 			
 			//String dateString = dataImmatricolazione.toString();
-			Post post = new Post(idPost, title, subTitle, link, linkImg, linkImgSmall, category, date, description, pageFromDB);
+			Post post = new Post(idPost, title, subTitle, link, linkImg,linkImgSmall, category, date, description, pageFromDB);
 
 			listOfAllPosts.add(post);
 		}

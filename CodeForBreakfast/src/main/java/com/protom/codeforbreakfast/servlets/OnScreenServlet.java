@@ -1,6 +1,7 @@
 package com.protom.codeforbreakfast.servlets;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -18,14 +19,14 @@ import com.protom.codeforbreakfast.service.ServiceMsg;
 import com.protom.codeforbreakfast.service.ServicePost;
 import com.protom.codeforbreakfast.service.ServiceUser;
 
-public class MoveDownServlet extends HttpServlet{
+public class OnScreenServlet extends HttpServlet{
 	
 	 /**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public MoveDownServlet() {
+		public OnScreenServlet() {
 		        super(); 
 		    }
 
@@ -42,33 +43,43 @@ public class MoveDownServlet extends HttpServlet{
 			 */
 			protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				 
-		 
-						
+				  		
+				  			
+			 
+						System.out.println("DEBUG ON SCREEN");
 						//Fase 1
 						 
-						int sPId = Integer.parseInt(request.getParameter("SottoscrizioneId"));
-						int articlesPage = Integer.parseInt(request.getParameter("articlesPage"));
+						String articleLink = request.getParameter("articleToView"); 
+						System.out.println("DEBUG ON SCREEN"+articleLink);
 						
 						//Fase 2
 					 
-						ServiceUser serviceUser = new ServiceUser();
-						ServiceMsg serviceMsg = new ServiceMsg();  
+						ServiceUser serviceUser = new ServiceUser();   
 						
-						
+						ServiceMsg serviceMsg = new ServiceMsg();   
+						 
 						HttpSession currentSession = request.getSession();
 						
-					 
+						
+						
 						User user = (User) currentSession.getAttribute("user"); 
 						
-						 
-						if(user!=null ) {
+						// se ho l'user
+						if(user!=null) {
 							
-						serviceUser.avviaConnessione();	
+						System.out.println(user);
 							
-						Msg msg = serviceUser.moveDownPost(user, sPId);
 							
-								
-						if(msg.getResult()) {
+						serviceUser.avviaConnessione();
+							
+							
+							
+						
+						serviceMsg.verifyStatus();
+						Msg msg = serviceMsg.getMsg();
+						
+						//  		
+						if(msg.getResult()) { 
 								
 						//invalido una sessione esistente
 						HttpSession pastSession = request.getSession(false);
@@ -84,16 +95,22 @@ public class MoveDownServlet extends HttpServlet{
 						currentSessionNew.setMaxInactiveInterval(10*60); 
 						currentSessionNew.setAttribute("user", userNew);
 						 
-		 				 
+						
 						serviceMsg.verifyStatus();
 						
 						msg = serviceMsg.getMsg();
-				 
+				
+						
+						
 						 
 						
 						//messaggio in console 
 						currentSessionNew.removeAttribute("infoMsg"); 
 						currentSessionNew.setAttribute("infoMsg", msg); 
+						
+						//articoloDaVisualizzare
+						currentSessionNew.removeAttribute("articleOnScreenInSession"); 
+						currentSessionNew.setAttribute("articleOnScreenInSession", articleLink); 
 						
 						
 						
@@ -107,10 +124,10 @@ public class MoveDownServlet extends HttpServlet{
 								 
 						
 						 
-						
+						// se l'onScreen non è andato a buon fine
 						}else { 					
 							 
-							 
+							
 							
 							request.setAttribute("infoMsg", msg); 
 							 
@@ -122,13 +139,14 @@ public class MoveDownServlet extends HttpServlet{
 						 
 							serviceUser.chiudiConnessione();
 		 
-						}
-				}else {
-				
-				request.setAttribute("infoMsg", new Msg(false, "Sorry, your session has expired"));
-				RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
-				dis.forward(request, response);  
-				}
+						} 
+						// l'user è null quindi la sessione è scaduta	
+					}else {
+					request.setAttribute("infoMsg", new Msg(false, "Sorry, your session has expired"));
+					RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
+					dis.forward(request, response);  
+
+					}
 			}
 
 }

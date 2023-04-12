@@ -18,14 +18,14 @@ import com.protom.codeforbreakfast.service.ServiceMsg;
 import com.protom.codeforbreakfast.service.ServicePost;
 import com.protom.codeforbreakfast.service.ServiceUser;
 
-public class MoveDownServlet extends HttpServlet{
+public class MoveDownFromArticleSectionServlet extends HttpServlet{
 	
 	 /**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public MoveDownServlet() {
+		public MoveDownFromArticleSectionServlet() {
 		        super(); 
 		    }
 
@@ -98,7 +98,7 @@ public class MoveDownServlet extends HttpServlet{
 						
 						
 						//redirect a index
-						RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
+						RequestDispatcher dis = request.getRequestDispatcher("articles"+articlesPage+".jsp"); 
 						
 						dis.forward(request, response);
 	 
@@ -115,7 +115,7 @@ public class MoveDownServlet extends HttpServlet{
 							request.setAttribute("infoMsg", msg); 
 							 
 							
-							RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
+							RequestDispatcher dis = request.getRequestDispatcher("articles"+articlesPage+".jsp"); 
 							
 							dis.forward(request, response);
 		 

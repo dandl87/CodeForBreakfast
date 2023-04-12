@@ -67,10 +67,7 @@
 	            </div>
 	
 	            <div class="list list-right">
-	                <button class="btn place-items-center" id="theme-toggle-btn">
-	                    <i class="ri-sun-line sun-icon"></i>
-	                    <i class="ri-moon-line moon-icon"></i>
-	                </button>
+	                
 	
 	                <!-- Search Icon-->
 	                <button class="btn place-items-center" id="search-icon">
@@ -206,7 +203,7 @@
 	                                    <!-- Articles --> 
 	
 	                                        <div  href="${post.link}" class="article featured-article">
-	                                        <img src="${post.linkImg}" alt="" class="article-image">
+	                                        <img src="${post.linkImg}.jpg" alt="" class="article-image">
 	                                            <span class="article-category">${post.category}</span> 
 	
 	                                            <div class="article-data-container">
@@ -271,7 +268,7 @@
 	                                        </div>
 	
 	                                        <!-- info -->
-	                                        <a href="http://ww.google.com" class="article info-article"> 
+	                                        <a href="${post.link }" class="article info-article"> 
 	                                            
 	
 	                                            <div class="info-article-data-container">
@@ -296,7 +293,7 @@
 	
 	            </div>
 	         
-	            <!-- you articles Nav Bar-->
+	            <!-- Your Articles Nav Bar-->
 	            <div class="sidebar d-grid">
 	
 	                <h3 class="title featured-content-title">Your Articles</h3>
@@ -307,10 +304,10 @@
 	                <c:forEach var="sottoscrizione" items="${user.getSottoscrizioniPost()}"> 
 	                 	
 	                 	 <!-- Posts -->
-	               			 <div href="${sottoscrizione.getPost().getLink()}" class="trending-news-box">
+	               			 <div class="trending-news-box">
 	                            <div class="trending-news-img-box">
 	                                <span class="trending-number place-items-center"><c:out value="${sottoscrizione.getPosition()}" /></span>
-	                               <a href="http://www.google.com""> <img src="${sottoscrizione.getPost().getLinkImgSmall()}" alt="" class="article-image"> </a>
+	                               <a href="${sottoscrizione.getPost().getLink()}"> <img src="${sottoscrizione.getPost().getLinkImgSmall()}" alt="" class="article-image"> </a>
 	                            </div>
 	 
 	                 		 <div class="trending-news-data">
@@ -330,14 +327,11 @@
 								<button class="btn" id="remove-button" onClick="callServletWithAjax('${titleURL1}')">
 									<i class="ri-delete-bin-line"></i>
 								</button> 
-								 
-								
-								<span class="article-data-spacer"></span> 
-	
+								  
 	                              <!-- arrow up function-->
 	                              	  <c:if test="${sottoscrizione.getPosition()!=1}">
 	                            	    <c:set var="titleURL2">
-					                    		<c:url value="http://192.168.1.109:8086/CodeForBreakfast/moveUpPost" >
+					                    		<c:url value="http://192.168.1.109:8086/CodeForBreakfast/moveUpFromArticlePost" >
 					                    			<c:param name="SottoscrizioneId" value="${sottoscrizione.getId()}"/>
 					                    			  <c:param name="articlesPage" value="${1}"/>   
 					                    		</c:url>
@@ -347,13 +341,17 @@
 											<i class="ri-arrow-up-circle-line"></i>
 		 								</button>
 		 								  
-									</c:if>        
+									</c:if>    
+									
+									<c:if test="${sottoscrizione.getPosition()==1 }">
+									<span class="article-data-spacer"></span> 
+                                    </c:if>    
 									
 	                            <!-- arrow down function-->
 	                            
 	                             	<c:if test="${sottoscrizione.getPosition()!=6}">
 	                            	    <c:set var="titleURL3">
-					                    		<c:url value="http://192.168.1.109:8086/CodeForBreakfast/moveDownPost" >
+					                    		<c:url value="http://192.168.1.109:8086/CodeForBreakfast/moveDownFromArticlePost" >
 					                    			<c:param name="SottoscrizioneId" value="${sottoscrizione.getId()}"/>
 					                    			  <c:param name="articlesPage" value="${1}"/>   
 					                    		</c:url>
@@ -363,7 +361,12 @@
 		                                		<i class="ri-arrow-down-circle-line"></i>
 		                            		</button> 
 		 								  
-									</c:if>  
+									</c:if>
+									
+									<c:if test="${sottoscrizione.getPosition()==6 }">
+									<span class="article-data-spacer"></span> 
+                                    </c:if>
+									  
 	                            </div>
 	
 	                        <h3 class="title article-title">${sottoscrizione.getPost().getTitle()}</h3>

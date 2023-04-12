@@ -81,9 +81,10 @@ public class LoginServlet extends HttpServlet{
 				
 				serviceMsg.verifyStatus();
 				
-				Msg msg = serviceMsg.getMsg();
+				Msg msg = serviceMsg.getMsg(); 
 				 
 				currentSession.setAttribute("infoMsg", msg); 
+				currentSession.setAttribute("articleOnScreenInSession", null); 
 				
 				//redirect a index
 				response.sendRedirect("index.jsp"); 

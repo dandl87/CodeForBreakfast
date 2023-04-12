@@ -65,11 +65,7 @@
 	            </div>
 	
 	            <div class="list list-right">
-	                <button class="btn place-items-center" id="theme-toggle-btn">
-	                    <i class="ri-sun-line sun-icon"></i>
-	                    <i class="ri-moon-line moon-icon"></i>
-	                </button>
-	
+	                 
 	                <!-- Search Icon-->
 	                <button class="btn place-items-center" id="search-icon">
 	                    <i class="ri-search-line"></i>
@@ -189,6 +185,7 @@
 	                 ServiceAllConferences service = new ServiceAllConferences();
 	                 ArrayList<Conference> allConferences = service.caricaAllConferencesOfPage(pageNumber);
 	                 request.setAttribute("conferences",allConferences);
+	                 request.setAttribute("page",pageNumber);
 	                 connection.chiudiConnessione();
 	                 %>
 	                 <c:set var="count" scope="session" value="${0}"/>
@@ -220,7 +217,7 @@
 		                              <c:set var="titleURL">
 		                              <c:url value="http://192.168.1.109:8086/CodeForBreakfast/addConference" >
 		                               	<c:param name="conferenceId" value="${conference.getId()}"/>
-		                              	<c:param name="conferencePage" value="${1}"/> 
+		                              	<c:param name="conferencePage" value="${page}"/> 
 		                              </c:url>
 		                              </c:set>
 		                                                        
@@ -235,7 +232,7 @@
 										<c:set var="titleURL">
 			                            <c:url value="http://192.168.1.109:8086/CodeForBreakfast/removeConferenceFromConference" >
 			                            <c:param name="conferenceId" value="${conference.getId()}"/>
-			                            <c:param name="conferencePage" value="${1}"/> 
+			                            <c:param name="conferencePage" value="${page}"/> 
 			                            </c:url>
 			                            </c:set> 
 			                                                         
@@ -315,7 +312,7 @@
 	                            <c:set var="titleURL1">
 			                    	<c:url value="http://192.168.1.109:8086/CodeForBreakfast/removeConferenceFromConference" >
 			                    		<c:param name="conferenceId" value="${conferenceSubscription.getConference().getId()}"/>
-			                    		<c:param name="conferencePage" value="${1}"/> 
+			                    		<c:param name="conferencePage" value="${page}"/> 
 			                    	</c:url>
 			 					</c:set>		                                                         
 								 

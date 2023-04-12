@@ -78,6 +78,16 @@
 		</servlet-mapping>
 		
 		<servlet>
+			<servlet-name>MoveUpFromArticleSectionServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.MoveUpFromArticleSectionServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping>
+			<servlet-name>MoveUpFromArticleSectionServlet</servlet-name>
+			<url-pattern>/moveUpFromArticlePost</url-pattern>
+		</servlet-mapping>
+		
+		<servlet>
 			<servlet-name>MoveDownServlet</servlet-name>
 			<servlet-class>com.protom.codeforbreakfast.servlets.MoveDownServlet</servlet-class>
 		</servlet>
@@ -85,6 +95,16 @@
 		<servlet-mapping>
 			<servlet-name>MoveDownServlet</servlet-name>
 			<url-pattern>/moveDownPost</url-pattern>
+		</servlet-mapping>
+		
+		<servlet>
+			<servlet-name>MoveDownFromArticleSectionServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.MoveDownFromArticleSectionServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping>
+			<servlet-name>MoveDownFromArticleSectionServlet</servlet-name>
+			<url-pattern>/moveDownFromArticlePost</url-pattern>
 		</servlet-mapping>
 		
 		<servlet>
@@ -105,6 +125,16 @@
 		<servlet-mapping>
 			<servlet-name>RemoveConferenceFromConferenceSectionServlet</servlet-name>
 			<url-pattern>/removeConferenceFromConference</url-pattern>
+		</servlet-mapping>
+		
+		 <servlet>
+			<servlet-name>OnScreenServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.OnScreenServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping>
+			<servlet-name>OnScreenServlet</servlet-name>
+			<url-pattern>/onScreen</url-pattern>
 		</servlet-mapping>
 		
 </web-app>

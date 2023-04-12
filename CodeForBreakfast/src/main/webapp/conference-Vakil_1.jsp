@@ -63,10 +63,7 @@
             </div>
 
             <div class="list list-right">
-                <button class="btn place-items-center" id="theme-toggle-btn">
-                    <i class="ri-sun-line sun-icon"></i>
-                    <i class="ri-moon-line moon-icon"></i>
-                </button>
+                
 
                 <!-- Search Icon-->
                 <button class="btn place-items-center" id="search-icon">

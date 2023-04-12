@@ -18,14 +18,14 @@ import com.protom.codeforbreakfast.service.ServiceMsg;
 import com.protom.codeforbreakfast.service.ServicePost;
 import com.protom.codeforbreakfast.service.ServiceUser;
 
-public class MoveDownServlet extends HttpServlet{
+public class MoveUpFromArticleSectionServlet extends HttpServlet{
 	
 	 /**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public MoveDownServlet() {
+		public MoveUpFromArticleSectionServlet() {
 		        super(); 
 		    }
 
@@ -51,22 +51,33 @@ public class MoveDownServlet extends HttpServlet{
 						
 						//Fase 2
 					 
-						ServiceUser serviceUser = new ServiceUser();
+						ServiceUser serviceUser = new ServiceUser();  
 						ServiceMsg serviceMsg = new ServiceMsg();  
 						
 						
+						
+						 
 						HttpSession currentSession = request.getSession();
 						
 					 
+						
+						
 						User user = (User) currentSession.getAttribute("user"); 
 						
 						 
-						if(user!=null ) {
+						
+						
+						
+						
+						
+						if(user!=null) {
 							
-						serviceUser.avviaConnessione();	
+						serviceUser.avviaConnessione();
+						
+						
+						Msg msg = serviceUser.moveUpPost(user, sPId);
 							
-						Msg msg = serviceUser.moveDownPost(user, sPId);
-							
+						
 								
 						if(msg.getResult()) {
 								
@@ -79,6 +90,8 @@ public class MoveDownServlet extends HttpServlet{
 						User userNew = serviceUser.cercaUser(user.getUsername(), user.getPassword());
 						System.out.println(user.getUsername());
 						
+						
+						
 						// istanzio una nuova sessione
 						HttpSession currentSessionNew = request.getSession();
 						currentSessionNew.setMaxInactiveInterval(10*60); 
@@ -88,24 +101,25 @@ public class MoveDownServlet extends HttpServlet{
 						serviceMsg.verifyStatus();
 						
 						msg = serviceMsg.getMsg();
-				 
 						 
 						
 						//messaggio in console 
 						currentSessionNew.removeAttribute("infoMsg"); 
-						currentSessionNew.setAttribute("infoMsg", msg); 
+						currentSessionNew.setAttribute("infoMsg", msg);  
 						
-						
+							
 						
 						//redirect a index
-						RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
+						RequestDispatcher dis = request.getRequestDispatcher("articles"+articlesPage+".jsp"); 
+						
+						
 						
 						dis.forward(request, response);
 	 
-					 
+						System.out.println("DEBUG MOVE UP prima");
 						serviceUser.chiudiConnessione(); 
-								 
-						
+							 
+						System.out.println("DEBUG MOVE UP dopo");
 						 
 						
 						}else { 					
@@ -115,7 +129,7 @@ public class MoveDownServlet extends HttpServlet{
 							request.setAttribute("infoMsg", msg); 
 							 
 							
-							RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
+							RequestDispatcher dis = request.getRequestDispatcher("articles"+articlesPage+".jsp"); 
 							
 							dis.forward(request, response);
 		 
@@ -124,10 +138,11 @@ public class MoveDownServlet extends HttpServlet{
 		 
 						}
 				}else {
-				
+					
 				request.setAttribute("infoMsg", new Msg(false, "Sorry, your session has expired"));
 				RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
 				dis.forward(request, response);  
+				
 				}
 			}
 

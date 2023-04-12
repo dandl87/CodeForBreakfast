@@ -65,11 +65,7 @@
 	            </div>
 	
 	            <div class="list list-right">
-	                <button class="btn place-items-center" id="theme-toggle-btn">
-	                    <i class="ri-sun-line sun-icon"></i>
-	                    <i class="ri-moon-line moon-icon"></i>
-	                </button>
-	
+	                 
 	                <!-- Search Icon-->
 	                <button class="btn place-items-center" id="search-icon">
 	                    <i class="ri-search-line"></i>
@@ -189,6 +185,7 @@
 	                 ServiceAllConferences service = new ServiceAllConferences();
 	                 ArrayList<Conference> allConferences = service.caricaAllConferencesOfPage(pageNumber);
 	                 request.setAttribute("conferences",allConferences);
+	                 request.setAttribute("page",pageNumber);
 	                 connection.chiudiConnessione();
 	                 %>
 	                 <c:set var="count" scope="session" value="${0}"/>
@@ -197,7 +194,7 @@
 	                      
 	                       <!-- Conferences  --> 
 	                        
-	                             <div  href="${conference.link}" class="article featured-article">
+	                             <div  class="article featured-article">
 	                             <img src="${conference.linkImg}" alt="" class="article-image"> 
 	 
 	                              <div class="article-data-container">
@@ -220,7 +217,7 @@
 		                              <c:set var="titleURL">
 		                              <c:url value="http://192.168.1.109:8086/CodeForBreakfast/addConference" >
 		                               	<c:param name="conferenceId" value="${conference.getId()}"/>
-		                              	<c:param name="conferencePage" value="${2}"/> 
+		                              	<c:param name="conferencePage" value="${page}"/> 
 		                              </c:url>
 		                              </c:set>
 		                                                        
@@ -235,7 +232,7 @@
 										<c:set var="titleURL">
 			                            <c:url value="http://192.168.1.109:8086/CodeForBreakfast/removeConferenceFromConference" >
 			                            <c:param name="conferenceId" value="${conference.getId()}"/>
-			                            <c:param name="conferencePage" value="${2}"/> 
+			                            <c:param name="conferencePage" value="${page}"/> 
 			                            </c:url>
 			                            </c:set> 
 			                                                         
@@ -252,13 +249,14 @@
 	                                    
 	                                    <span>${conference.data}</span> 
 	                                	</div>
-	        
-	                                 	<h3 class="title article-title">${conference.title}</h3> 
+	                                	
+	       								<h6>${conference.speaker}</h6> 
+	                                 	<h6>${conference.subTitle}</h6> 
 	                                    </div>
 	                                    </div>
 	                                        
 	                                    <!-- info -->
-	                                    <a href="http://ww.google.com" class="article info-article">  
+	                                    <div  class="article info-article">  
 	                             
 	 
 	                         		 <div class="info-article-data-container">
@@ -268,14 +266,11 @@
 	                                     
 	                                </div>
 	 
-	                                <h3 class="title article-title"><c:out value = "${conference.title}" /></h3>
-	                                <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-	                                 Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
-	                                 Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
-	                                 Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. .</h3>
+	                                <a href="${conference.getLink()}" ><h3 class="title article-title"><c:out value = "${conference.title}" /></h3></a>
+	                                <h3 class="article-info"><c:out value = "${conference.description}" /> </h3>
 	 
 	                          </div>
-	                        </a>
+	                        </div>
 	                     
 	 
 	                 </c:forEach>
@@ -303,7 +298,9 @@
 	                         <div href="${conferenceSubscription.getConference().getLink()}" class="trending-news-box">
 	                             <div class="trending-news-img-box">
 	                                <span class="trending-number place-items-center"><c:out value="${count}" /></span>
-	                                <a href="http://www.google.com""> <img src="${conferenceSubscription.getConference().getLinkImgSmall()}" alt="" class="article-image"> </a>
+	                                <a href="${conferenceSubscription.getConference().getLink()}"> 
+	                                	<img src="${conferenceSubscription.getConference().getLinkImgSmall()}" alt="" class="article-image"> 
+	                                </a>
 	                              </div>
 	                              
 	                         	<div class="trending-news-data">
@@ -315,7 +312,7 @@
 	                            <c:set var="titleURL1">
 			                    	<c:url value="http://192.168.1.109:8086/CodeForBreakfast/removeConferenceFromConference" >
 			                    		<c:param name="conferenceId" value="${conferenceSubscription.getConference().getId()}"/>
-			                    		<c:param name="conferencePage" value="${2}"/> 
+			                    		<c:param name="conferencePage" value="${page}"/> 
 			                    	</c:url>
 			 					</c:set>		                                                         
 								 
@@ -331,7 +328,7 @@
 	
 	                           </div>
 	
-	                         <h3 class="title article-title"><c:out value="${conferenceSubscription.getConference().getTitle()}" /></h3>
+	                         <h3 class="title article-title"><c:out value="${conferenceSubscription.getConference().getTitle()}" /></h3> 
 							
 	                        </div>
 	                  </div>
@@ -340,9 +337,9 @@
 	            </div>
 	
 	            <!-- page menu -->
-	            <div class="bottomline-banner2">  
+	            <div class="bottomline-banner2"> 
 	            	<a href="conferences1.jsp" style="width: 5.5rem"><h3>back</h3></a> 
-	            	<a href="conferences3.jsp" style="width: 5.5rem"><h3>next</h3></a>  
+	                <a href="conferences3.jsp" style="width: 5.5rem"><h3>next</h3></a> 
 	            </div>
 	 
 	         </div>

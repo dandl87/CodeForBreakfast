@@ -61,10 +61,7 @@
             </div>
 
             <div class="list list-right">
-                <button class="btn place-items-center" id="theme-toggle-btn">
-                    <i class="ri-sun-line sun-icon"></i>
-                    <i class="ri-moon-line moon-icon"></i>
-                </button>
+                 
 
                 <!-- Search Icon-->
                 <button class="btn place-items-center" id="search-icon">
@@ -195,14 +192,31 @@
                         <!-- Articles -->
                        
 
-                            <div class="article featured-article featured-article-${user.getSottoscrizioniPost().get(count).getPosition()}">
-                                <img src="${sottoscrizione.getPost().getLinkImg()}" alt="" class="article-image">
+                            <div class="article-desk featured-article featured-article-${user.getSottoscrizioniPost().get(count).getPosition()}">
+                            	<c:if test="${sottoscrizione.getPosition()<5}">
+                                <img src="${sottoscrizione.getPost().getLinkImg()}_1.jpg" alt="" class="article-image">
+                                </c:if>
+                                <c:if test="${sottoscrizione.getPosition()>=5}">
+                                <img src="${sottoscrizione.getPost().getLinkImg()}_2.jpg" alt="" class="article-image">
+                                </c:if>
+                                
                                 <a href ="#" class="article-category">${sottoscrizione.getPost().getCategory()}</a>
 
                                 <div class="article-data-container">
 
                                     <div class="article-data">
-                                        
+                                    	<!-- view function-->
+
+                                         <c:set var="onScreenURL">
+							               <c:url value="http://192.168.1.109:8086/CodeForBreakfast/onScreen" > 
+							                  <c:param name="articleToView" value="${sottoscrizione.getPost().getLink()}"/>   
+							                </c:url>  
+							           </c:set>  
+                                            <button class="btn" id="view-button" onClick="articleOnScreenFunction('${onScreenURL}')">
+                                                 <i class="ri-eye-2-fill"></i>
+                                            </button>
+                                         
+                                       
                                         
                                         <!-- remove function-->
 
@@ -211,23 +225,55 @@
 							                  <c:param name="postId" value="${sottoscrizione.getPost().getId()}"/>   
 							                </c:url>  
 							           </c:set>
-							           
-							            <a href="${titleURL}" >  
-                                         		
-                                            <button class="btn" id="remove-button">
+                                            <button class="btn" id="remove-button" onClick="callServletWithAjax('${titleURL}')">
                                                 <i class="ri-delete-bin-line"></i>
                                             </button>
-                                        </a>
-
-                                        <span class="article-data-spacer"></span> 
                                         
-                                        <!-- data of pubblication-->
-                                        <span>${sottoscrizione.getPost().getData()}</span> 
+                                        
+                                        
+                                         <!-- arrow up function-->
+	                              	  <c:if test="${sottoscrizione.getPosition()!=1}">
+	                            	    <c:set var="titleURL2">
+					                    		<c:url value="http://192.168.1.109:8086/CodeForBreakfast/moveUpPost" >
+					                    			<c:param name="SottoscrizioneId" value="${sottoscrizione.getId()}"/>
+					                    			  <c:param name="articlesPage" value="${1}"/>   
+					                    		</c:url>
+			 								</c:set>   	 
+										                                                  
+										<button class="btn" id="arrow-up-button" onClick="callServletWithAjax('${titleURL2}')">
+											<i class="ri-arrow-up-circle-line"></i>
+		 								</button>
+		 								  
+									</c:if>  
+									<c:if test="${sottoscrizione.getPosition()==1 }">
+									<span class="article-data-spacer"></span> 
+                                    </c:if>       
+									
+	                            <!-- arrow down function-->
+	                            
+	                             	<c:if test="${sottoscrizione.getPosition()!=6}">
+	                            	    <c:set var="titleURL3">
+					                    		<c:url value="http://192.168.1.109:8086/CodeForBreakfast/moveDownPost" >
+					                    			<c:param name="SottoscrizioneId" value="${sottoscrizione.getId()}"/>
+					                    			  <c:param name="articlesPage" value="${1}"/>   
+					                    		</c:url>
+			 								</c:set>   	 
+										                                                 
+											<button class="btn" id="arrow-down-button" onClick="callServletWithAjax('${titleURL3}')">
+		                                		<i class="ri-arrow-down-circle-line"></i>
+		                            		</button> 
+		 								  
+									</c:if>  
+									<c:if test="${sottoscrizione.getPosition()==6 }">
+									<span class="article-data-spacer"></span> 
+                                    </c:if> 
+                                        
                                         
                                        
                                     </div>
-                                       <a href="${sottoscrizione.getPost().getLink()}" ><h3 class="title article-title">${sottoscrizione.getPost().getTitle()}</h3> </a>
-
+                                       <%-- <a href="${sottoscrizione.getPost().getLink()}" > --%><h3 class="title article-title">${sottoscrizione.getPost().getTitle()}</h3><!--  </a> -->
+										<!-- data of pubblication-->
+                                        <span>${sottoscrizione.getPost().getData()}</span> 
                                 </div>
                             </div> 
                     </c:if>
@@ -291,74 +337,83 @@
         </div>
 
     </section>
+    
+    <!--  Sezione Articolo Vista -->
 
-    <!-- CONFERENCES -->
-    
-    
-    <%			
-    			 DbConnectionMySql connection= DbConnectionMySql.getInstance();
-    			 connection.avviaConnessione();
-                 int pageNumber=1;
-                 ServiceAllConferences service = new ServiceAllConferences();
-                 ArrayList<Conference> allConferences = service.caricaAllConferencesOfPage(pageNumber);
-                 request.setAttribute("NewConferences",allConferences);
-                 connection.chiudiConnessione(); 
-                 %>
-                 
-                 
-                 
-    <section class="quick-read section">
+	<div>
+	
+	<c:if test="${articleOnScreenInSession != null}" >
+	   <jsp:include page="${articleOnScreenInSession}" /> 
+	</c:if>
+	
+	</div>
+ 	 
+ 	 <!--  Sezione Articolo Vista  FINE -->
+
+    <!-- Conferences -->
+    <section class="older-posts section">
 
         <div class="container">
 
             <h2 class="title section-title" data-name="latest conferences">Conferences</h2>
-            <!-- Slider main container -->
-            <div class="swiper">
-                <!-- Additional required wrapper -->
-                <div class="swiper-wrapper">
-                
-                 <!-- Codice Dello Slider -- Conferences  -->
-                 <c:set var="count" scope="session" value="${0}"/>
-                 <c:forEach var="newConference" items="${NewConferences}">
-                  <c:set var="count" scope="session" value="${count+1}"/>
-                      
-                       <!-- Conferences -->
-                        <!-- Slides -->
-	                    <a href="${newConference.link}" class="article swiper-slide">
-	                        <img src="${newConference.linkImg}" alt="" class="article-image">
-	
-	                        <div class="article-data-container">
-	                            <div class="article-data">
-	                                <span><c:out value="${newConference.data}" /></span> 
-	                                <span class="article-data-spacer"></span>
-	                                <span><c:out value="${newConference.dataConference}" /></span>
-	                                <span><c:out value="${newConference.timeOfConference}" /> </span>
-	                            </div>
-	                           <h3 class="title article-title"><c:out value="${newConference.title}" /></h3>
-	                        </div>
-	                    </a>
-                       
-                       
-                        
-   
-                 </c:forEach>
-                
-                
-                   
-                     
-                </div>
-                <!-- Navigation buttons -->
-                <div class="swiper-button-prev swiper-controls"></div>
-                <div class="swiper-button-next swiper-controls"></div>
-                <!-- Pagination -->
-                <div class="swiper-pagination"></div>
+
+            <div class="older-posts-grid-wrapper d-grid">
+
+                <a href="#" class="article d-grid">
+                    <div class="older-posts-article-image-wrapper">
+                        <img src="./assets/images/older_posts/older_posts_1.jpg" alt="" class="article-image">
+                    </div>
+
+                    <div class="article-data-container">
+
+                        <div class="article-data">
+                            <span>23 Dec 2021</span>
+                            <span class="article-data-spacer"></span>
+                            <span>3 Min read</span>
+                        </div>
+
+                        <h3 class="title article-title">Sample article title</h3>
+                        <p class="article-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique a tempore sapiente corporis, eaque fuga placeat odit voluptatibus.</p>
+
+                    </div>
+                </a>
+
+                <a href="#" class="article d-grid">
+                    <div class="older-posts-article-image-wrapper">
+                        <img src="./assets/images/older_posts/older_posts_2.jpg" alt="" class="article-image">
+                    </div>
+
+                    <div class="article-data-container">
+
+                        <div class="article-data">
+                            <span>23 Dec 2021</span>
+                            <span class="article-data-spacer"></span>
+                            <span>3 Min read</span>
+                        </div>
+
+                        <h3 class="title article-title">Sample article title</h3>
+                        <p class="article-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique a tempore sapiente corporis, eaque fuga placeat odit voluptatibus.</p>
+
+                    </div>
+                </a>
+
+             
+              
+
+            </div>
+
+            <div class="see-more-container">
+                <a href="#" class="btn see-more-btn place-items-center">See more <i class="ri-arrow-right-s-line"></i></i></a>
             </div>
 
         </div>
 
     </section>
-
-    <!-- Articles -->
+    
+    
+    
+    
+     <!-- Articles -->
     <section class="older-posts section">
 
         <div class="container">
@@ -443,43 +498,7 @@
                     </div>
                 </a>
 
-                <a href="#" class="article d-grid">
-                    <div class="older-posts-article-image-wrapper">
-                        <img src="./assets/images/older_posts/older_posts_5.jpg" alt="" class="article-image">
-                    </div>
-
-                    <div class="article-data-container">
-
-                        <div class="article-data">
-                            <span>23 Dec 2021</span>
-                            <span class="article-data-spacer"></span>
-                            <span>3 Min read</span>
-                        </div>
-
-                        <h3 class="title article-title">Sample article title</h3>
-                        <p class="article-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique a tempore sapiente corporis, eaque fuga placeat odit voluptatibus.</p>
-
-                    </div>
-                </a>
-
-                <a href="#" class="article d-grid">
-                    <div class="older-posts-article-image-wrapper">
-                        <img src="./assets/images/older_posts/older_posts_6.jpg" alt="" class="article-image">
-                    </div>
-
-                    <div class="article-data-container">
-
-                        <div class="article-data">
-                            <span>23 Dec 2021</span>
-                            <span class="article-data-spacer"></span>
-                            <span>3 Min read</span>
-                        </div>
-
-                        <h3 class="title article-title">Sample article title</h3>
-                        <p class="article-description">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Similique a tempore sapiente corporis, eaque fuga placeat odit voluptatibus.</p>
-
-                    </div>
-                </a>
+             
 
             </div>
 
@@ -490,6 +509,9 @@
         </div>
 
     </section>
+    
+
+
 
     <!-- Arguments tags -->
     <section class="popular-tags section">
@@ -662,6 +684,28 @@
     			xmlHttp.open('POST',urlTitle,true);
     	    	xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     	    	xmlHttp.send(urlTitle.params); 
+		       
+    	    	
+				}
+
+ 
+    </script>
+    
+     <script type="text/javascript"> 
+    function articleOnScreenFunction(onScreenURL){  
+
+  
+		 
+    			var xmlHttp = new XMLHttpRequest();
+    			
+    			xmlHttp.onload = function(onScreenURL){ 
+    		       	document.location.reload();   
+            		    }
+        			  
+ 
+    			xmlHttp.open('POST',onScreenURL,true);
+    	    	xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    	    	xmlHttp.send(onScreenURL.params); 
 		       
     	    	
 				}

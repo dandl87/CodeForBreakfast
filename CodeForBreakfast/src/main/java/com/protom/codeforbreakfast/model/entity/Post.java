@@ -10,7 +10,7 @@ public class Post {
 	private String subTitle;	
 	private String link;
 	private String linkImg;
-	private String linkImgSmall;
+	private String linkImgSmall; 
 	private String category;
 	private Date data;
 	private String description;
@@ -19,13 +19,13 @@ public class Post {
 	
 	
 	//costruttore per la creazione di post
-	public Post(String title, String subTitle, String link, String linkImg, String linkImgSmall, String category, Date data, String description, int page) {
+	public Post(String title, String subTitle, String link, String linkImg, String linkImgSmall,  String category, Date data, String description, int page) {
 		super(); 
 		this.title = title;
 		this.subTitle = subTitle;
 		this.link = link;
 		this.linkImg = linkImg;
-		this.linkImgSmall = linkImgSmall;
+		this.linkImgSmall = linkImgSmall; 
 		this.category = category;
 		this.data = data;
 		this.description=description;
@@ -40,8 +40,8 @@ public class Post {
 			this.title = title;
 			this.subTitle = subTitle;
 			this.link = link;
-			this.linkImg = linkImg;
-			this.linkImgSmall = linkImgSmall;
+			this.linkImg = linkImg; 
+			this.linkImgSmall = linkImgSmall; 
 			this.category = category;
 			this.data = data;
 			this.description=description;
@@ -97,8 +97,9 @@ public class Post {
 	public void setLinkImg(String linkImg) {
 		this.linkImg = linkImg;
 	}
-
-
+ 
+	
+	
 	public String getLinkImgSmall() {
 		return linkImgSmall;
 	}
@@ -155,7 +156,7 @@ public class Post {
 
 	@Override
 	public String toString() {
-		return "Post [id=" + this.id + ", titolo=" + this.title + ",subTitle="+this.subTitle+", link=" + this.link + ", linkImg=" + this.linkImg +", linkImgSmall="+this.linkImgSmall+ ", category="
+		return "Post [id=" + this.id + ", titolo=" + this.title + ",subTitle="+this.subTitle+", link=" + this.link + ", linkImg=" + this.linkImg +", linkImgSmall=" + this.linkImgSmall +", category="
 				+ this.category + ", data=" + this.data + ", description="+this.description+"+pagina="+this.page+", number of subscriptions= "+this.listOfSubcriptions.size()+"]";
 	} 
 	
