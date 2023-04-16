@@ -1,30 +1,36 @@
 package com.protom.codeforbreakfast.service;
 
-import com.protom.codeforbreakfast.model.entity.Msg;
+import com.protom.codeforbreakfast.model.entity.Msg; 
 
 public class ServiceMsg {
 	
 	private Msg msg;
 
-	public ServiceMsg() {
-		super();
-		this.msg = null;
+	private  ServiceMsg() {
+		this.msg = new Msg();
 	}
-
-	 
-	
+ 
 	public Msg getMsg() {
 		return msg;
 	}
- 
+  
 
-	public void setMsg(Msg msg) {
-		this.msg=msg;
-	}
-
-	public void verifyStatus() {
-		this.msg = new Msg(true, "state of User");
+	public void verifyValues() { 
+		this.msg.setStatus(true);
+		this.msg.setMessage("state of user");
 	}
 	
+	public void setValues(boolean status, String message) { 
+		this.msg.setStatus(status);
+		this.msg.setMessage(message);
+	}
 	
+	public static ServiceMsg getInstance() {
+		return BuilderInstance.instance;
+		 
+	}
+	
+	private static class BuilderInstance{
+		private static ServiceMsg instance = new ServiceMsg();
+	}
 }

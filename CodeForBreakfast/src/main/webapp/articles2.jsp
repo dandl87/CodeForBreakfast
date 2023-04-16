@@ -42,10 +42,10 @@
 	            <div class="menu" id="menu">
 	                <ul class="list">
 	                    <li class="list-item">
-	                        <a href="index.jsp" class="list-link">Home</a>
+	                        <a href="/CodeForBreakfast/home" class="list-link">Home</a>
 	                    </li>
 	                    <li class="list-item">
-	                        <a href="conferences1.jsp" class="list-link">Conferences</a>
+	                        <a href="/CodeForBreakfast/home/conferences" class="list-link">Conferences</a>
 	                    </li>
 	                    <li class="list-item">
 	                        <a href="#" class="list-link current">Articles</a>
@@ -54,10 +54,10 @@
 	                        <a href="#" class="list-link">News</a>
 	                    </li>
 	                    <li class="list-item">
-	                        <a href="membership.jsp" class="list-link">Membership</a>
+	                        <a href="/CodeForBreakfast/membership" class="list-link">Membership</a>
 	                    </li>
 	                    <li class="list-item">
-	                        <a href="contacts.jsp" class="list-link">Contact</a>
+	                        <a href="/CodeForBreakfast/contact" class="list-link">Contact</a>
 	                    </li>
 	                    
 	                    <li class="list-item screen-lg-hidden">

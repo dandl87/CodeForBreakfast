@@ -9,9 +9,9 @@
     <%@ page import="com.protom.codeforbreakfast.model.entity.Msg"%>
     <%@ page import="com.protom.codeforbreakfast.dbconnections.DbConnectionMySql"%>
     
-     <%   if(session.getAttribute("user")==null)
-   			 response.sendRedirect("index.jsp"); 
-	 %>
+    <%   if(session.getAttribute("user")==null)
+   			 response.sendRedirect("/CodeForBreakfast"); 
+	 %> 
 	 
 	<!DOCTYPE >
 	<html lang="en">
@@ -42,22 +42,22 @@
 	            <div class="menu" id="menu">
 	                <ul class="list">
 	                    <li class="list-item">
-	                        <a href="index.jsp" class="list-link">Home</a>
+	                        <a href="/CodeForBreakfast/home" class="list-link">Home</a>
 	                    </li>
 	                    <li class="list-item">
-	                        <a href="conferences1.jsp" class="list-link">Conferences</a>
+	                        <a href="/CodeForBreakfast/conferences" class="list-link">Conferences</a>
 	                    </li>
 	                    <li class="list-item">
-	                        <a href="#" class="list-link current">Articles</a>
+	                        <a href="/CodeForBreakfast/articles" class="list-link current">Articles</a>
 	                    </li>
 	                    <li class="list-item">
 	                        <a href="#" class="list-link">News</a>
 	                    </li>
 	                    <li class="list-item">
-	                        <a href="membership.jsp" class="list-link">Membership</a>
+	                        <a href="/CodeForBreakfast/membership" class="list-link">Membership</a>
 	                    </li>
 	                    <li class="list-item">
-	                        <a href="contacts.jsp" class="list-link">Contact</a>
+	                        <a href="/CodeForBreakfast/contact" class="list-link">Contact</a>
 	                    </li>
 	                    
 	                    <li class="list-item screen-lg-hidden">
@@ -169,7 +169,7 @@
 	                   
 								 <c:choose>
 									<c:when test="${user!=null}"> 
-									<c:out value="${infoMsg.message}"/> 
+									<c:out value="${infoMsg}"/> 
 									</c:when>
 									<c:otherwise>
 										Welcome to a world made of code & coffee
@@ -181,20 +181,25 @@
 	                
 	                
 	                
-	                <!-- Codice Della Personal Desk sezione Post  -->
-	            
-	                <%
-	                DbConnectionMySql connection= DbConnectionMySql.getInstance();
-	   			 	connection.avviaConnessione();
-	                int pageNumber =1;
-	                ServiceAllPosts service = new ServiceAllPosts(); 
-	                ArrayList<Post> allPosts = service.caricaAllPostsOfPage(pageNumber);
-	                request.setAttribute("posts",allPosts);
-	                connection.chiudiConnessione();
+	                <!-- Carico i post della pagina 1  -->
+	             
+	                 <%-- <c:if test="${user != null}" >  
+		                <jsp:include page="/loadArticles">
+		                	<jsp:param name="page" value="1" />
+		                </jsp:include>
+				 	</c:if> --%>
+				 	
+				 	 <%
+		                DbConnectionMySql connection= DbConnectionMySql.getInstance();
+		   			 	connection.avviaConnessione();
+		                int pageNumber =1;
+		                ServiceAllPosts service = new ServiceAllPosts(); 
+		                ArrayList<Post> allPosts = service.caricaAllPostsOfPage(pageNumber);
+		                request.setAttribute("posts",allPosts);
+		                connection.chiudiConnessione();
 					%>
 	
-	                
-	                       
+	 
 	
 	                         <c:set var="count" scope="session" value="${0}"/>
 	                             <c:forEach var="post" items="${posts}"> 
@@ -202,7 +207,7 @@
 	                 				 
 	                                    <!-- Articles --> 
 	
-	                                        <div  href="${post.link}" class="article featured-article">
+	                                        <div  class="article featured-article">
 	                                        <img src="${post.linkImg}.jpg" alt="" class="article-image">
 	                                            <span class="article-category">${post.category}</span> 
 	
@@ -268,7 +273,7 @@
 	                                        </div>
 	
 	                                        <!-- info -->
-	                                        <a href="${post.link }" class="article info-article"> 
+	                                        <div class="article info-article"> 
 	                                            
 	
 	                                            <div class="info-article-data-container">
@@ -278,12 +283,12 @@
 	                                                    <span>${post.data}</span>
 	                                                        
 	                                                </div>
-	
-	                                                <h3 class="title article-title">${post.subTitle}</h3>
+													
+	                                                <h3 class="title article-title"><a href="${post.link }">${post.subTitle}</a></h3> 
 	                                                <h3 class="article-info"> ${post.description}</h3>
 	
 	                                            </div>
-	                                        </a>
+	                                        </div>
 	
 	                                </c:forEach>
 						 
@@ -380,7 +385,7 @@
 	                
 	            </div>
 	            <div class="bottomline-banner2">  
-	                <a href="articles2.jsp" style="width: 5.5rem"><h3>next</h3></a> 
+	               <h3 class="article-info" > <a href="articles2.jsp" style="width: 5.5rem">next</a> </h3>
 	            </div>
 	        </div> 
 	    </section>
@@ -393,7 +398,7 @@
 	            
 	            <div class="company-data">
 	                <a href="./index.html">
-	                    <h2 class="logo">Code for Breakfast</h2>
+	                     <h2 class="logo">Code for Breakfast</h2> 
 	                </a>
 	                <p class="company-description">Insight into web development and more</p>
 	                

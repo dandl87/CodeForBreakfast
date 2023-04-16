@@ -278,6 +278,59 @@ body.light-theme{
     display: flex;
 }
 
+/* SingUp */
+.signUp-form-container{
+	width:100%;
+  	height:20rem;
+  	display:flex;
+    width: 20rem;
+    max-width: 50rem;
+     
+}
+
+ 
+
+.formSU{  
+	 display:grid; 
+}
+
+.formSU-input,
+.formSU-btn{ 
+	display: inline-block;
+    border: 2px solid var(--secondary-background-color);
+    padding: 1.5rem;
+    color: var(--light-color-alt);
+    
+}
+
+.formSU-input{  
+    background-color: var(--primary-background-color);
+    margin:0.3rem;
+}
+
+.formSU-btn{ 
+    background-color: var(--secondary-background-color);
+    text-transform: uppercase;
+    width: 30rem;
+    margin-top:2rem;
+}
+
+.formSU-note{
+    font-size: var(--font-size-xsm);
+    align-self: flex-end;
+}
+
+.formSU-close-btn{
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    border: 2px solid var(--secondary-background-color);
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+}
+
+
 /* Form JavaScript styles */
 .search-form-container.activated{
     opacity: 1;
@@ -815,7 +868,7 @@ body.light-theme{
     .featured-content{
         grid-template-columns: 20rem repeat(1, 1fr);
         
-        grid-template-rows: 5rem repeat(4, 1fr);
+        grid-template-rows: 5rem 10rem 10rem 10rem ;
          
         /* grid-template-rows: 5rem repeat(4, 1fr); */
     }
@@ -832,24 +885,42 @@ body.light-theme{
         font-size: var(--font-size-sm);
     }
     
-    .featured-article{
-        grid-column: 1/-1;
-        grid-row: 2/3;
+    .form-fields{
+        grid-template-columns:  repeat(1, 1fr);
+        
+        grid-template-rows: 5rem 5rem 5rem 5rem 5rem 5rem;
     }
 
  
      
     
-    .featured-article-3{
+    .form-field-1{
+    	
         grid-column: 1/-1;
-        grid-row: 3/4;
+        grid-row: 1/2;
     }
 
-    .featured-article-4{
+    .form-field-2{
+        grid-column: 1/-1;
+        grid-row: 2/3;
+    }
+
+	.form-field-3{
+	        grid-column: 1/-1;
+	        grid-row: 3/4;
+	    }
+	
+	.form-field-4{
         grid-column: 1/-1;
         grid-row: 4/5;
     }
-
+    
+    .form-field-5{
+        grid-column: 1/-1;
+        grid-row: 5/6;
+    }
+    
+    
     .older-posts .article{
         grid-template-columns: 25rem 1fr;
         
@@ -902,7 +973,8 @@ body.light-theme{
     }
 
     .featured-articles-container{
-        grid-template-columns: 1fr 40rem;
+        grid-template-columns: repeat(1, 1fr) ;
+        grid-template-rows:50rem;
     }
 
     .trending-news-img-box{

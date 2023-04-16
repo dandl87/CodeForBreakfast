@@ -40,7 +40,7 @@
 	            <div class="menu" id="menu">
 	                <ul class="list">
 	                    <li class="list-item">
-	                        <a href="index.jsp" class="list-link">Home</a>
+	                        <a href="/CodeForBreakfast/home" class="list-link">Home</a>
 	                    </li>
 	                    <li class="list-item">
 	                        <a href="#" class="list-link current">Conferences</a>

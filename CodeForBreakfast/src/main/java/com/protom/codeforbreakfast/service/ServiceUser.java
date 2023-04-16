@@ -10,8 +10,7 @@ import com.protom.codeforbreakfast.model.dao.UserDAO;
 import com.protom.codeforbreakfast.model.daoimpl.SottoscrizioneConferenceDAOimpl;
 import com.protom.codeforbreakfast.model.daoimpl.SottoscrizionePostDAOimpl;
 import com.protom.codeforbreakfast.model.daoimpl.UserDAOimpl;
-import com.protom.codeforbreakfast.model.entity.Conference;
-import com.protom.codeforbreakfast.model.entity.Msg;
+import com.protom.codeforbreakfast.model.entity.Conference; 
 import com.protom.codeforbreakfast.model.entity.Post;
 import com.protom.codeforbreakfast.model.entity.SottoscrizioneConference;
 import com.protom.codeforbreakfast.model.entity.SottoscrizionePost;
@@ -24,6 +23,7 @@ public class ServiceUser {
 	private UserDAO userDAO;
 	private SottoscrizionePostDAO sottoscrizionePostDAO;
 	private SottoscrizioneConferenceDAO sottoscrizioneConferenceDAO;
+	private ServiceMsg serviceMsg;
 	
 	
 	public ServiceUser( ) {
@@ -32,6 +32,7 @@ public class ServiceUser {
 		this.userDAO = new UserDAOimpl(connessioneDb);
 		this.sottoscrizionePostDAO = new SottoscrizionePostDAOimpl(connessioneDb);
 		this.sottoscrizioneConferenceDAO = new SottoscrizioneConferenceDAOimpl(connessioneDb);
+		this.serviceMsg= ServiceMsg.getInstance();
 	}
 	
 	public void avviaConnessione() {
@@ -72,6 +73,7 @@ public class ServiceUser {
 				
 		user.setSottoscrizioniPost(sottoscrizioniPost);
 		user.setSottoscrizioniConference(sottoscrizioniConference);  
+		serviceMsg.setValues(true, "Hi " +user.getName());
 		return user ;
 		
 	}
@@ -79,173 +81,87 @@ public class ServiceUser {
 
 	
 	//Rimuovo post dalla Personal Area
-	public Msg removePost(User user, int postId) { 
+	public void removePost(User user, int postId) { 
 		
 		ArrayList<SottoscrizionePost> sottoscrizioniPost = user.getSottoscrizioniPost();
 		
 		for(SottoscrizionePost sP: sottoscrizioniPost) {
 			if(sP.getPost().getId()==postId) { 
 				sottoscrizionePostDAO.deleteSottoscrizionePost(sP.getId());
-				return new Msg(true,"Article - "+sP.getPost().getTitle()+" - removed");
+				serviceMsg.setValues(true,sP.getPost().getTitle()+" - removed");
 			}	
 		}
 	
-	return new Msg(false, "Article remotion failed!");
 	}
 	
 	
 	
 	//Rimuovo conference dalla Personal Area
-		public Msg removeConference(User user, int conferenceId) { 
+		public void removeConference(User user, int conferenceId) { 
 			
 			ArrayList<SottoscrizioneConference> sottoscrizioniConference = user.getSottoscrizioniConference();
 			
 			for(SottoscrizioneConference sC: sottoscrizioniConference) {
 				if(sC.getConference().getId()==conferenceId) { 
 					sottoscrizioneConferenceDAO.deleteSottoscrizioneC(sC.getId());
-					return new Msg(true,"Conference - "+sC.getConference().getTitle()+" - removed");
+					serviceMsg.setValues(true,"Conference - "+sC.getConference().getTitle()+" - removed");
 				}	
 			}
-		
-		return new Msg(false, "Article remotion failed!");
 		}
 	
 	
 	
-	public Msg addPost(User user, int postId) {
-		Msg messageResult;
+	public void addPost(User user, int postId) { 
 		ServicePost servicePost = new ServicePost();
 		ArrayList<SottoscrizionePost> sottoscrizioniPost = user.getSottoscrizioniPost(); 
 		
 		if(sottoscrizioniPost.size()==6)
-			return new Msg(false,"Articles Area is full!");
+			serviceMsg.setValues(false,"Articles Area is full!");
 		
 		// se il post è già presente l'add non avviene
 		boolean isPresent = checkPresenceSP(sottoscrizioniPost, postId);
 		
 		if(isPresent)
-			return new Msg(false,"Articles is in your Desk!");
+			serviceMsg.setValues(false,"Articles is in your Desk!");
 		
 		//creiamo un Post, una sottoscrizionePost 
 		Post post = servicePost.cercaPost(postId); 
 		int position=findPosition(sottoscrizioniPost);
 		SottoscrizionePost sottoscrizionePost = new SottoscrizionePost(user.getUsername(),post, position);
-		messageResult= new Msg(true, "Article - "+sottoscrizionePost.getPost().getTitle()+" - inserted in position "+position );
+		
 		boolean result = sottoscrizionePostDAO.createSottoscrizioneP(sottoscrizionePost);
-		if(result)
-			return messageResult;
-		else return new Msg(false, "sottoscrizione non riuscita!");
+		if(!result) 
+		 serviceMsg.setValues(false, "sottoscrizione non riuscita!");
+		else serviceMsg.setValues(true, sottoscrizionePost.getPost().getTitle()+" - inserted in position "+position );
 		 
 		}
 	
-	public Msg addConference(User user, int conferenceId) {
-		Msg messageResult;
+	public void addConference(User user, int conferenceId) { 
 		ServiceConference serviceConference = new ServiceConference();
 		ArrayList<SottoscrizioneConference> sottoscrizioniConference = user.getSottoscrizioniConference(); 
 		
 		if(sottoscrizioniConference.size()==6)
-			return new Msg(false,"Conference Area is full!");
+			serviceMsg.setValues(false,"Conference Area is full!");
 		
 		// se il post è già presente l'add non avviene
 		boolean isPresent = checkPresenceSC(sottoscrizioniConference, conferenceId);
 		
 		if(isPresent)
-			return new Msg(false,"Conference is in your Desk!");
+			serviceMsg.setValues(false,"Conference is in your Desk!");
 		
 		//creiamo un Post, una sottoscrizionePost 
 		Conference conference = serviceConference.cercaConference(conferenceId); 
 		 
 		SottoscrizioneConference sottoscrizioneConference = new SottoscrizioneConference(user.getUsername(),conference);
-		messageResult= new Msg(true, "Conference - "+sottoscrizioneConference.getConference().getTitle()+" - inserted");
+		
 		boolean result = sottoscrizioneConferenceDAO.createSottoscrizioneC(sottoscrizioneConference);
-		if(result)
-			return messageResult;
-		else return new Msg(false, "sottoscrizione non riuscita!");
+		if(!result) 
+		 serviceMsg.setValues(false, "sottoscrizione non riuscita!");
+		else serviceMsg.setValues(true, "Conference - "+sottoscrizioneConference.getConference().getTitle()+" - inserted");
 		 
 		}
 	
-	public Msg moveUpPost(User user, int idSP) {
-		boolean result;
-		Msg messageResult; 
-		
-		ArrayList<SottoscrizionePost> sottoscrizioniPost = user.getSottoscrizioniPost(); 
-		
-		int position = findPositionById(sottoscrizioniPost, idSP);
-		
-		// cerco la sottoscrizione poi faccio Update 
-		if(position == 0 || position == 1)
-			return new Msg(false,"impossibile cambiare l'ordinamento");
-		  
-		SottoscrizionePost sP1 =  findSottoscrizionePost(sottoscrizioniPost,idSP);
-		
-		
-		
-		int idSP2 = findIdByPosition(sottoscrizioniPost, position -1);
-		
-		SottoscrizionePost sP2 =  findSottoscrizionePost(sottoscrizioniPost,idSP2);
-		
-		sP1.setPosition(position -1);
-		
-		if(sP2!=null)
-			sP2.setPosition(position);
-		
-		messageResult= new Msg(true, "Article -"+sP1.getPost().getTitle()+" - moved Up ");
-		
-		result = sottoscrizionePostDAO.updateSottoscrizioneP(sP1);
-		
-		if(sP2!=null) 
-			result = sottoscrizionePostDAO.updateSottoscrizioneP(sP2);   
-		
-		if(result)
-			return messageResult;
-		else return new Msg(false, "swap failed!");
-		 
-		}
 	
-	public Msg moveDownPost(User user, int idSP) {
-		
-		boolean result;
-		Msg messageResult; 
-		
-		ArrayList<SottoscrizionePost> sottoscrizioniPost = user.getSottoscrizioniPost(); 
-		
-		
-		int position = findPositionById(sottoscrizioniPost, idSP);
-		
-		// cerco la sottoscrizione poi faccio Update 
-		if(position == 0 || position == 6)
-			return new Msg(false,"impossibile cambiare l'ordinamento");
-		  
-		SottoscrizionePost sP1 =  findSottoscrizionePost(sottoscrizioniPost,idSP);
-		
-		System.out.println("debug swap Dawn sottoscrizioni:"+sP1);
-		
-		int idSP2 = findIdByPosition(sottoscrizioniPost, position + 1);
-		
-		SottoscrizionePost sP2 =  findSottoscrizionePost(sottoscrizioniPost,idSP2);
-		
-		 
-		sP1.setPosition(position +1);
-		 
-		 
-		 
-		if(sP2!=null)
-			sP2.setPosition(position);
-		 
-		
-		messageResult= new Msg(true, "Article - "+sP1.getPost().getTitle()+" - moved Down ");
-		
-		result = sottoscrizionePostDAO.updateSottoscrizioneP(sP1);
-		System.out.println("Debug swap down:"+result);
-		 
-		if(sP2!=null)
-			result = sottoscrizionePostDAO.updateSottoscrizioneP(sP2);   
-		
-		if(result)
-			return messageResult;
-		else return new Msg(false, "swap failed!");
-		 
-		}
 	
 	
 	private boolean checkPresenceSP(ArrayList<SottoscrizionePost> sottoscrizioniPost, int postId) {
@@ -277,26 +193,7 @@ public class ServiceUser {
 	
 	
 	
-	private int findPositionById(ArrayList<SottoscrizionePost> sottoscrizioniPost,int idSP) { 
-		for(SottoscrizionePost sP: sottoscrizioniPost)
-			if(sP.getId()==idSP)
-				return sP.getPosition();
-		return 0; 
-	}
-	
-	private int findIdByPosition(ArrayList<SottoscrizionePost> sottoscrizioniPost,int position) { 
-		for(SottoscrizionePost sP: sottoscrizioniPost)
-			if(sP.getPosition()==position)
-				return sP.getId();
-		return 0; 
-	}
-	
-	private SottoscrizionePost findSottoscrizionePost(ArrayList<SottoscrizionePost> sottoscrizioniPost,int idSP) { 
-		for(SottoscrizionePost sP: sottoscrizioniPost)
-			if(sP.getId()==idSP)
-				return sP;
-		return null; 
-	}
+
 	
  
  

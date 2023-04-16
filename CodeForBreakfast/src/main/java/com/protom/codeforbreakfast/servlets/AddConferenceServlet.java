@@ -8,8 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
- 
-import com.protom.codeforbreakfast.model.entity.Msg;
+  
 import com.protom.codeforbreakfast.model.entity.User; 
 import com.protom.codeforbreakfast.service.ServiceMsg; 
 import com.protom.codeforbreakfast.service.ServiceUser;
@@ -49,9 +48,9 @@ public class AddConferenceServlet extends HttpServlet{
 						
 						//Fase 2
 					 
-						ServiceUser serviceUser = new ServiceUser();   
-						
-						ServiceMsg serviceMsg = new ServiceMsg();   
+						ServiceUser serviceUser = new ServiceUser();
+						ServiceMsg serviceMsg = ServiceMsg.getInstance(); 
+						 
 						 
 						HttpSession currentSession = request.getSession();
 						
@@ -61,45 +60,47 @@ public class AddConferenceServlet extends HttpServlet{
 						
 						// se ho l'user
 						if(user!=null) {
-							
-						System.out.println(user);
+							 
 							
 							
 						serviceUser.avviaConnessione();
 							
 							
 							
-						Msg msg = serviceUser.addConference(user, conferenceId); 	
+						serviceUser.addConference(user, conferenceId);
+						
+						String msg = serviceMsg.getMsg().getMessage();
+						String articleOnSession = (String) currentSession.getAttribute("articleOnScreenInSession");
 							
 						// se l'add è andato a buon fine		
-						if(msg.getResult()) { 
-								
-						//invalido una sessione esistente
-						HttpSession pastSession = request.getSession(false);
-						if(pastSession != null) {
-							pastSession.invalidate();
-						}
+						if(serviceMsg.getMsg().getStatus()) { 
+								 
+							//invalido una sessione esistente
+							HttpSession pastSession = request.getSession(false);
+							if(pastSession != null) {
+								pastSession.invalidate();
+							}
+										 
+									
+							// istanzio una nuova sessione
+			 				HttpSession currentSessionNew = request.getSession();
+			 				currentSessionNew.setMaxInactiveInterval(10*60);
+			 					
+			 				User userNew = serviceUser.cercaUser(user.getUsername(), user.getPassword());
+			 					
+			 				currentSessionNew.removeAttribute("user"); 
+			 				currentSessionNew.setAttribute("user", userNew);
+							  
+							currentSessionNew.setMaxInactiveInterval(10*60);   
+								 
+							//messaggio in console 
+							currentSessionNew.removeAttribute("infoMsg"); 
+							currentSessionNew.setAttribute("infoMsg", msg);
 							
-						User userNew = serviceUser.cercaUser(user.getUsername(), user.getPassword());
-						System.out.println(user.getUsername());
-						
-						// istanzio una nuova sessione
-						HttpSession currentSessionNew = request.getSession();
-						currentSessionNew.setMaxInactiveInterval(10*60); 
-						currentSessionNew.setAttribute("user", userNew);
+							
+							currentSessionNew.setAttribute("articleOnScreenInSession", articleOnSession); 
+								 
 						 
-						
-						serviceMsg.verifyStatus();
-						
-						msg = serviceMsg.getMsg();
-				
-						
-						 
-						
-						//messaggio in console 
-						currentSessionNew.removeAttribute("infoMsg"); 
-						currentSessionNew.setAttribute("infoMsg", msg); 
-						
 						
 						
 						//redirect a index
@@ -117,7 +118,7 @@ public class AddConferenceServlet extends HttpServlet{
 							 
 							
 							
-							request.setAttribute("infoMsg", msg); 
+							request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage()); 
 							 
 							
 							RequestDispatcher dis = request.getRequestDispatcher("conferences"+conferencePage+".jsp"); 
@@ -130,7 +131,9 @@ public class AddConferenceServlet extends HttpServlet{
 						} 
 						// l'user è null quindi la sessione è scaduta	
 					}else {
-					request.setAttribute("infoMsg", new Msg(false, "Sorry, your session has expired"));
+						serviceMsg.setValues(false,"Sorry, your session has expired");
+						
+					request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage());
 					RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
 					dis.forward(request, response);  
 

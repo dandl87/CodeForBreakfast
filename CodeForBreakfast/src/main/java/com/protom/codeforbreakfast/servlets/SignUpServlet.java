@@ -8,17 +8,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
- 
+
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.protom.codeforbreakfast.model.entity.User; 
 import com.protom.codeforbreakfast.service.ServiceMsg; 
 import com.protom.codeforbreakfast.service.ServiceUser;
  
-public class LoginServlet extends HttpServlet{
+public class SignUpServlet extends HttpServlet{
 	
 	private static final long serialVersionUID = 1L;
     
 	  
-    public LoginServlet() {
+    public SignUpServlet() {
         super(); 
     }
 
@@ -38,8 +40,15 @@ public class LoginServlet extends HttpServlet{
 				
 				
 				//Fase 1
+				String name   =  request.getParameter("name");
+				String surname = request.getParameter("surname");
 				String username   =  request.getParameter("username");
-				String password = request.getParameter("password"); 
+				String password = request.getParameter("password");
+				String email   =  request.getParameter("email"); 
+				
+				//Fase 2 Encrypt password
+				
+				String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 				
 				
 				 
@@ -51,13 +60,15 @@ public class LoginServlet extends HttpServlet{
 				
 				serviceUser.avviaConnessione();
 				
-				User user = serviceUser.cercaUser(username, password);
+				User user = new User(username, hashedPassword, name, surname, email);
+				
+				boolean result = serviceUser.insertNewUser(user);
 				
 				 
-				if(user!=null) {
+				if(result) {
 					
 						
-				System.out.println("Log: match User");
+				System.out.println("Log: User inserted");
 						
 				//invalido una sessione esistente
 				HttpSession pastSession = request.getSession(false);
@@ -67,15 +78,17 @@ public class LoginServlet extends HttpServlet{
 					
 				System.out.println(user.getUsername());
 				
-				// istanzio una nuova sessione
-				HttpSession currentSession = request.getSession();
-				currentSession.setMaxInactiveInterval(10*60); 
-				currentSession.setAttribute("user", user);
-				 
-			 
-				 
-				currentSession.setAttribute("infoMsg", serviceMsg.getMsg().getMessage()); 
-				currentSession.setAttribute("articleOnScreenInSession", null); 
+//				// istanzio una nuova sessione
+//				HttpSession currentSession = request.getSession();
+//				currentSession.setMaxInactiveInterval(10*60); 
+//				currentSession.setAttribute("user", user);
+//				
+//				serviceMsg.verifyStatus();
+//				
+//				Msg msg = serviceMsg.getMsg(); 
+//				 
+//				currentSession.setAttribute("infoMsg", msg); 
+//				currentSession.setAttribute("articleOnScreenInSession", null); 
 				
 				//redirect a index
 				response.sendRedirect("http://192.168.1.109:8086/CodeForBreakfast/home"); 
@@ -84,7 +97,7 @@ public class LoginServlet extends HttpServlet{
 				
 				}else { 					
 					 
-					serviceMsg.setValues(false, "Login failed!"); 
+					serviceMsg.setValues(false, "Login failed!");
 					
 					request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage()); 
 					 

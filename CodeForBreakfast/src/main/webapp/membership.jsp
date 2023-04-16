@@ -7,7 +7,7 @@
     <%@ page import="com.protom.codeforbreakfast.dbconnections.DbConnectionMySql"%>
     
      <%   if(session.getAttribute("user")==null)
-   			 response.sendRedirect("index.jsp"); 
+   			 response.sendRedirect("/CodeForBreakfast"); 
 	 %>
 	 
 	 
@@ -40,13 +40,13 @@
             <div class="menu" id="menu">
                 <ul class="list">
                     <li class="list-item">
-                        <a href="index.jsp" class="list-link">Home</a>
+                        <a href="/CodeForBreakfast/home" class="list-link">Home</a>
                     </li>
                     <li class="list-item">
-                        <a href="conferences1.jsp" class="list-link">Conferences</a>
+                        <a href="/CodeForBreakfast/conferences" class="list-link">Conferences</a>
                     </li>
                     <li class="list-item">
-                        <a href="articles1.jsp" class="list-link">Articles</a>
+                        <a href="/CodeForBreakfast/articles" class="list-link">Articles</a>
                     </li>
                     <li class="list-item">
                         <a href="#" class="list-link">News</a>
@@ -55,7 +55,7 @@
                         <a href="#" class="list-link current">Membership</a>
                     </li>
                     <li class="list-item">
-                        <a href="contacts.jsp" class="list-link">Contact</a>
+                        <a href="/CodeForBreakfast/contact" class="list-link">Contact</a>
                     </li>
                     
                     <li class="list-item screen-lg-hidden">
@@ -169,7 +169,7 @@
 									Welcome to a world made of code & coffee
 								</c:when>
 								<c:otherwise>
-									<c:out value="${infoMsg.getMessage() }"/>
+									<c:out value="${infoMsg}"/>
 								</c:otherwise>
 							</c:choose>	
 							</span>

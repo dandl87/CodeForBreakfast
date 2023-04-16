@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
   <display-name>CodeForBreakfast</display-name>
   <welcome-file-list>
-  	<welcome-file>index.jsp</welcome-file> 
+  	<welcome-file>home</welcome-file> 
     <welcome-file>index.html</welcome-file> 
   </welcome-file-list>
   
@@ -26,6 +26,16 @@
 			<servlet-name>LogoutServlet</servlet-name>
 			<url-pattern>/logout</url-pattern>
 		</servlet-mapping>
+		
+		<!-- <servlet>
+			<servlet-name>SingUpServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.SignUpServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping> 
+			<servlet-name>SignUpServlet</servlet-name>
+			<url-pattern>/signUp</url-pattern>
+		</servlet-mapping> -->
 		
 		 <servlet>
 			<servlet-name>RemovePostServlet</servlet-name>
@@ -127,14 +137,87 @@
 			<url-pattern>/removeConferenceFromConference</url-pattern>
 		</servlet-mapping>
 		
-		 <servlet>
+		<servlet>
 			<servlet-name>OnScreenServlet</servlet-name>
 			<servlet-class>com.protom.codeforbreakfast.servlets.OnScreenServlet</servlet-class>
 		</servlet>
 		
-		<servlet-mapping>
+		<servlet-mapping> 
 			<servlet-name>OnScreenServlet</servlet-name>
 			<url-pattern>/onScreen</url-pattern>
 		</servlet-mapping>
 		
+		<servlet>
+			<servlet-name>OnScreenCloseServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.OnScreenCloseServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping> 
+			<servlet-name>OnScreenCloseServlet</servlet-name>
+			<url-pattern>/onScreenClose</url-pattern>
+		</servlet-mapping>
+		
+		<servlet>
+			<servlet-name>LoadArticlesByPageServlet</servlet-name>
+			<servlet-class>com.protom.codeforbreakfast.servlets.LoadArticlesByPageServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping> 
+			<servlet-name>LoadArticlesByPageServlet</servlet-name>
+			<url-pattern>/loadArticles</url-pattern>
+		</servlet-mapping>
+		
+		
+		
+		<!--  JSP mapping  -->
+		 <servlet>
+     		<servlet-name>Home</servlet-name>
+     		<jsp-file>/index.jsp</jsp-file>
+		</servlet>
+		
+		<servlet-mapping>
+	     	<servlet-name>Home</servlet-name>
+	    	<url-pattern>/home</url-pattern>
+		</servlet-mapping>
+		
+		<servlet>
+     		<servlet-name>Conference</servlet-name>
+     		<jsp-file>/conferences1.jsp</jsp-file>
+		</servlet>
+		
+		<servlet-mapping>
+	     	<servlet-name>Conference</servlet-name>
+	    	<url-pattern>/conferences</url-pattern>
+		</servlet-mapping>
+		
+		<servlet>
+     		<servlet-name>Articles</servlet-name>
+     		<jsp-file>/articles1.jsp</jsp-file>
+		</servlet>
+		
+		<servlet-mapping>
+	     	<servlet-name>Articles</servlet-name>
+	    	<url-pattern>/articles</url-pattern>
+		</servlet-mapping> 
+		
+		<servlet>
+     		<servlet-name>Membership</servlet-name>
+     		<jsp-file>/membership.jsp</jsp-file>
+		</servlet>
+		
+		<servlet-mapping>
+	     	<servlet-name>Membership</servlet-name>
+	    	<url-pattern>/membership</url-pattern>
+		</servlet-mapping>
+		
+		<servlet>
+     		<servlet-name>Contact</servlet-name>
+     		<jsp-file>/contacts.jsp</jsp-file>
+		</servlet>
+		
+		<servlet-mapping>
+	     	<servlet-name>Contact</servlet-name>
+	    	<url-pattern>/contact</url-pattern>
+		</servlet-mapping> 
+
 </web-app>

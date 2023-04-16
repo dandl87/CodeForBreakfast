@@ -1,6 +1,5 @@
 package com.protom.codeforbreakfast.service;
-
-import java.sql.Connection;
+ 
 import java.util.ArrayList;
 
 import com.protom.codeforbreakfast.dbconnections.DbConnectionMySql;

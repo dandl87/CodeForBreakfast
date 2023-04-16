@@ -1,11 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-   <%@ page import="com.protom.codeforbreakfast.model.entity.Msg"%>
-   <%@ page import="com.protom.codeforbreakfast.service.ServiceAllConferences"%>
-    <%@ page import="java.util.ArrayList"%>
-    <%@ page import="com.protom.codeforbreakfast.model.entity.Conference"%>
-     <%@ page import="com.protom.codeforbreakfast.dbconnections.DbConnectionMySql"%>
+  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
   
 	  <!DOCTYPE >
 		<html lang="en">
@@ -35,23 +30,28 @@
 
             <div class="menu" id="menu">
                 <ul class="list">
+                    
                     <li class="list-item">
                         <a href="#" class="list-link current">Home</a>
                     </li>
+                    
                     <li class="list-item">
-                        <a href="conferences1.jsp" class="list-link">Conferences</a>
+                        <a href="/CodeForBreakfast/conferences" class="list-link">Conferences</a>
                     </li>
+                    
                     <li class="list-item">
-                        <a href="articles1.jsp" class="list-link">Articles</a>
+                        <a href="/CodeForBreakfast/articles" class="list-link">Articles</a>
                     </li>
+                    
                     <li class="list-item">
                         <a href="#" class="list-link">News</a>
                     </li>
                     <li class="list-item">
-                        <a href="membership.jsp" class="list-link">Membership</a>
+                        <a href="/CodeForBreakfast/membership" class="list-link">Membership</a>
                     </li>
+                    
                     <li class="list-item">
-                        <a href="contacts.jsp" class="list-link">Contact</a>
+                        <a href="/CodeForBreakfast/contact" class="list-link">Contact</a>
                     </li>
                     
                     <li class="list-item screen-lg-hidden">
@@ -62,7 +62,6 @@
 
             <div class="list list-right">
                  
-
                 <!-- Search Icon-->
                 <button class="btn place-items-center" id="search-icon">
                     <i class="ri-search-line"></i>
@@ -73,19 +72,20 @@
                     <i class="ri-close-line close-menu-icon"></i>
                 </button>
 
+                
                 <!-- LogIn Icon -->
                 <button class="btn" id="login-icon">
                     <i class="ri-login-circle-fill"></i>
                 </button>
 
                 <!-- Log Out Icon -->
-                    <a href="http://192.168.1.109:8086/CodeForBreakfast/logout">
-                        <button class="btn" id="logout-button">
-                            <i class="ri-logout-circle-r-line"></i>
-                        </button>
-                    </a>
+                <a href="http://192.168.1.109:8086/CodeForBreakfast/logout">
+                	<button class="btn" id="logout-button">
+                    	<i class="ri-logout-circle-r-line"></i>
+                     </button>
+                </a>
                  
-
+				<!-- Sing Up -->
                 <a href="signUp.html" class="btn sign-up-btn fancy-border screen-sm-hidden">
                     <span>Sign up</span>
                 </a>
@@ -102,7 +102,7 @@
 
            <form action="http://192.168.1.109:8086/CodeForBreakfast/login" class="form" method="post">
            <input class="form-input" type="text" placeholder="username" name="username">
-           <input class="form-input" type="text" placeholder="password" name="password">
+           <input class="form-input" type="password" placeholder="password" name="password">
              <button class="btn form-btn" type="submit">
                <i class="ri-login-circle-fill"></i>
             </button>
@@ -169,7 +169,7 @@
 									Welcome to a world made of code & coffee
 								</c:when>
 								<c:otherwise>
-									<c:out value="${infoMsg.getMessage() }"/>
+									<c:out value="${infoMsg}"/>
 								</c:otherwise>
 							</c:choose>	
 							</span>
@@ -206,16 +206,31 @@
 
                                     <div class="article-data">
                                     	<!-- view function-->
-
+										<c:choose>
+										<c:when test="${articleOnScreenInSession==sottoscrizione.getPost().getLink()}">
                                          <c:set var="onScreenURL">
-							               <c:url value="http://192.168.1.109:8086/CodeForBreakfast/onScreen" > 
-							                  <c:param name="articleToView" value="${sottoscrizione.getPost().getLink()}"/>   
+							               <c:url value="http://192.168.1.109:8086/CodeForBreakfast/onScreenClose" >  
 							                </c:url>  
-							           </c:set>  
-                                            <button class="btn" id="view-button" onClick="articleOnScreenFunction('${onScreenURL}')">
-                                                 <i class="ri-eye-2-fill"></i>
-                                            </button>
-                                         
+							           	</c:set> 
+												<button class="btn" id="view-button" onClick="articleOnScreenFunctionSetNull('${onScreenURL}')">
+                                                 <i class="ri-book-open-fill"></i>
+                                           		</button>
+										</c:when>
+											
+											<c:otherwise>
+											<c:set var="onScreenURL">
+							               <c:url value="http://192.168.1.109:8086/CodeForBreakfast/onScreen" > 
+							                  <c:param name="articleLinkToView" value="${sottoscrizione.getPost().getLink()}"/>
+							                   <c:param name="articleTitleToView" value="${sottoscrizione.getPost().getTitle()}"/>  
+							                </c:url>  
+							           	</c:set> 
+												<button class="btn" id="view-button" onClick="articleOnScreenFunction('${onScreenURL}')">
+												<i class="ri-folder-3-fill"></i>
+                                                
+                                           		</button>
+											
+											</c:otherwise>
+										</c:choose>	 
                                        
                                         
                                         <!-- remove function-->
@@ -294,7 +309,7 @@
                   <c:set var="count" scope="session" value="${count+1}"/>
                       
                        <!-- Conferences -->
-                         <div href="${conferenceSubscription.getConference().getLink()}" class="trending-news-box">
+                         <div class="trending-news-box">
                              <div class="trending-news-img-box">
                                 <span class="trending-number place-items-center"><c:out value="${count}" /></span>
                                 <a href="${conferenceSubscription.getConference().getLink()}"> <img src="${conferenceSubscription.getConference().getLinkImgSmall()}" alt="" class="article-image"> </a>
@@ -309,7 +324,6 @@
                             <c:set var="titleURL1">
 		                    	<c:url value="http://192.168.1.109:8086/CodeForBreakfast/removeConference" >
 		                    		<c:param name="conferenceId" value="${conferenceSubscription.getConference().getId()}"/>
-		                    		<c:param name="conferencesPage" value="${1}"/> 
 		                    	</c:url>
 		 					</c:set>		                                                         
 							 
@@ -585,6 +599,7 @@
                     </li>
                 </ul>
                 <span class="copyright-notice">&copy;2023 CodeforBreakfast. All rights reserved.</span>
+                <span>Front-End developed by <a href="https://www.youtube.com/c/JulioCodes">JulioCode</a></span>
             </div>
 
             <div>
@@ -692,25 +707,35 @@
     </script>
     
      <script type="text/javascript"> 
-    function articleOnScreenFunction(onScreenURL){  
+     
+		    function articleOnScreenFunction(onScreenURL){  
+				var xmlHttp = new XMLHttpRequest();
 
-  
-		 
-    			var xmlHttp = new XMLHttpRequest();
-    			
-    			xmlHttp.onload = function(onScreenURL){ 
-    		       	document.location.reload();   
-            		    }
-        			  
- 
-    			xmlHttp.open('POST',onScreenURL,true);
-    	    	xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    	    	xmlHttp.send(onScreenURL.params); 
-		       
-    	    	
-				}
+		    	xmlHttp.onload = function(onScreenURL){ 
+		    		document.location.reload();   
+					}
 
- 
+				xmlHttp.open('POST',onScreenURL,true);
+				xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+				xmlHttp.send(onScreenURL.params); 
+
+		    } 
+    </script>
+    
+    <script type="text/javascript"> 
+     
+		    function articleOnScreenFunctionSetNull(onScreenURL){  
+				var xmlHttp = new XMLHttpRequest();
+
+		    	xmlHttp.onload = function(onScreenURL){ 
+		    		document.location.reload();   
+					}
+
+				xmlHttp.open('POST',onScreenURL,true);
+				xmlHttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+				xmlHttp.send(); 
+
+		    } 
     </script>
     
     

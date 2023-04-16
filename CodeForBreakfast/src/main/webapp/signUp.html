@@ -27,22 +27,22 @@
             <div class="menu" id="menu">
                 <ul class="list">
                     <li class="list-item">
-                        <a href="index.jsp" class="list-link">Home</a>
+                        <a href="/CodeForBreakfast/home" class="list-link">Home</a>
                     </li>
                     <li class="list-item">
-                        <a href="conferences1.jsp" class="list-link">Conferences</a>
+                        <a href="/CodeForBreakfast/conferences" class="list-link">Conferences</a>
                     </li>
                     <li class="list-item">
-                        <a href="#" class="list-link">Articles</a>
+                        <a href="/CodeForBreakfast/articles" class="list-link">Articles</a>
                     </li>
                     <li class="list-item">
                         <a href="#" class="list-link">News</a>
                     </li>
                     <li class="list-item">
-                        <a href="membership.jsp" class="list-link">Membership</a>
+                        <a href="/CodeForBreakfast/membership" class="list-link">Membership</a>
                     </li>
                     <li class="list-item">
-                        <a href="contacts.jsp" class="list-link">Contact</a>
+                        <a href="/CodeForBreakfast/contacts" class="list-link">Contact</a>
                     </li>
                     
                     <li class="list-item screen-lg-hidden">
@@ -92,7 +92,7 @@
 
            <form action="http://192.168.1.109:8086/CodeForBreakfast/login" class="form" method="post">
            <input class="form-input" type="text" placeholder="username" name="username">
-           <input class="form-input" type="text" placeholder="password" name="password">
+           <input class="form-input" type="password" placeholder="password" name="password">
              <button class="btn form-btn" type="submit">
                <i class="ri-login-circle-fill"></i>
             </button>
@@ -152,55 +152,26 @@
                 </div>
                 
                 <!-- Form per l'inserimento dei dati -->  
-               			 <a  href="#" class="article featured-article">
-                 		    <img src="#" alt="" class="article-image">
-                             <span class="article-category">toBeDefined</span> 
+               			   <!-- LogIn -->
+                             
 
-                             <div class="article-data-container">
-   
-                               <div class="article-data">
-                                 <span>toBeDefined</span>
-                                 <span class="article-data-spacer"></span> 
-                               </div>
-   
-                                <h3 class="title article-title">toBeDefined</h3> 
-                            </div>
-                        </a>
-
-                        <!-- info -->
-                        <a class="article info-article"> 
-                            
-
-                         <div class="info-article-data-container">
-
-                               <div class="article-data">
-                                <span class="article-category">$toBeDefined</span>
-                                   <span>toBeDefined</span>
-                                    
-                               </div>
-
-                               <h3 class="title article-title">toBeDefined</h3>
-                               <h3 class="article-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                Proin nec sagittis odio. Integer eu ante molestie, condimentum purus volutpat, pharetra mauris. 
-                                Morbi tortor velit, luctus vel pretium non, lacinia quis lorem. Donec luctus velit quis mi sodales, sit amet ultrices tellus venenatis. 
-                                Suspendisse ut urna risus. Curabitur eu magna vel elit volutpat suscipit. Ut consequat velit metus, quis gravida ante semper a. 
-                                Donec euismod mauris sed diam feugiat, blandit consequat lorem imperdiet. 
-                                Phasellus lorem est, malesuada vel sapien consequat, ullamcorper rutrum eros.</h3>
-
-                            </div>
-                       </a>
-
-                </c:forEach>
-					 
-                
-
-
+                                <form action="http://192.168.1.109:8086/CodeForBreakfast/login" class="formSU" method="post">
+	                                <input class="form-field-1 formSU-input" type="text" placeholder="name" name="name">
+	                                <input class="form-field-2 formSU-input" type="text" placeholder="surname" name="surname">
+	                                <input class="form-field-3 formSU-input" type="text" placeholder="username" name="username">
+	                                <input class="form-field-4 formSU-input" type="text" placeholder="password" name="password">
+	                                <input class="form-field-5 formSU-input" type="text" placeholder="email" name="email">
+	                                    <button class="btn formSU-btn" type="submit">
+	                                    	<i class="ri-login-circle-fill"></i>
+	                                    </button>
+	                                    
+                                </form> 
+                             
+             		</div>
 
             </div>
             
              
-
-        </div>
 
     </section>
 

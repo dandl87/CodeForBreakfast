@@ -13,14 +13,14 @@ import com.protom.codeforbreakfast.model.entity.User;
 import com.protom.codeforbreakfast.service.ServiceMsg; 
 import com.protom.codeforbreakfast.service.ServiceUser;
 
-public class OnScreenServlet extends HttpServlet{
+public class OnScreenCloseServlet extends HttpServlet{
 	
 	 /**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public OnScreenServlet() {
+		public OnScreenCloseServlet() {
 		        super(); 
 		    }
 
@@ -38,19 +38,11 @@ public class OnScreenServlet extends HttpServlet{
 			protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				 
 				  		
-				  			
-			 
-						
-						//Fase 1
-						 
-						String articleLink = request.getParameter("articleLinkToView");
-						String articleTitle = request.getParameter("articleTitleToView"); 
-						
-						//Fase 2
+					  
 					 
 						ServiceUser serviceUser = new ServiceUser();   
 						
-						ServiceMsg serviceMsg = ServiceMsg.getInstance(); 
+						ServiceMsg serviceMsg = ServiceMsg.getInstance();   
 						 
 						HttpSession currentSession = request.getSession();
 						
@@ -65,19 +57,19 @@ public class OnScreenServlet extends HttpServlet{
 							
 							
 						serviceUser.avviaConnessione();
-						 
-								 
 							 
-						currentSession.setMaxInactiveInterval(10*60);   
-						
-						serviceMsg.setValues(true, articleTitle );
+						 
+						currentSession.setMaxInactiveInterval(10*60);  
+						   
+						 
+						serviceMsg.setValues(true,"article closed");
 						
 						//messaggio in console 
 						currentSession.removeAttribute("infoMsg"); 
 						currentSession.setAttribute("infoMsg", serviceMsg.getMsg().getMessage()); 
 						
 						//articoloDaVisualizzare 
-						currentSession.setAttribute("articleOnScreenInSession", articleLink); 
+						currentSession.setAttribute("articleOnScreenInSession", null); 
 						
 						
 						
@@ -89,14 +81,10 @@ public class OnScreenServlet extends HttpServlet{
 					 
 						serviceUser.chiudiConnessione(); 
 								 
-						
 						 
-						  
 						// l'user è null quindi la sessione è scaduta	
 					}else {
-						
 						serviceMsg.setValues(false, "Sorry, your session has expired");
-						
 					request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage());
 					RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
 					dis.forward(request, response);  

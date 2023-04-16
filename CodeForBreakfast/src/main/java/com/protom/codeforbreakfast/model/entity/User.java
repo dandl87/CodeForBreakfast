@@ -8,28 +8,30 @@ public class User {
 	private String password;
 	private String name;
 	private String surname;
+	private String email;
 	private ArrayList<SottoscrizionePost> sottoscrizioniPost;
 	private ArrayList<SottoscrizioneConference> sottoscrizioniConference;
 	
 	
 	
-	public User(String username, String password, String name, String surname) {
+	public User(String username, String password, String name, String surname, String email) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.name = name;
 		this.surname = surname;
+		this.email=email;
 		sottoscrizioniPost= new ArrayList<>(6);
 		sottoscrizioniConference = new ArrayList<>(6);
 	}
 	
 	//for membership section
-	public User(String username,String name, String surname) {
+	public User(String username,String name, String surname, String email) {
 		super();
-		this.username = username;
-		this.password = password;
+		this.username = username; 
 		this.name = name;
 		this.surname = surname;
+		this.email=email;
 		sottoscrizioniPost= new ArrayList<>(6);
 		sottoscrizioniConference = new ArrayList<>(6);
 	}
@@ -75,6 +77,15 @@ public class User {
 		this.surname = surname;
 	}
 	 
+	
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	public ArrayList<SottoscrizionePost> getSottoscrizioniPost() {
 		return sottoscrizioniPost;
@@ -99,7 +110,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [username=" + this.username + ", password=" + this.password + ", name=" + this.name + ", surname=" + this.surname
-				+ " numero sottoscrizioni post:"+ this.sottoscrizioniPost.size()+" numero sottoscrizioni Conference:"+this.sottoscrizioniConference.size()+"]";
+				+ "email= "+email+" numero sottoscrizioni post:"+ this.sottoscrizioniPost.size()+" numero sottoscrizioni Conference:"+this.sottoscrizioniConference.size()+"]";
 	}
 	
 	

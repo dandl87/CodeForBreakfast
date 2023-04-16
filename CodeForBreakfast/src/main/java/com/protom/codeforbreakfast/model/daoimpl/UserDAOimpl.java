@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.protom.codeforbreakfast.dbconnections.DbConnectionMySql;
 import com.protom.codeforbreakfast.model.dao.UserDAO;
 import com.protom.codeforbreakfast.model.entity.User;
@@ -27,10 +29,11 @@ public class UserDAOimpl implements UserDAO{
 	public User readUser(String username, String password) {
 		
 		 
-			ResultSet rs; 
+			ResultSet rs;
+			  
 			
 			try {
-			String query = "SELECT * FROM user WHERE username = '" + username +"' AND password = '"+password+"';";
+			String query = "SELECT * FROM user WHERE username = '" + username +"';";
 			
 			PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 			
@@ -41,13 +44,22 @@ public class UserDAOimpl implements UserDAO{
 
 				String usernameFromDB= rs.getString("username");
 				String passwordFromDB =rs.getString("password");
-				String nomeFromDB = rs.getString("nome");
-				String cognomeFromDB = rs.getString("cognome");
-				User userFromDB = new User(usernameFromDB,passwordFromDB,nomeFromDB, cognomeFromDB); 
-				return userFromDB;
+				String nome = rs.getString("nome");
+				String cognome = rs.getString("cognome");
+				String email = rs.getString("email");
 				
+				
+				if (BCrypt.checkpw(password, passwordFromDB)) {
+					System.out.println("Password match");
+					User userFromDB = new User(usernameFromDB,passwordFromDB,nome, cognome, email); 
+					return userFromDB;
+				}else {
+					System.out.println("Password does not match");
+					return null;
+				
+				}
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
 				System.out.println("Errore accesso a db!");
 				return null;
 			}
@@ -67,7 +79,7 @@ public class UserDAOimpl implements UserDAO{
 			ps = dbConnection.getConnection().prepareStatement(
 					"INSERT INTO user (username, password, nome, cognome) VALUES ('"
 							+ user.getUsername() + "', '" + user.getPassword() + "','" + user.getSurname() + "','"
-							+ user.getName() + "');");
+							+ user.getName() + "','"+user.getEmail()+"');");
 			System.out.println(ps.executeUpdate() + "Log: user inserted");
 			
 			
@@ -89,7 +101,7 @@ public class UserDAOimpl implements UserDAO{
 		try {
 		 
 		String query = "UPDATE user SET username='"+user.getUsername()+"', password='"+user.getPassword()+"',nome='"+user.getName()+"', "
-				+ "cognome='"+user.getSurname()+  
+				+ "cognome='"+user.getSurname()+ "'email='"+user.getEmail()+  
 				"' WHERE username = " + user.getUsername()+" && password = "+user.getPassword();
 		
 		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
@@ -143,13 +155,14 @@ public class UserDAOimpl implements UserDAO{
 			String username = rs.getString("username");
 			String name = rs.getString("nome");
 			String surname = rs.getString("cognome"); 
+			String email = rs.getString("email");
 			
 			 
 			
 			 
 			
 			//String dateString = dataImmatricolazione.toString();
-			User user = new User(username, name, surname );
+			User user = new User(username, name, surname, email );
 
 			listOfAllUsers.add(user);
 		}

@@ -1,7 +1,6 @@
 package com.protom.codeforbreakfast.servlets;
 
-import java.io.IOException;
-import java.util.ArrayList;
+import java.io.IOException; 
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,14 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.protom.codeforbreakfast.model.entity.Conference;
-import com.protom.codeforbreakfast.model.entity.Msg;
-import com.protom.codeforbreakfast.model.entity.Post;
-import com.protom.codeforbreakfast.model.entity.User;
-import com.protom.codeforbreakfast.service.ServiceConference;
-import com.protom.codeforbreakfast.service.ServiceMsg;
-import com.protom.codeforbreakfast.service.ServicePost;
+ 
+import com.protom.codeforbreakfast.model.entity.User; 
+import com.protom.codeforbreakfast.service.ServiceMsg; 
 import com.protom.codeforbreakfast.service.ServiceUser;
 
 public class RemoveConferenceFromConferenceSectionServlet extends HttpServlet {
@@ -52,52 +46,52 @@ public class RemoveConferenceFromConferenceSectionServlet extends HttpServlet {
 					
 					//Fase 2
 				 
-					ServiceUser serviceUser = new ServiceUser();  
-					ServiceMsg serviceMsg = new ServiceMsg();  
+					ServiceUser serviceUser = new ServiceUser();   
+					ServiceMsg serviceMsg = ServiceMsg.getInstance();
 					 
 					HttpSession currentSession = request.getSession();
 					 
 					
 					
-					User user = (User) currentSession.getAttribute("user"); 
+					User user = (User) currentSession.getAttribute("user");
+					 
 					
 					 
 					if(user!=null ) {
 						
 					serviceUser.avviaConnessione();
 					
-					Msg msg = serviceUser.removeConference(user, conferenceId);
+					serviceUser.removeConference(user, conferenceId);
 					
-					System.out.println(msg);
-					if(msg.getResult()) {
-						
-							
-					System.out.println("Log: match User");
-							
-					//invalido una sessione esistente
-					HttpSession pastSession = request.getSession(false);
-					if(pastSession != null) {
-						pastSession.invalidate();
-					}
-						
-					User userNew = serviceUser.cercaUser(user.getUsername(), user.getPassword());
-					System.out.println(user.getUsername());
+					String msg = serviceMsg.getMsg().getMessage();
 					
-					// istanzio una nuova sessione
-					HttpSession currentSessionNew = request.getSession();
-					currentSessionNew.setMaxInactiveInterval(10*60); 
-					currentSessionNew.setAttribute("user", userNew);
+					String articleOnDesk = (String) currentSession.getAttribute("articleOnScreenInSession");
 					 
-	 				 
-					serviceMsg.verifyStatus();
-					
-					msg = serviceMsg.getMsg();
-			
-				
+					if(serviceMsg.getMsg().getStatus()) {
+						
+						//invalido una sessione esistente
+						HttpSession pastSession = request.getSession(false);
+						if(pastSession != null) {
+							pastSession.invalidate();
+						}
+							 
+						
+					// istanzio una nuova sessione
+ 					HttpSession currentSessionNew = request.getSession();
+ 					currentSessionNew.setMaxInactiveInterval(10*60);
+ 					
+ 					User userNew = serviceUser.cercaUser(user.getUsername(), user.getPassword());
+ 					
+ 					currentSessionNew.removeAttribute("user"); 
+ 					currentSessionNew.setAttribute("user", userNew);
+				  
+					currentSessionNew.setMaxInactiveInterval(10*60);   
 					
 					//messaggio in console 
 					currentSessionNew.removeAttribute("infoMsg"); 
-					currentSessionNew.setAttribute("infoMsg", msg); 
+					currentSessionNew.setAttribute("infoMsg", msg);
+					
+					currentSessionNew.setAttribute("articleOnScreenInSession", articleOnDesk);
 					
 					//redirect a index
 					RequestDispatcher dis = request.getRequestDispatcher("conferences"+conferencePage+".jsp"); 
@@ -113,7 +107,7 @@ public class RemoveConferenceFromConferenceSectionServlet extends HttpServlet {
 					}else { 					
 						  
 						
-						request.setAttribute("infoMsg", msg); 
+						request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage()); 
 						 
 						
 						RequestDispatcher dis = request.getRequestDispatcher("articles"+conferencePage+".jsp"); 
@@ -125,7 +119,8 @@ public class RemoveConferenceFromConferenceSectionServlet extends HttpServlet {
 	 
 					}
 				}else {
-				request.setAttribute("infoMsg", new Msg(false, "Sorry, your session has expired"));
+					serviceMsg.setValues(false, "Sorry, your session has expired");
+				request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage());
 				RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
 				dis.forward(request, response);  
 				}

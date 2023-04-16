@@ -16,18 +16,11 @@ public class DbConnectionMySql {
 	    private DbConnectionMySql() {
 	    	
 	    }
-	    
-	    
-		
+	     
 		public Connection getConnection() {
 			return connection;
 		}
-
-
-
  
-
-
 
 		public  Connection avviaConnessione() {
 			

@@ -8,8 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
- 
-import com.protom.codeforbreakfast.model.entity.Msg; 
+  
 import com.protom.codeforbreakfast.model.entity.User; 
 import com.protom.codeforbreakfast.service.ServiceMsg; 
 import com.protom.codeforbreakfast.service.ServiceUser;
@@ -46,53 +45,57 @@ public class RemoveConferenceServlet extends HttpServlet {
 					
 					//Fase 2
 				 
-					ServiceUser serviceUser = new ServiceUser(); 
-					ServiceMsg serviceMsg = new ServiceMsg(); 
+					ServiceUser serviceUser = new ServiceUser();  
+					ServiceMsg serviceMsg = ServiceMsg.getInstance();
 					 
 					HttpSession currentSession = request.getSession();
 					
 					 
 					
-					User user = (User) currentSession.getAttribute("user"); 
+					User user = (User) currentSession.getAttribute("user");
+					String articleOnSession = (String) currentSession.getAttribute("articleOnScreenInSession");
 					
 					 
 					if(user!=null) {
 						
 					serviceUser.avviaConnessione();
 					
-					Msg msg = serviceUser.removeConference(user, conferenceId); 
+					serviceUser.removeConference(user, conferenceId); 
+					String msg = serviceMsg.getMsg().getMessage();
 						
-					if(msg.getResult()) { 
+					if(serviceMsg.getMsg().getStatus()) {
+						 
+						//invalido una sessione esistente
+						HttpSession pastSession = request.getSession(false);
+						if(pastSession != null) {
+							pastSession.invalidate();
+						}
+								 
 							
-					//invalido una sessione esistente
-					HttpSession pastSession = request.getSession(false);
-					if(pastSession != null) {
-						pastSession.invalidate();
-					}
-						
-					User userNew = serviceUser.cercaUser(user.getUsername(), user.getPassword());
-					System.out.println(user.getUsername());
-					
 					// istanzio una nuova sessione
-					HttpSession currentSessionNew = request.getSession();
-					currentSessionNew.setMaxInactiveInterval(10*60); 
-					currentSessionNew.setAttribute("user", userNew);
-					 
-					
-					serviceMsg.verifyStatus();
-					
-					msg = serviceMsg.getMsg();
-	 				 
-			 
-					
+	 				HttpSession currentSessionNew = request.getSession();
+	 				currentSessionNew.setMaxInactiveInterval(10*60);
+	 					
+	 				User userNew = serviceUser.cercaUser(user.getUsername(), user.getPassword());
+	 					
+	 				currentSessionNew.removeAttribute("user"); 
+	 				currentSessionNew.setAttribute("user", userNew);
+					  
+					currentSessionNew.setMaxInactiveInterval(10*60);   
+						 
 					//messaggio in console 
 					currentSessionNew.removeAttribute("infoMsg"); 
-					currentSessionNew.setAttribute("infoMsg", msg);  
+					currentSessionNew.setAttribute("infoMsg", msg);
+					
+					
+					currentSessionNew.setAttribute("articleOnScreenInSession", articleOnSession); 
 					
 					//redirect a index
+					
 					RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
 					
 					dis.forward(request, response);
+					 
  
 				 
 					serviceUser.chiudiConnessione(); 
@@ -102,7 +105,7 @@ public class RemoveConferenceServlet extends HttpServlet {
 					}else { 					
 						  
 						
-						request.setAttribute("infoMsg", msg); 
+						request.setAttribute("infoMsg",serviceMsg.getMsg().getMessage()); 
 						 
 						
 						RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
@@ -114,7 +117,8 @@ public class RemoveConferenceServlet extends HttpServlet {
 	 
 					}
 			}else {
-			request.setAttribute("infoMsg", new Msg(false, "Sorry, your session has expired"));
+				serviceMsg.setValues(false, "Sorry, your session has expired");
+			request.setAttribute("infoMsg",serviceMsg.getMsg().getMessage());
 			RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
 			dis.forward(request, response); 
 			}

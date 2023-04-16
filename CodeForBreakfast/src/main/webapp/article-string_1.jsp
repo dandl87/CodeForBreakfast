@@ -15,14 +15,8 @@
 		    
 			<section class="blog-post section-header-offset">
 		        <div class="blog-post-container container">
-		            <div class="blog-post-data">
-		                <h3 class="title blog-post-title">${post.title}</h3>
-		                <div class="article-data">
-		                    <span>${post.data}</span>
-		                    <span class="article-data-spacer"></span>
-		                    <span>${post.subTitle}</span>
-		                </div>
-		            </div>
+		           
+		            
 		
 		            <div class="container">
 		                <p>
@@ -43,6 +37,13 @@
 		
 		                
 		            </div>
-		        </div> 
+		             <div class="blog-post-data"> 
+		                <div class="article-data">
+		                    <span>${post.data}</span>
+		                    <span class="article-data-spacer"></span>
+		                    <span>${post.subTitle}</span>
+		                </div>
+		       			 </div>
+		       </div> 
 	 
 		  </section>

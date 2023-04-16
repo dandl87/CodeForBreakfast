@@ -15,15 +15,7 @@
 		    
 			<section class="blog-post section-header-offset">
 		        <div class="blog-post-container container">
-		            <div class="blog-post-data">
-		                <h3 class="title blog-post-title">${post.title}</h3>
-		                <div class="article-data">
-		                    <span>${post.data}</span>
-		                    <span class="article-data-spacer"></span>
-		                    <span>${post.subTitle}</span>
-		                </div>
-		                
-		            </div>
+		           
 		
 		            <div class="container">
 		                <p>
@@ -42,6 +34,14 @@
 		                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis eius possimus hic eligendi distinctio rerum incidunt, esse quasi eum molestiae ducimus ipsam quae, aliquid ullam placeat dolorum nulla vero. Quam? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vero quod necessitatibus, aspernatur pariatur asperiores earum quas adipisci veritatis quidem facilis! Nihil veniam quaerat nulla possimus, asperiores vero voluptatum placeat. Eveniet!
 		                </p>
 		
+		                
+		            </div>
+		             <div class="blog-post-data"> 
+		                <div class="article-data">
+		                    <span>${post.data}</span>
+		                    <span class="article-data-spacer"></span>
+		                    <span>${post.subTitle}</span>
+		                </div>
 		                
 		            </div>
 		        </div> 

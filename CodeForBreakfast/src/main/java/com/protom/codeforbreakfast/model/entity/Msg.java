@@ -1,21 +1,22 @@
 package com.protom.codeforbreakfast.model.entity;
+ 
 
 public class Msg {
-	private boolean result;
+	private boolean status;
 	private String message;
 	
-	public Msg(boolean result, String message) {
+	public Msg( ) {
 		super();
-		this.result = result;
-		this.message = message;
+		this.status = true;
+		this.message = "";
 	}
 
-	public boolean getResult() {
-		return result;
+	public boolean getStatus() {
+		return status;
 	}
 
-	public void setResult(boolean result) {
-		this.result = result;
+	public void setStatus(boolean status) {
+		this.status = status;
 	}
 
 	public String getMessage() {
@@ -28,9 +29,12 @@ public class Msg {
 
 	@Override
 	public String toString() {
-		return "Msg [result=" + result + ", message=" + message + "]";
+		return "Msg [status=" + status + ", message=" + message + "]";
 	}
 	
+ 
+	 
+		
+	}
 	
-
-}
+ 
