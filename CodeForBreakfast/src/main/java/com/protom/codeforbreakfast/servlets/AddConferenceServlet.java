@@ -1,6 +1,7 @@
 package com.protom.codeforbreakfast.servlets;
 
-import java.io.IOException; 
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,8 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-  
-import com.protom.codeforbreakfast.model.entity.User; 
+
+import com.protom.codeforbreakfast.model.entity.Msg;
+import com.protom.codeforbreakfast.model.entity.SottoscrizioneConference;
+import com.protom.codeforbreakfast.model.entity.User;
+import com.protom.codeforbreakfast.service.ServiceConference;
 import com.protom.codeforbreakfast.service.ServiceMsg; 
 import com.protom.codeforbreakfast.service.ServiceUser;
 
@@ -41,64 +45,57 @@ public class AddConferenceServlet extends HttpServlet{
 				  			
 			 
 						
-						//Fase 1
+						//Fase 1: Prelevo i Parametri dalla request
 						 
 						int conferenceId = Integer.parseInt(request.getParameter("conferenceId"));
 						int conferencePage = Integer.parseInt(request.getParameter("conferencePage"));
 						
-						//Fase 2
+						//Fase 2: Creo i Service e tutti gli oggetti che mi servono
 					 
 						ServiceUser serviceUser = new ServiceUser();
-						ServiceMsg serviceMsg = ServiceMsg.getInstance(); 
-						 
+						ServiceConference serviceConference = new ServiceConference();
+						ServiceMsg serviceMsg = ServiceMsg.getInstance();  
 						 
 						HttpSession currentSession = request.getSession();
-						
-						
-						
-						User user = (User) currentSession.getAttribute("user"); 
+					
+						User user = (User) currentSession.getAttribute("user");
+						String articleOnSession = (String) currentSession.getAttribute("articleOnScreenInSession");
 						
 						// se ho l'user
-						if(user!=null) {
-							 
-							
+						if(user!=null) { 
 							
 						serviceUser.avviaConnessione();
 							
 							
-							
-						serviceUser.addConference(user, conferenceId);
+						// eseguo la funzionalità	
+						serviceUser.addConference(user, conferenceId, "Conference");
 						
-						String msg = serviceMsg.getMsg().getMessage();
-						String articleOnSession = (String) currentSession.getAttribute("articleOnScreenInSession");
+						// l'operazione di add della Conference setta il msg nel serviceMsg
+						Msg msg = serviceMsg.getMsg();
+						
 							
 						// se l'add è andato a buon fine		
 						if(serviceMsg.getMsg().getStatus()) { 
-								 
-							//invalido una sessione esistente
-							HttpSession pastSession = request.getSession(false);
-							if(pastSession != null) {
-								pastSession.invalidate();
-							}
-										 
-									
-							// istanzio una nuova sessione
-			 				HttpSession currentSessionNew = request.getSession();
-			 				currentSessionNew.setMaxInactiveInterval(10*60);
-			 					
-			 				User userNew = serviceUser.cercaUser(user.getUsername(), user.getPassword());
-			 					
-			 				currentSessionNew.removeAttribute("user"); 
-			 				currentSessionNew.setAttribute("user", userNew);
+							
+							//update user con la nuova sottoscrizione
+							ArrayList<SottoscrizioneConference> listOfConferenceSubscription = serviceConference.leggiSottoscrizioniConference(user);
+							user.setSottoscrizioniConference(listOfConferenceSubscription);
 							  
-							currentSessionNew.setMaxInactiveInterval(10*60);   
 								 
+ 
+			 				currentSession.setMaxInactiveInterval(10*60);
+			 					 
+			 					
+			 				currentSession.removeAttribute("user"); 
+			 				currentSession.setAttribute("user", user);
+							    
+			 				
 							//messaggio in console 
-							currentSessionNew.removeAttribute("infoMsg"); 
-							currentSessionNew.setAttribute("infoMsg", msg);
+							currentSession.removeAttribute("infoMsg"); 
+							currentSession.setAttribute("infoMsg", msg);
 							
 							
-							currentSessionNew.setAttribute("articleOnScreenInSession", articleOnSession); 
+							currentSession.setAttribute("articleOnScreenInSession", articleOnSession); 
 								 
 						 
 						
@@ -114,11 +111,11 @@ public class AddConferenceServlet extends HttpServlet{
 						
 						 
 						// se l'add non è andato a buon fine
-						}else { 					
+						} else { 					
 							 
 							
 							
-							request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage()); 
+							request.setAttribute("infoMsg", serviceMsg.getMsg()); 
 							 
 							
 							RequestDispatcher dis = request.getRequestDispatcher("conferences"+conferencePage+".jsp"); 
@@ -131,9 +128,9 @@ public class AddConferenceServlet extends HttpServlet{
 						} 
 						// l'user è null quindi la sessione è scaduta	
 					}else {
-						serviceMsg.setValues(false,"Sorry, your session has expired");
+						serviceMsg.setValues(false,"Sorry, your session has expired", "Desk");
 						
-					request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage());
+					request.setAttribute("infoMsg", serviceMsg.getMsg());
 					RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
 					dis.forward(request, response);  
 

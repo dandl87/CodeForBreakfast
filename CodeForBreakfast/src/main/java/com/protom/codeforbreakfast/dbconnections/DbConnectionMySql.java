@@ -7,9 +7,7 @@ import java.sql.SQLException;
 
 public class DbConnectionMySql {
 	
-		//private static final String dbURL = "jdbc:mysql://localhost:3306/codeforbreakfast";
-		//private static final String username = "root";
-		//private static final String password = "1234"; 
+		
 		private static final String param= "jdbc:mysql://localhost:3306/code_for_breakfast?user=root&password=1234&serverTimezone=Europe/Rome";
 	    private Connection connection;
 	    

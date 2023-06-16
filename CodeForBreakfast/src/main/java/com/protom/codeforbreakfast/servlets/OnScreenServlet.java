@@ -41,53 +41,47 @@ public class OnScreenServlet extends HttpServlet{
 				  			
 			 
 						
-						//Fase 1
+						//Fase 1:recupero i parametri dalla request
 						 
 						String articleLink = request.getParameter("articleLinkToView");
 						String articleTitle = request.getParameter("articleTitleToView"); 
 						
-						//Fase 2
+						//Fase 2: creo gli oggetti che mi servono
 					 
 						ServiceUser serviceUser = new ServiceUser();   
 						
 						ServiceMsg serviceMsg = ServiceMsg.getInstance(); 
 						 
 						HttpSession currentSession = request.getSession();
-						
-						
+						 
 						
 						User user = (User) currentSession.getAttribute("user"); 
 						
 						// se ho l'user
 						if(user!=null) {
-							
-						System.out.println(user);
-							
-							
-						serviceUser.avviaConnessione();
-						 
 								 
+								 
+							serviceUser.avviaConnessione(); 
+							
+							currentSession.setMaxInactiveInterval(10*60);   
+							
+							serviceMsg.setValues(true, articleTitle , "Desk");
+							
+							//messaggio in console 
+							currentSession.removeAttribute("infoMsg"); 
+							currentSession.setAttribute("infoMsg", serviceMsg.getMsg()); 
+							
+							//articoloDaVisualizzare 
+							currentSession.setAttribute("articleOnScreenInSession", articleLink); 
 							 
-						currentSession.setMaxInactiveInterval(10*60);   
-						
-						serviceMsg.setValues(true, articleTitle );
-						
-						//messaggio in console 
-						currentSession.removeAttribute("infoMsg"); 
-						currentSession.setAttribute("infoMsg", serviceMsg.getMsg().getMessage()); 
-						
-						//articoloDaVisualizzare 
-						currentSession.setAttribute("articleOnScreenInSession", articleLink); 
-						
-						
-						
-						//redirect a index
-						RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
-						
-						dis.forward(request, response);
-	 
-					 
-						serviceUser.chiudiConnessione(); 
+							
+							//redirect a index
+							RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
+							
+							dis.forward(request, response);
+		 
+						 
+							serviceUser.chiudiConnessione(); 
 								 
 						
 						 
@@ -95,11 +89,13 @@ public class OnScreenServlet extends HttpServlet{
 						// l'user è null quindi la sessione è scaduta	
 					}else {
 						
-						serviceMsg.setValues(false, "Sorry, your session has expired");
+						serviceMsg.setValues(false, "Sorry, your session has expired", "Desk");
 						
-					request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage());
-					RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
-					dis.forward(request, response);  
+						request.setAttribute("infoMsg", serviceMsg.getMsg());
+						
+						RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
+					
+						dis.forward(request, response);  
 
 					}
 			}

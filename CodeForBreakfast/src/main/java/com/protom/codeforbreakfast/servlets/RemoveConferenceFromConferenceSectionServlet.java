@@ -1,6 +1,7 @@
 package com.protom.codeforbreakfast.servlets;
 
-import java.io.IOException; 
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,8 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
- 
-import com.protom.codeforbreakfast.model.entity.User; 
+
+import com.protom.codeforbreakfast.model.entity.Msg;
+import com.protom.codeforbreakfast.model.entity.SottoscrizioneConference;
+import com.protom.codeforbreakfast.model.entity.User;
+import com.protom.codeforbreakfast.service.ServiceConference;
 import com.protom.codeforbreakfast.service.ServiceMsg; 
 import com.protom.codeforbreakfast.service.ServiceUser;
 
@@ -39,75 +43,66 @@ public class RemoveConferenceFromConferenceSectionServlet extends HttpServlet {
 			 
 	 
 					
-					//Fase 1
+					//Fase 1: recupero i parametri dalla request
 					 
 					int conferenceId = Integer.parseInt(request.getParameter("conferenceId"));
 					int conferencePage = Integer.parseInt(request.getParameter("conferencePage"));
 					
-					//Fase 2
+					//Fase 2: creo gli oggetti che userò
 				 
-					ServiceUser serviceUser = new ServiceUser();   
+					ServiceUser serviceUser = new ServiceUser();  
+					ServiceConference serviceConference = new ServiceConference();   
 					ServiceMsg serviceMsg = ServiceMsg.getInstance();
 					 
 					HttpSession currentSession = request.getSession();
-					 
-					
 					
 					User user = (User) currentSession.getAttribute("user");
-					 
-					
-					 
-					if(user!=null ) {
-						
-					serviceUser.avviaConnessione();
-					
-					serviceUser.removeConference(user, conferenceId);
-					
-					String msg = serviceMsg.getMsg().getMessage();
 					
 					String articleOnDesk = (String) currentSession.getAttribute("articleOnScreenInSession");
-					 
-					if(serviceMsg.getMsg().getStatus()) {
+					  
+					if(user!=null ) {
 						
-						//invalido una sessione esistente
-						HttpSession pastSession = request.getSession(false);
-						if(pastSession != null) {
-							pastSession.invalidate();
-						}
+						serviceUser.avviaConnessione();
+						
+						serviceUser.removeConference(user, conferenceId, "Conference");
+						
+						Msg msg = serviceMsg.getMsg();
+						 
+						if(msg.getStatus()) {
+							
+							//update user senza la sottoscrizione
+							ArrayList<SottoscrizioneConference> listOfConferenceSubscription = serviceConference.leggiSottoscrizioniConference(user);
+							user.setSottoscrizioniConference(listOfConferenceSubscription);
 							 
+							
+						 
+	 					
+		 					currentSession.removeAttribute("user"); 
+		 					currentSession.setAttribute("user", user);
+						  
+							currentSession.setMaxInactiveInterval(10*60);  
+							
+							//messaggio in console 
+							currentSession.removeAttribute("infoMsg"); 
+							currentSession.setAttribute("infoMsg", msg);
+							
+							currentSession.setAttribute("articleOnScreenInSession", articleOnDesk);
+							
+							//redirect a index
+							RequestDispatcher dis = request.getRequestDispatcher("conferences"+conferencePage+".jsp"); 
+	 				
 						
-					// istanzio una nuova sessione
- 					HttpSession currentSessionNew = request.getSession();
- 					currentSessionNew.setMaxInactiveInterval(10*60);
- 					
- 					User userNew = serviceUser.cercaUser(user.getUsername(), user.getPassword());
- 					
- 					currentSessionNew.removeAttribute("user"); 
- 					currentSessionNew.setAttribute("user", userNew);
-				  
-					currentSessionNew.setMaxInactiveInterval(10*60);   
-					
-					//messaggio in console 
-					currentSessionNew.removeAttribute("infoMsg"); 
-					currentSessionNew.setAttribute("infoMsg", msg);
-					
-					currentSessionNew.setAttribute("articleOnScreenInSession", articleOnDesk);
-					
-					//redirect a index
-					RequestDispatcher dis = request.getRequestDispatcher("conferences"+conferencePage+".jsp"); 
-//					
-				
-					dis.forward(request, response); 
- 
-				 
-					serviceUser.chiudiConnessione(); 
+							dis.forward(request, response); 
+		 
+						 
+							serviceUser.chiudiConnessione(); 
 					
 					 
 					
 					}else { 					
 						  
 						
-						request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage()); 
+						request.setAttribute("infoMsg", serviceMsg.getMsg()); 
 						 
 						
 						RequestDispatcher dis = request.getRequestDispatcher("articles"+conferencePage+".jsp"); 
@@ -119,10 +114,14 @@ public class RemoveConferenceFromConferenceSectionServlet extends HttpServlet {
 	 
 					}
 				}else {
-					serviceMsg.setValues(false, "Sorry, your session has expired");
-				request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage());
-				RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
-				dis.forward(request, response);  
+					
+					serviceMsg.setValues(false, "Sorry, your session has expired", "Desk");
+				
+					request.setAttribute("infoMsg", serviceMsg.getMsg());
+				
+					RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
+				
+					dis.forward(request, response);  
 				}
 		}
 		

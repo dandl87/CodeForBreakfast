@@ -11,6 +11,8 @@ public interface SottoscrizioneConferenceDAO {
 	SottoscrizioneConference readSottoscrizioneC(int idSottoscrizioneC);
 	boolean updateSottoscrizioneC(SottoscrizioneConference sottoscrizioneC); 
 	boolean deleteSottoscrizioneC(int idSottoscrizioneC);
+	
+	
 	ArrayList<SottoscrizioneConference> readSottoscrizioneConferenceOfConference(int idConference);
 	ArrayList<SottoscrizioneConference> readSottoscrizioneConferenceOfUser(String username);
 

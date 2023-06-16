@@ -18,11 +18,13 @@ public class ServiceMsg {
 	public void verifyValues() { 
 		this.msg.setStatus(true);
 		this.msg.setMessage("state of user");
+		this.msg.setFromSection("");
 	}
 	
-	public void setValues(boolean status, String message) { 
+	public void setValues(boolean status, String message, String section) { 
 		this.msg.setStatus(status);
 		this.msg.setMessage(message);
+		this.msg.setFromSection(section);
 	}
 	
 	public static ServiceMsg getInstance() {

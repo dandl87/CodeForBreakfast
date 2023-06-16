@@ -10,6 +10,8 @@ public interface UserDAO {
 	User readUser(String username, String password);
 	boolean updateUser(User User); 
 	boolean deleteUser(String username, String password);
+	
+	
 	ArrayList<User> readAllUsers();
 	
 

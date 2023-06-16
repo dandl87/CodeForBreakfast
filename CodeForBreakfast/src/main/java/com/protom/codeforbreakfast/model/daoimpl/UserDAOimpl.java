@@ -1,6 +1,6 @@
 package com.protom.codeforbreakfast.model.daoimpl;
 
-import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,7 +51,7 @@ public class UserDAOimpl implements UserDAO{
 				
 				if (BCrypt.checkpw(password, passwordFromDB)) {
 					System.out.println("Password match");
-					User userFromDB = new User(usernameFromDB,passwordFromDB,nome, cognome, email); 
+					User userFromDB = new User(usernameFromDB,password,nome, cognome, email); 
 					return userFromDB;
 				}else {
 					System.out.println("Password does not match");
@@ -70,16 +70,16 @@ public class UserDAOimpl implements UserDAO{
 	@Override
 	public boolean createUser(User user) {
 		 
-		try {
-		  
-			 
+		try { 
+		String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12));
+		 
 		 
 		PreparedStatement ps;
 
 			ps = dbConnection.getConnection().prepareStatement(
-					"INSERT INTO user (username, password, nome, cognome) VALUES ('"
-							+ user.getUsername() + "', '" + user.getPassword() + "','" + user.getSurname() + "','"
-							+ user.getName() + "','"+user.getEmail()+"');");
+					"INSERT INTO user (username, password, nome, cognome, email) VALUES ('"
+							+ user.getUsername() + "', '" + hashedPassword + "','" + user.getName() + "','"
+							+ user.getSurname() + "','"+user.getEmail()+"');");
 			System.out.println(ps.executeUpdate() + "Log: user inserted");
 			
 			
@@ -100,9 +100,9 @@ public class UserDAOimpl implements UserDAO{
 		
 		try {
 		 
-		String query = "UPDATE user SET username='"+user.getUsername()+"', password='"+user.getPassword()+"',nome='"+user.getName()+"', "
+		String query = "UPDATE user SET nome='"+user.getName()+"', "
 				+ "cognome='"+user.getSurname()+ "'email='"+user.getEmail()+  
-				"' WHERE username = " + user.getUsername()+" && password = "+user.getPassword();
+				"' WHERE username = '" + user.getUsername()+"'";
 		
 		PreparedStatement ps = dbConnection.getConnection().prepareStatement(query);
 		System.out.println(ps.executeUpdate() + "Log: user updated");

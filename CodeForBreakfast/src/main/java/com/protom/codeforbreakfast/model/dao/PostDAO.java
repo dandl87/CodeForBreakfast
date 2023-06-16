@@ -10,8 +10,10 @@ public interface PostDAO {
 	boolean createPost(Post post);
 	Post readPost(int idPost);
 	boolean updatePost(Post post); 
-	boolean deletePost(int idPost);  
+	boolean deletePost(int idPost);
+	
+	
 	ArrayList<Post> readAllPosts();
-	ArrayList<Post> readAllPostsOfPage(int n);
-
+	ArrayList<Post> readAllPostsOfPage(int n); 
+	
 }

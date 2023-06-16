@@ -4,11 +4,19 @@
     <%@ page import="com.protom.codeforbreakfast.dbconnections.DbConnectionMySql"%>
     <%@ page import="com.protom.codeforbreakfast.service.ServiceConference"%>
     <%@ page import="com.protom.codeforbreakfast.model.entity.Conference"%>
+    <%@ page import="com.protom.codeforbreakfast.service.ServiceMsg"%>
+    <%@ page import="com.protom.codeforbreakfast.model.entity.Msg"%>
     
      <%   if(session.getAttribute("user")==null)
    			 response.sendRedirect("index.jsp"); 
 	 %>
-    
+     <%   
+     	ServiceMsg serviceMsg = ServiceMsg.getInstance();
+     	serviceMsg.setValues(true,"Anjana Vakil - Ooops! OOP's not what i thought","Conference");
+     	Msg msg = serviceMsg.getMsg();
+     	session.setAttribute("infoMsg",msg); 
+     
+	 %>
     <!DOCTYPE >
 <html lang="en">
 <head>
@@ -166,8 +174,11 @@
 								<c:when test="${user==null}"> 
 									Welcome to a world made of code & coffee
 								</c:when>
+								<c:when test='${infoMsg.getFromSection().equals("Conference")}'> 
+									<c:out value="${infoMsg.getMessage()}"/>
+								</c:when>
 								<c:otherwise>
-									<c:out value="${infoMsg.getMessage() }"/>
+									<c:out value=""/>
 								</c:otherwise>
 							</c:choose>	
 							</span>

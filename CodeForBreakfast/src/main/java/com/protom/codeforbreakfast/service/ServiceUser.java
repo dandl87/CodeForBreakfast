@@ -49,7 +49,13 @@ public class ServiceUser {
  
 	public boolean insertNewUser(User user) {
 		boolean result = userDAO.createUser(user);
-		return result;
+		
+		if(result) {
+			serviceMsg.setValues(true,"Hi "+ user.getName(), "Desk");
+			return true;
+		}
+		serviceMsg.setValues(false,"SignUp failed " , "Desk");	
+		return false;
 		
 	}
 	
@@ -73,22 +79,22 @@ public class ServiceUser {
 				
 		user.setSottoscrizioniPost(sottoscrizioniPost);
 		user.setSottoscrizioniConference(sottoscrizioniConference);  
-		serviceMsg.setValues(true, "Hi " +user.getName());
+		serviceMsg.setValues(true, "Hi " +user.getName(), "Desk");
 		return user ;
 		
 	}
 	
-
+ 
 	
 	//Rimuovo post dalla Personal Area
-	public void removePost(User user, int postId) { 
+	public void removePost(User user, int postId, String section) { 
 		
 		ArrayList<SottoscrizionePost> sottoscrizioniPost = user.getSottoscrizioniPost();
 		
 		for(SottoscrizionePost sP: sottoscrizioniPost) {
 			if(sP.getPost().getId()==postId) { 
 				sottoscrizionePostDAO.deleteSottoscrizionePost(sP.getId());
-				serviceMsg.setValues(true,sP.getPost().getTitle()+" - removed");
+				serviceMsg.setValues(true,sP.getPost().getTitle()+" - removed", section);
 			}	
 		}
 	
@@ -97,32 +103,32 @@ public class ServiceUser {
 	
 	
 	//Rimuovo conference dalla Personal Area
-		public void removeConference(User user, int conferenceId) { 
+		public void removeConference(User user, int conferenceId, String section) { 
 			
 			ArrayList<SottoscrizioneConference> sottoscrizioniConference = user.getSottoscrizioniConference();
 			
 			for(SottoscrizioneConference sC: sottoscrizioniConference) {
 				if(sC.getConference().getId()==conferenceId) { 
 					sottoscrizioneConferenceDAO.deleteSottoscrizioneC(sC.getId());
-					serviceMsg.setValues(true,"Conference - "+sC.getConference().getTitle()+" - removed");
+					serviceMsg.setValues(true,"Conference - "+sC.getConference().getTitle()+" - removed", section);
 				}	
 			}
 		}
 	
 	
 	
-	public void addPost(User user, int postId) { 
+	public void addPost(User user, int postId, String section) { 
 		ServicePost servicePost = new ServicePost();
 		ArrayList<SottoscrizionePost> sottoscrizioniPost = user.getSottoscrizioniPost(); 
 		
 		if(sottoscrizioniPost.size()==6)
-			serviceMsg.setValues(false,"Articles Area is full!");
+			serviceMsg.setValues(false,"Articles Area is full!", section);
 		
 		// se il post è già presente l'add non avviene
 		boolean isPresent = checkPresenceSP(sottoscrizioniPost, postId);
 		
 		if(isPresent)
-			serviceMsg.setValues(false,"Articles is in your Desk!");
+			serviceMsg.setValues(false,"Articles is in your Desk!", section);
 		
 		//creiamo un Post, una sottoscrizionePost 
 		Post post = servicePost.cercaPost(postId); 
@@ -131,36 +137,45 @@ public class ServiceUser {
 		
 		boolean result = sottoscrizionePostDAO.createSottoscrizioneP(sottoscrizionePost);
 		if(!result) 
-		 serviceMsg.setValues(false, "sottoscrizione non riuscita!");
-		else serviceMsg.setValues(true, sottoscrizionePost.getPost().getTitle()+" - inserted in position "+position );
+		 serviceMsg.setValues(false, "sottoscrizione non riuscita!", section);
+		else serviceMsg.setValues(true, sottoscrizionePost.getPost().getTitle()+" - inserted in position "+position , section);
 		 
 		}
 	
-	public void addConference(User user, int conferenceId) { 
+	public void addConference(User user, int conferenceId, String section) { 
 		ServiceConference serviceConference = new ServiceConference();
 		ArrayList<SottoscrizioneConference> sottoscrizioniConference = user.getSottoscrizioniConference(); 
 		
 		if(sottoscrizioniConference.size()==6)
-			serviceMsg.setValues(false,"Conference Area is full!");
+			serviceMsg.setValues(false,"Conference Area is full!", section);
 		
 		// se il post è già presente l'add non avviene
 		boolean isPresent = checkPresenceSC(sottoscrizioniConference, conferenceId);
 		
 		if(isPresent)
-			serviceMsg.setValues(false,"Conference is in your Desk!");
-		
-		//creiamo un Post, una sottoscrizionePost 
+			serviceMsg.setValues(false,"Conference is in your Desk!", section);
+			else {
+		//creiamo un Conference, una sottoscrizioneConference
 		Conference conference = serviceConference.cercaConference(conferenceId); 
 		 
 		SottoscrizioneConference sottoscrizioneConference = new SottoscrizioneConference(user.getUsername(),conference);
 		
 		boolean result = sottoscrizioneConferenceDAO.createSottoscrizioneC(sottoscrizioneConference);
+		
+			
 		if(!result) 
-		 serviceMsg.setValues(false, "sottoscrizione non riuscita!");
-		else serviceMsg.setValues(true, "Conference - "+sottoscrizioneConference.getConference().getTitle()+" - inserted");
+		 serviceMsg.setValues(false, "sottoscrizione non riuscita!", section);
+		else serviceMsg.setValues(true, "Conference - "+sottoscrizioneConference.getConference().getTitle()+" - inserted", section);
 		 
-		}
+			}
+			
+	}
+		
 	
+		 
+	
+	
+
 	
 	
 	

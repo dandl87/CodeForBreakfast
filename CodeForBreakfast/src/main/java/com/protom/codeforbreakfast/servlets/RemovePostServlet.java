@@ -1,6 +1,7 @@
 package com.protom.codeforbreakfast.servlets;
 
-import java.io.IOException; 
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,9 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
- 
+
+import com.protom.codeforbreakfast.model.entity.Msg;
+import com.protom.codeforbreakfast.model.entity.SottoscrizionePost;
 import com.protom.codeforbreakfast.model.entity.User; 
-import com.protom.codeforbreakfast.service.ServiceMsg; 
+import com.protom.codeforbreakfast.service.ServiceMsg;
+import com.protom.codeforbreakfast.service.ServicePost;
 import com.protom.codeforbreakfast.service.ServiceUser;
 
 public class RemovePostServlet extends HttpServlet {
@@ -45,8 +49,10 @@ public class RemovePostServlet extends HttpServlet {
 					
 					//Fase 2
 				 
-					ServiceUser serviceUser = new ServiceUser();  
+					ServiceUser serviceUser = new ServiceUser(); 
+					ServicePost servicePost = new ServicePost();
 					ServiceMsg serviceMsg = ServiceMsg.getInstance();
+					boolean checkArticle;
 					 
 					HttpSession currentSession = request.getSession();
 					
@@ -54,42 +60,40 @@ public class RemovePostServlet extends HttpServlet {
 					
 					User user = (User) currentSession.getAttribute("user"); 
 					
-					 
+					String articleOnDesk = (String) currentSession.getAttribute("articleOnScreenInSession");
+					
 					if(user!=null) {
 						
 					serviceUser.avviaConnessione();
 					
-					serviceUser.removePost(user, postId); 
+					//se l'articolo aperto è quello da eliminare setto a null l'attributo
+					checkArticle = servicePost.checkArticleOnScreen(user, postId, articleOnDesk);
 					
-					String msg = serviceMsg.getMsg().getMessage();
+					serviceUser.removePost(user, postId, "Desk"); 
 					
-					String articleOnDesk = (String) currentSession.getAttribute("articleOnScreenInSession");
+					Msg msg = serviceMsg.getMsg(); 
 						
-					if(serviceMsg.getMsg().getStatus()) {  
+					if(msg.getStatus()) {  
 						
-						//invalido una sessione esistente
-						HttpSession pastSession = request.getSession(false);
-						if(pastSession != null) {
-							pastSession.invalidate();
-						}
-									 
-								
-						// istanzio una nuova sessione
-		 				HttpSession currentSessionNew = request.getSession();
-		 				currentSessionNew.setMaxInactiveInterval(10*60);
+						//update user senza sottoscrizione
+						ArrayList<SottoscrizionePost> listOfPostSubscription = servicePost.leggiSottoscrizioniPost(user);
+						
+						user.setSottoscrizioniPost(listOfPostSubscription);
+						 
+						 
 		 					
-		 				User userNew = serviceUser.cercaUser(user.getUsername(), user.getPassword());
-		 					
-		 				currentSessionNew.removeAttribute("user"); 
-		 				currentSessionNew.setAttribute("user", userNew);
+		 				currentSession.removeAttribute("user"); 
+		 				currentSession.setAttribute("user", user);
 						   
 							 
 						//messaggio in console 
-						currentSessionNew.removeAttribute("infoMsg"); 
-						currentSessionNew.setAttribute("infoMsg", msg);
+						currentSession.removeAttribute("infoMsg"); 
+						currentSession.setAttribute("infoMsg", msg);
 						
-						
-						currentSessionNew.setAttribute("articleOnScreenInSession", articleOnDesk); 
+						if(!checkArticle)
+							currentSession.setAttribute("articleOnScreenInSession", articleOnDesk);
+						else currentSession.setAttribute("articleOnScreenInSession", null); 
+						 
 						   
 					
 					//redirect a index
@@ -106,7 +110,7 @@ public class RemovePostServlet extends HttpServlet {
 					}else { 					
 						  
 						
-						request.setAttribute("infoMsg",serviceMsg.getMsg().getMessage()); 
+						request.setAttribute("infoMsg",serviceMsg.getMsg()); 
 						 
 						
 						RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
@@ -118,8 +122,8 @@ public class RemovePostServlet extends HttpServlet {
 	 
 					}
 			}else {
-				 serviceMsg.setValues(false, "Sorry, your session has expired");
-			request.setAttribute("infoMsg",serviceMsg.getMsg().getMessage());
+				 serviceMsg.setValues(false, "Sorry, your session has expired", "Desk");
+			request.setAttribute("infoMsg",serviceMsg.getMsg());
 			RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
 			dis.forward(request, response); 
 			}

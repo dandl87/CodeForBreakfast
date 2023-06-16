@@ -8,8 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.mindrot.jbcrypt.BCrypt;
+ 
 
 import com.protom.codeforbreakfast.model.entity.User; 
 import com.protom.codeforbreakfast.service.ServiceMsg; 
@@ -45,10 +44,7 @@ public class SignUpServlet extends HttpServlet{
 				String username   =  request.getParameter("username");
 				String password = request.getParameter("password");
 				String email   =  request.getParameter("email"); 
-				
-				//Fase 2 Encrypt password
-				
-				String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+				 
 				
 				
 				 
@@ -60,11 +56,10 @@ public class SignUpServlet extends HttpServlet{
 				
 				serviceUser.avviaConnessione();
 				
-				User user = new User(username, hashedPassword, name, surname, email);
+				User user = new User(username, password, name, surname, email);
 				
 				boolean result = serviceUser.insertNewUser(user);
 				
-				 
 				if(result) {
 					
 						
@@ -76,30 +71,26 @@ public class SignUpServlet extends HttpServlet{
 					pastSession.invalidate();
 				}
 					
-				System.out.println(user.getUsername());
 				
-//				// istanzio una nuova sessione
-//				HttpSession currentSession = request.getSession();
-//				currentSession.setMaxInactiveInterval(10*60); 
-//				currentSession.setAttribute("user", user);
-//				
-//				serviceMsg.verifyStatus();
-//				
-//				Msg msg = serviceMsg.getMsg(); 
-//				 
-//				currentSession.setAttribute("infoMsg", msg); 
-//				currentSession.setAttribute("articleOnScreenInSession", null); 
+ 				// istanzio una nuova sessione
+				HttpSession currentSession = request.getSession();
+				currentSession.setMaxInactiveInterval(10*60); 
+				currentSession.setAttribute("user", user);
+ 
+				
+				currentSession.setAttribute("infoMsg", serviceMsg.getMsg()); 
+				currentSession.setAttribute("articleOnScreenInSession", null); 
 				
 				//redirect a index
 				response.sendRedirect("http://192.168.1.109:8086/CodeForBreakfast/home"); 
 						
 				serviceUser.chiudiConnessione();
 				
-				}else { 					
+				} else { 					
 					 
-					serviceMsg.setValues(false, "Login failed!");
+					serviceMsg.setValues(false, "Login failed!", "Desk");
 					
-					request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage()); 
+					request.setAttribute("infoMsg", serviceMsg.getMsg()); 
 					 
 					
 					RequestDispatcher dis = request.getRequestDispatcher("http://192.168.1.109:8086/CodeForBreakfast/home"); 

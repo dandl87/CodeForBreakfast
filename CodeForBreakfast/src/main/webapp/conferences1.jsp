@@ -162,14 +162,17 @@
 	                    </h3>
 	                    <!--  console Msg Area  -->
 	                    <span class="headline-description">  
-								 <c:choose>
-									<c:when test="${user==null}"> 
-										Welcome to a world made of code & coffee
-									</c:when>
-									<c:otherwise>
-										<c:out value="${infoMsg }"/>
-									</c:otherwise>
-								</c:choose>	
+								<c:choose>
+								<c:when test="${user==null}"> 
+									Welcome to a world made of code & coffee
+								</c:when>
+								<c:when test='${infoMsg.getFromSection().equals("Conference")}'> 
+									<c:out value="${infoMsg.getMessage()}"/>
+								</c:when>
+								<c:otherwise>
+									<c:out value=""/>
+								</c:otherwise>
+							</c:choose>	
 						</span>
 							 
 							
@@ -328,7 +331,11 @@
 	
 	                           </div>
 	
-	                         <h3 class="title article-title"><c:out value="${conferenceSubscription.getConference().getTitle()}" /></h3> 
+	                         <h3 class="title article-title">  
+	                         	<a href="${conferenceSubscription.getConference().getLink()}"> 
+	                         		<c:out value="${conferenceSubscription.getConference().getTitle()}" /> 
+	                         	</a>
+	                         </h3> 
 							
 	                        </div>
 	                  </div>

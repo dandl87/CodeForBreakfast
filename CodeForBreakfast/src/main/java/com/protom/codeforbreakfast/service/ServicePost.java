@@ -48,7 +48,7 @@ public class ServicePost {
 		
 	}
 	
-	public void moveUpPost(User user, int idSP) {
+	public void moveUpPost(User user, int idSP, String section) {
 		boolean result;  
 		
 		ArrayList<SottoscrizionePost> sottoscrizioniPost = user.getSottoscrizioniPost(); 
@@ -57,8 +57,10 @@ public class ServicePost {
 		
 		// cerco la sottoscrizione poi faccio Update 
 		if(position == 0 || position == 1) 
-			 serviceMsg.setValues(false,"impossibile cambiare l'ordinamento");
-		  
+			 serviceMsg.setValues(false,"impossibile cambiare l'ordinamento", section);
+		else {
+			
+		
 		SottoscrizionePost sP1 =  findSottoscrizionePost(sottoscrizioniPost,idSP);
 		
 		
@@ -80,12 +82,13 @@ public class ServicePost {
 			 sottoscrizionePostDAO.updateSottoscrizioneP(sP2);   
 		
 		if(!result)
-			 serviceMsg.setValues(false,"swap failed!");
-		else serviceMsg.setValues(true,sP1.getPost().getTitle()+" article moved up in position: "+sP1.getPosition());
+			 serviceMsg.setValues(false,"swap failed!", section);
+		else serviceMsg.setValues(true,sP1.getPost().getTitle()+" article moved up in position: "+sP1.getPosition(), section);
 		 
 		}
+	}
 	
-	public void moveDownPost(User user, int idSP) {
+	public void moveDownPost(User user, int idSP, String section) {
 		
 		boolean result; 
 		ArrayList<SottoscrizionePost> sottoscrizioniPost = user.getSottoscrizioniPost(); 
@@ -95,8 +98,9 @@ public class ServicePost {
 		
 		// cerco la sottoscrizione poi faccio Update 
 		if(position == 0 || position == 6)
-			serviceMsg.setValues(false,"impossibile cambiare l'ordinamento");
-		  
+			serviceMsg.setValues(false,"impossibile cambiare l'ordinamento", section);
+		else {  
+			
 		SottoscrizionePost sP1 =  findSottoscrizionePost(sottoscrizioniPost,idSP);
 		
 		System.out.println("debug swap Dawn sottoscrizioni:"+sP1);
@@ -122,11 +126,19 @@ public class ServicePost {
 		if(sP2!=null)
 			result = sottoscrizionePostDAO.updateSottoscrizioneP(sP2);   
 		
+		
 		if(!result)
-			 serviceMsg.setValues(false, "swap failed!");
-		else serviceMsg.setValues(true, sP1.getPost().getTitle()+" article moved down in position: "+sP1.getPosition());
-		 
+			 serviceMsg.setValues(false, "swap failed!", section);
+		else serviceMsg.setValues(true, sP1.getPost().getTitle()+" article moved down in position: "+sP1.getPosition(), section);
+		
 		}
+		 
+	}
+	
+	public ArrayList<SottoscrizionePost> leggiSottoscrizioniPost(User user){
+		return sottoscrizionePostDAO.readSottoscrizionePostOfUser(user.getUsername());
+		
+	}
 	 
 	private int findPositionById(ArrayList<SottoscrizionePost> sottoscrizioniPost,int idSP) { 
 		for(SottoscrizionePost sP: sottoscrizioniPost)
@@ -147,6 +159,19 @@ public class ServicePost {
 			if(sP.getId()==idSP)
 				return sP;
 		return null; 
+	}
+	
+	public boolean checkArticleOnScreen(User user, int postId, String articleOnDesk) {
+		ArrayList<SottoscrizionePost> sottoscrizioniPost = user.getSottoscrizioniPost();
+		boolean checkArticle = false;
+		for(SottoscrizionePost sP: sottoscrizioniPost) {
+			if((sP.getPost().getId()==postId))
+					if(sP.getPost().getLink().equals(articleOnDesk)) {
+					
+					checkArticle=true;
+			}
+		}
+		return checkArticle;
 	}
  
 

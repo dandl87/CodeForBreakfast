@@ -13,12 +13,18 @@ import com.protom.codeforbreakfast.model.entity.User;
 import com.protom.codeforbreakfast.service.ServiceMsg; 
 import com.protom.codeforbreakfast.service.ServiceUser;
  
+
 public class LoginServlet extends HttpServlet{
 	
-	private static final long serialVersionUID = 1L;
+	
     
 	  
-    public LoginServlet() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public LoginServlet() {
         super(); 
     }
 
@@ -37,13 +43,13 @@ public class LoginServlet extends HttpServlet{
 		 
 				
 				
-				//Fase 1
-				String username   =  request.getParameter("username");
+				//Fase 1: Recupero i parametri dalla request
+				String username = request.getParameter("username");
 				String password = request.getParameter("password"); 
 				
 				
 				 
-				//Fase 2
+				//Fase 2: creo gli oggetti che utilizzerò
 			 
 				ServiceUser serviceUser = new ServiceUser(); 
 				
@@ -57,7 +63,7 @@ public class LoginServlet extends HttpServlet{
 				if(user!=null) {
 					
 						
-				System.out.println("Log: match User");
+				System.out.println("Log - User matcher: "+user);
 						
 				//invalido una sessione esistente
 				HttpSession pastSession = request.getSession(false);
@@ -74,7 +80,7 @@ public class LoginServlet extends HttpServlet{
 				 
 			 
 				 
-				currentSession.setAttribute("infoMsg", serviceMsg.getMsg().getMessage()); 
+				currentSession.setAttribute("infoMsg", serviceMsg.getMsg()); 
 				currentSession.setAttribute("articleOnScreenInSession", null); 
 				
 				//redirect a index
@@ -84,9 +90,9 @@ public class LoginServlet extends HttpServlet{
 				
 				}else { 					
 					 
-					serviceMsg.setValues(false, "Login failed!"); 
+					serviceMsg.setValues(false, "Login failed!", "Desk"); 
 					
-					request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage()); 
+					request.setAttribute("infoMsg", serviceMsg.getMsg()); 
 					 
 					
 					RequestDispatcher dis = request.getRequestDispatcher("http://192.168.1.109:8086/CodeForBreakfast/home"); 

@@ -27,15 +27,15 @@
 			<url-pattern>/logout</url-pattern>
 		</servlet-mapping>
 		
-		<!-- <servlet>
-			<servlet-name>SingUpServlet</servlet-name>
+		<servlet>
+			<servlet-name>SignUpServlet</servlet-name>
 			<servlet-class>com.protom.codeforbreakfast.servlets.SignUpServlet</servlet-class>
 		</servlet>
 		
 		<servlet-mapping> 
 			<servlet-name>SignUpServlet</servlet-name>
 			<url-pattern>/signUp</url-pattern>
-		</servlet-mapping> -->
+		</servlet-mapping>
 		
 		 <servlet>
 			<servlet-name>RemovePostServlet</servlet-name>

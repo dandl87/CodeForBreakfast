@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 public class User {
 	
-	private String username;
-	private String password;
-	private String name;
-	private String surname;
-	private String email;
-	private ArrayList<SottoscrizionePost> sottoscrizioniPost;
-	private ArrayList<SottoscrizioneConference> sottoscrizioniConference;
+		private String username;
+		private String password;
+		private String name;
+		private String surname;
+		private String email;
+		private ArrayList<SottoscrizionePost> sottoscrizioniPost;
+		private ArrayList<SottoscrizioneConference> sottoscrizioniConference;
 	
 	
 	

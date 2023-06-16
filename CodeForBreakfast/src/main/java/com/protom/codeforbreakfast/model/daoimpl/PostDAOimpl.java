@@ -1,6 +1,6 @@
 package com.protom.codeforbreakfast.model.daoimpl;
 
-import java.sql.Connection;
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -167,8 +167,9 @@ public class PostDAOimpl implements PostDAO {
 		}
 
 		return listOfAllPosts;
-	} 
-	
+	}
+
+ 
 	
 
 }

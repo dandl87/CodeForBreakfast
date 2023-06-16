@@ -45,9 +45,7 @@ public class OnScreenCloseServlet extends HttpServlet{
 						ServiceMsg serviceMsg = ServiceMsg.getInstance();   
 						 
 						HttpSession currentSession = request.getSession();
-						
-						
-						
+						 
 						User user = (User) currentSession.getAttribute("user"); 
 						
 						// se ho l'user
@@ -62,11 +60,11 @@ public class OnScreenCloseServlet extends HttpServlet{
 						currentSession.setMaxInactiveInterval(10*60);  
 						   
 						 
-						serviceMsg.setValues(true,"article closed");
+						serviceMsg.setValues(true,"article closed", "Desk");
 						
 						//messaggio in console 
 						currentSession.removeAttribute("infoMsg"); 
-						currentSession.setAttribute("infoMsg", serviceMsg.getMsg().getMessage()); 
+						currentSession.setAttribute("infoMsg", serviceMsg.getMsg()); 
 						
 						//articoloDaVisualizzare 
 						currentSession.setAttribute("articleOnScreenInSession", null); 
@@ -83,11 +81,15 @@ public class OnScreenCloseServlet extends HttpServlet{
 								 
 						 
 						// l'user è null quindi la sessione è scaduta	
-					}else {
-						serviceMsg.setValues(false, "Sorry, your session has expired");
-					request.setAttribute("infoMsg", serviceMsg.getMsg().getMessage());
-					RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
-					dis.forward(request, response);  
+					} else {
+						
+						serviceMsg.setValues(false, "Sorry, your session has expired", "Desk");
+					
+						request.setAttribute("infoMsg", serviceMsg.getMsg());
+					
+						RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
+					
+						dis.forward(request, response);  
 
 					}
 			}

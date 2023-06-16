@@ -167,14 +167,17 @@
 	                  <!--  console Msg Area  -->
 	                    <span class="headline-description"> 
 	                   
-								 <c:choose>
-									<c:when test="${user!=null}"> 
-									<c:out value="${infoMsg}"/> 
-									</c:when>
-									<c:otherwise>
-										Welcome to a world made of code & coffee
-									</c:otherwise>
-								</c:choose>	
+								<c:choose>
+								<c:when test="${user==null}"> 
+									Welcome to a world made of code & coffee
+								</c:when>
+								<c:when test='${infoMsg.getFromSection().equals("Article")}'> 
+									<c:out value="${infoMsg.getMessage()}"/>
+								</c:when>
+								<c:otherwise>
+									<c:out value=""/>
+								</c:otherwise>
+							</c:choose>	
 								</span>
 								  
 	                </div>
@@ -284,7 +287,7 @@
 	                                                        
 	                                                </div>
 													
-	                                                <h3 class="title article-title"><a href="${post.link }">${post.subTitle}</a></h3> 
+	                                                <h3 class="title article-title"> ${post.subTitle} </h3> 
 	                                                <h3 class="article-info"> ${post.description}</h3>
 	
 	                                            </div>
@@ -312,7 +315,7 @@
 	               			 <div class="trending-news-box">
 	                            <div class="trending-news-img-box">
 	                                <span class="trending-number place-items-center"><c:out value="${sottoscrizione.getPosition()}" /></span>
-	                               <a href="${sottoscrizione.getPost().getLink()}"> <img src="${sottoscrizione.getPost().getLinkImgSmall()}" alt="" class="article-image"> </a>
+	                               <img src="${sottoscrizione.getPost().getLinkImgSmall()}" alt="" class="article-image"> 
 	                            </div>
 	 
 	                 		 <div class="trending-news-data">
