@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" errorPage="errorPage.jsp"%>
-  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-  <%@ page import="com.protom.codeforbreakfast.service.ServiceMsg"%>
-  <%@ page import="com.protom.codeforbreakfast.model.entity.Msg"%>
-  
- 
+    pageEncoding="ISO-8859-1" isErrorPage="true"%>
+<%@ taglib uri="http://java.sun.com/jstl/core" prefix="c"%>
+
+
   
 	  <!DOCTYPE >
 		<html lang="en">
@@ -12,7 +10,7 @@
 			    <meta charset="UTF-8">
 			    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 			    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-			    <title>Code for Breakfast | Home</title>
+			    <title>Error Page</title>
 			    <!-- Favicon -->
 			    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon2.png">
 			    <!-- Remix icons -->
@@ -157,217 +155,32 @@
 		                    <h3 class="headline fancy-border">
 		                    
 		                     <!--  console UserArea -->
-		                    	 <c:choose>
-									<c:when test="${user.username!=null}"> <span class="place-items-center"> <c:out value="${user.username }"/></span>
-									</c:when>  
-									<c:otherwise> <span class="place-items-center"> CodeForBreakfast</span>
-									</c:otherwise>
-								</c:choose>
+		                    	  <span class="place-items-center"> CodeForBreakfast</span>
+								 
 		                     
 		                    </h3>
 		                    <!--  console Msg Area  -->
 		                    <span class="headline-description"> 
-		                   
-									 <c:choose>
-										<c:when test="${user==null}"> 
-											Please log in to view your personal desk!
-										</c:when>
-										 
-										<c:when test='${infoMsg.getFromSection().equals("Desk")}'> 
-											<c:out value="${infoMsg.getMessage()}"/>
-										</c:when>
-										<c:otherwise>
-											<c:out value=""/>
-										</c:otherwise>
-									</c:choose>	
-									</span>
+		                    	<%  
+		                    	if(exception != null )
+		                    		exception.getMessage();
+		                		%>
+							</span>
 									 
 									
 								
 								
 		                    <!--  <span class="headline-description">My articles</span> -->
 		                </div>
-		                
-		                <!-- Codice Della Personal Desk sezione Post -->
-		                <c:set var="count" scope="session" value="${0}"/>
-		                <c:set var="countInsert" scope="session" value="${0}"/>
-		                <c:forEach var="sottoscrizione" items="${user.getSottoscrizioniPost()}">
 		                 
-		                    <c:if test="${count<6 and countInsert<6}">
-		                        <c:set var="countInsert" scope="session" value="${countInsert+1}"/>
-		                        
-		
-		                        <!-- Articles --> 
-		                        
-		                            <div class="article-desk featured-article featured-article-${user.getSottoscrizioniPost().get(count).getPosition()}">
-		                            	<c:if test="${sottoscrizione.getPosition()<5}">
-		                                <img src="${sottoscrizione.getPost().getLinkImg()}_1.jpg" alt="" class="article-image">
-		                                </c:if>
-		                                <c:if test="${sottoscrizione.getPosition()>=5}">
-		                                <img src="${sottoscrizione.getPost().getLinkImg()}_2.jpg" alt="" class="article-image">
-		                                </c:if>
-		                                
-		                                <a href ="#" class="article-category">${sottoscrizione.getPost().getCategory()}</a>
-		
-		                                <div class="article-data-container">
-		
-		                                    <div class="article-data">
-		                                    	<!-- view function-->
-												<c:choose>
-												<c:when test="${articleOnScreenInSession==sottoscrizione.getPost().getLink()}">
-		                                         <c:set var="onScreenURL">
-									               <c:url value="http://192.168.1.109:8086/CodeForBreakfast/onScreenClose" >  
-									                </c:url>  
-									           	</c:set> 
-														<button class="btn" id="view-button" onClick="articleOnScreenFunctionSetNull('${onScreenURL}')">
-		                                                 <i class="ri-book-open-fill"></i>
-		                                           		</button>
-												</c:when>
-													
-													<c:otherwise>
-													<c:set var="onScreenURL">
-									               <c:url value="http://192.168.1.109:8086/CodeForBreakfast/onScreen" > 
-									                  <c:param name="articleLinkToView" value="${sottoscrizione.getPost().getLink()}"/>
-									                   <c:param name="articleTitleToView" value="${sottoscrizione.getPost().getTitle()}"/>  
-									                </c:url>  
-									           	</c:set> 
-														<button class="btn" id="view-button" onClick="articleOnScreenFunction('${onScreenURL}')">
-														<i class="ri-folder-3-fill"></i>
-		                                                
-		                                           		</button>
-													
-													</c:otherwise>
-												</c:choose>	 
-		                                       
-		                                        
-		                                        <!-- remove function-->
-		
-		                                        <c:set var="titleURL">
-									               <c:url value="http://192.168.1.109:8086/CodeForBreakfast/removePost" > 
-									                  <c:param name="postId" value="${sottoscrizione.getPost().getId()}"/>   
-									                </c:url>  
-									           </c:set>
-		                                            <button class="btn" id="remove-button" onClick="callServletWithAjax('${titleURL}')">
-		                                                <i class="ri-delete-bin-line"></i>
-		                                            </button>
-		                                        
-		                                        
-		                                         
-		                                         <!-- arrow up function-->
-			                              	  <c:if test="${sottoscrizione.getPosition()!=1}">
-			                            	    <c:set var="titleURL2">
-							                    		<c:url value="http://192.168.1.109:8086/CodeForBreakfast/moveUpPost" >
-							                    			<c:param name="SottoscrizioneId" value="${sottoscrizione.getId()}"/>
-							                    			  <c:param name="articlesPage" value="${1}"/>   
-							                    		</c:url>
-					 								</c:set>   	 
-												                                                  
-												<button class="btn" id="arrow-up-button" onClick="callServletWithAjax('${titleURL2}')">
-													<i class="ri-arrow-up-circle-line"></i>
-				 								</button>
-				 								  
-											</c:if>  
-											<c:if test="${sottoscrizione.getPosition()==1 }">
-											<span class="article-data-spacer"></span> 
-		                                    </c:if>       
-											
-			                            <!-- arrow down function-->
-			                            
-			                             	<c:if test="${sottoscrizione.getPosition()!=6}">
-			                            	    <c:set var="titleURL3">
-							                    		<c:url value="http://192.168.1.109:8086/CodeForBreakfast/moveDownPost" >
-							                    			<c:param name="SottoscrizioneId" value="${sottoscrizione.getId()}"/>
-							                    			  <c:param name="articlesPage" value="${1}"/>   
-							                    		</c:url>
-					 								</c:set>   	 
-												                                                 
-													<button class="btn" id="arrow-down-button" onClick="callServletWithAjax('${titleURL3}')">
-				                                		<i class="ri-arrow-down-circle-line"></i>
-				                            		</button> 
-				 								  
-											</c:if>  
-											<c:if test="${sottoscrizione.getPosition()==6 }">
-											<span class="article-data-spacer"></span> 
-		                                    </c:if> 
-		                                        
-		                                        
-		                                       
-		                                    </div>
-		                                        <h3 class="title article-title">${sottoscrizione.getPost().getTitle()}</h3><!--  </a> -->
-												<!-- data of pubblication-->
-		                                        <span>${sottoscrizione.getPost().getData()}</span> 
-		                                </div>
-		                            </div> 
-		                    </c:if>
-		                    <c:set var="count" scope="session" value="${count+1}"/>
-		                </c:forEach>
-							  
 		            </div>
-		            
-		            <!-- Conferences Right Nav-->
-		             <div class="sidebar d-grid">
-		
-		                <h3 class="title featured-content-title">Your Conferences</h3>
-		
-		
-		                 <!-- Codice Della Personal Desk sezione Conferences  -->
-		                 <c:set var="count" scope="session" value="${0}"/>
-		                 <c:forEach var="conferenceSubscription" items="${user.getSottoscrizioniConference()}">
-		                  <c:set var="count" scope="session" value="${count+1}"/>
-		                      
-		                       <!-- Conferences -->
-		                         <div class="trending-news-box">
-		                             <div class="trending-news-img-box">
-		                                <span class="trending-number place-items-center"><c:out value="${count}" /></span>
-		                                <a href="/CodeForBreakfast/conference?id=${conferenceSubscription.getConference().getId()}"> <img src="${conferenceSubscription.getConference().getLinkImgSmall()}" alt="" class="article-image"> </a>
-		                              </div>
-		                              
-		                         	<div class="trending-news-data">
-		
-		                            <div class="article-data"> 
-		                            
-		                            
-		                            <!--  remove Conference -->
-		                            <c:set var="titleURL1">
-				                    	<c:url value="http://192.168.1.109:8086/CodeForBreakfast/removeConference" >
-				                    		<c:param name="conferenceId" value="${conferenceSubscription.getConference().getId()}"/>
-				                    	</c:url>
-				 					</c:set>		                                                         
-									 
-									<button class="btn" id="remove-button" onClick="callServletWithAjax('${titleURL1}')">
-										<i class="ri-delete-bin-line"></i>
-									</button> 
-									 
-									
-									<span class="article-data-spacer"></span> 
-		                            
-		                               
-		                                
-		                                <span><c:out value="${conferenceSubscription.getConference().getTimeOfConference()}" /> </span>
-		
-		                           </div>
-		
-		                      <h3 class="title article-title"> <a href="${conferenceSubscription.getConference().getLink()}"> <c:out value="${conferenceSubscription.getConference().getTitle()}" /> </a> </h3>
-								
-		                        </div>
-		                  </div>
-		   
-		                 </c:forEach> 
-		            </div>
+		             
 		
 		        </div>
 		
 		    </section>
 		    
-		    <!--  Sezione Articolo Vista -->
-		
-			<div>
-			
-			<c:if test="${articleOnScreenInSession != null}" >
-			   <jsp:include page="${articleOnScreenInSession}" /> 
-			</c:if>
-			
-			</div>
+		    
 		 	 
 		 	 <!--  Sezione Articolo Vista  FINE -->
 		

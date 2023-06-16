@@ -58,9 +58,8 @@ public class UserDAOimpl implements UserDAO{
 					return null;
 				
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println("Errore accesso a db!");
+			} catch (SQLException e) { 
+				System.out.println(e.getMessage());
 				return null;
 			}
 

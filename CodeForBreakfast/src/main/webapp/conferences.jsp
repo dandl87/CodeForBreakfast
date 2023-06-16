@@ -1,13 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-    <%@ page import="com.protom.codeforbreakfast.service.ServiceAllConferences"%>
-    <%@ page import="java.util.ArrayList"%>
-    <%@ page import="com.protom.codeforbreakfast.model.entity.Conference"%>
-    <%@ page import="com.protom.codeforbreakfast.dbconnections.DbConnectionMySql"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
     
      <%   if(session.getAttribute("user")==null)
-   			 response.sendRedirect("index.jsp"); 
+   			 response.sendRedirect("/CodeForBreakfast"); 
 	 %>
 	 
 	 
@@ -42,20 +38,23 @@
 	                    <li class="list-item">
 	                        <a href="/CodeForBreakfast/home" class="list-link">Home</a>
 	                    </li>
-	                    <li class="list-item">
-	                        <a href="#" class="list-link current">Conferences</a>
-	                    </li>
-	                    <li class="list-item">
-	                        <a href="articles1.jsp" class="list-link">Articles</a>
-	                    </li>
+	                  
+						<li class="list-item">
+		                    <a href="/CodeForBreakfast/conferences?page=1" class="list-link current">Conferences</a>
+		                </li>
+		                    
+		                <li class="list-item">
+		                    <a href="/CodeForBreakfast/articles?page=1" class="list-link">Articles</a>
+		                </li>
+		                
 	                    <li class="list-item">
 	                        <a href="#" class="list-link">News</a>
 	                    </li>
 	                    <li class="list-item">
-	                        <a href="membership.jsp" class="list-link">Membership</a>
+	                        <a href="/CodeForBreakfast/membership" class="list-link">Membership</a>
 	                    </li>
 	                    <li class="list-item">
-	                        <a href="contacts.jsp" class="list-link">Contact</a>
+	                        <a href="/CodeForBreakfast/contact" class="list-link">Contact</a>
 	                    </li>
 	                    
 	                    <li class="list-item screen-lg-hidden">
@@ -162,32 +161,24 @@
 	                    </h3>
 	                    <!--  console Msg Area  -->
 	                    <span class="headline-description">  
-								 <c:choose>
-									<c:when test="${user==null}"> 
-										Welcome to a world made of code & coffee
-									</c:when>
-									<c:otherwise>
-										<c:out value="${infoMsg.getMessage() }"/>
-									</c:otherwise>
-								</c:choose>	
+								<c:choose>
+								<c:when test="${user==null}"> 
+									Welcome to a world made of code & coffee
+								</c:when>
+								<c:when test='${infoMsg.getFromSection().equals("Conference")}'> 
+									<c:out value="${infoMsg.getMessage()}"/>
+								</c:when>
+								<c:otherwise>
+									<c:out value=""/>
+								</c:otherwise>
+							</c:choose>	
 						</span>
 							 
 							
 	                    <!--  <span class="headline-description">My articles</span> -->
 	                </div>
 	                
-	                 <!-- Codice Della Personal Desk sezione Post -->
-	            
-	                 <%
-	                 DbConnectionMySql connection= DbConnectionMySql.getInstance();
-	    			 connection.avviaConnessione();
-	                 int pageNumber=2;
-	                 ServiceAllConferences service = new ServiceAllConferences();
-	                 ArrayList<Conference> allConferences = service.caricaAllConferencesOfPage(pageNumber);
-	                 request.setAttribute("conferences",allConferences);
-	                 request.setAttribute("page",pageNumber);
-	                 connection.chiudiConnessione();
-	                 %>
+	                
 	                 <c:set var="count" scope="session" value="${0}"/>
 	                 <c:forEach var="conference" items="${conferences}"> 
 	                 <c:set var="count" scope="session" value="${count+1}"/> 
@@ -220,8 +211,7 @@
 		                              	<c:param name="conferencePage" value="${page}"/> 
 		                              </c:url>
 		                              </c:set>
-		                                                        
-		                              <%--  <a href="${titleURL}" > --%> 
+		                                                         
 		                              <button class="btn" id="add-button" onClick="callServletWithAjax('${titleURL}')" >
 		                              	<i class="ri-add-box-line"></i>
 		                              </button>
@@ -264,9 +254,8 @@
 	                                <div class="article-data"> 
 	                                    <span><c:out value ="${conference.data}" /></span>
 	                                     
-	                                </div>
-	 
-	                                <a href="${conference.getLink()}" ><h3 class="title article-title"><c:out value = "${conference.title}" /></h3></a>
+	                                </div> 
+	                                <a href="/CodeForBreakfast/conference?id=${conference.id}" ><h3 class="title article-title"><c:out value = "${conference.title}" /></h3></a>
 	                                <h3 class="article-info"><c:out value = "${conference.description}" /> </h3>
 	 
 	                          </div>
@@ -328,7 +317,11 @@
 	
 	                           </div>
 	
-	                         <h3 class="title article-title"><c:out value="${conferenceSubscription.getConference().getTitle()}" /></h3> 
+	                         <h3 class="title article-title">  
+	                         	<a href="${conferenceSubscription.getConference().getLink()}"> 
+	                         		<c:out value="${conferenceSubscription.getConference().getTitle()}" /> 
+	                         	</a>
+	                         </h3> 
 							
 	                        </div>
 	                  </div>
@@ -337,9 +330,13 @@
 	            </div>
 	
 	            <!-- page menu -->
-	            <div class="bottomline-banner2"> 
-	            	<a href="conferences1.jsp" style="width: 5.5rem"><h3>back</h3></a> 
-	                <a href="conferences3.jsp" style="width: 5.5rem"><h3>next</h3></a> 
+	            <div class="bottomline-banner2">  
+	                 <c:if test="${back != null}">
+	               		<h3 class="article-info" > <a href="/CodeForBreakfast/conferences?page=${back}" style="width: 5.5rem">back</a> </h3>
+	                 </c:if>
+	            	 <c:if test="${next != null}">
+	               		<h3 class="article-info" > <a href="/CodeForBreakfast/conferences?page=${next}" style="width: 5.5rem">next</a> </h3>
+	               	 </c:if>
 	            </div>
 	 
 	         </div>

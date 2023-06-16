@@ -2,11 +2,18 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
   <display-name>CodeForBreakfast</display-name>
   <welcome-file-list>
-  	<welcome-file>home</welcome-file> 
-    <welcome-file>index.html</welcome-file> 
+  	<welcome-file>home</welcome-file>  
   </welcome-file-list>
   
-  
+  		<error-page> 
+		   <location>/errorPage.jsp</location>
+		   </error-page>
+		   
+		   <error-page>
+		   <exception-type>java.lang.Exception.ServletException</exception-type>
+		   <location>/errorPage.jsp</location>
+	   </error-page>
+		
  		 <servlet>
 			<servlet-name>LoginServlet</servlet-name>
 			<servlet-class>com.protom.codeforbreakfast.servlets.LoginServlet</servlet-class>
@@ -167,7 +174,37 @@
 			<url-pattern>/loadArticles</url-pattern>
 		</servlet-mapping>
 		
+		<servlet>
+     		<servlet-name>ArticlesServlet</servlet-name>
+     		<servlet-class>com.protom.codeforbreakfast.servlets.ArticlesServlet</servlet-class>
+		</servlet>
 		
+		<servlet-mapping>
+	     	<servlet-name>ArticlesServlet</servlet-name>
+	    	<url-pattern>/articles</url-pattern>
+		</servlet-mapping>
+		
+		<servlet>
+     		<servlet-name>ConferencesServlet</servlet-name>
+     		<servlet-class>com.protom.codeforbreakfast.servlets.ConferencesServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping>
+	     	<servlet-name>ConferencesServlet</servlet-name>
+	    	<url-pattern>/conferences</url-pattern>
+		</servlet-mapping>
+		
+		<servlet>
+     		<servlet-name>ViewConferenceServlet</servlet-name>
+     		<servlet-class>com.protom.codeforbreakfast.servlets.ViewConferenceServlet</servlet-class>
+		</servlet>
+		
+		<servlet-mapping>
+	     	<servlet-name>ViewConferenceServlet</servlet-name>
+	    	<url-pattern>/conference</url-pattern>
+		</servlet-mapping>
+		
+
 		
 		<!--  JSP mapping  -->
 		 <servlet>
@@ -180,25 +217,8 @@
 	    	<url-pattern>/home</url-pattern>
 		</servlet-mapping>
 		
-		<servlet>
-     		<servlet-name>Conference</servlet-name>
-     		<jsp-file>/conferences1.jsp</jsp-file>
-		</servlet>
 		
-		<servlet-mapping>
-	     	<servlet-name>Conference</servlet-name>
-	    	<url-pattern>/conferences</url-pattern>
-		</servlet-mapping>
 		
-		<servlet>
-     		<servlet-name>Articles</servlet-name>
-     		<jsp-file>/articles1.jsp</jsp-file>
-		</servlet>
-		
-		<servlet-mapping>
-	     	<servlet-name>Articles</servlet-name>
-	    	<url-pattern>/articles</url-pattern>
-		</servlet-mapping> 
 		
 		<servlet>
      		<servlet-name>Membership</servlet-name>

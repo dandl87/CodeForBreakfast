@@ -43,11 +43,13 @@
                         <a href="/CodeForBreakfast/home" class="list-link">Home</a>
                     </li>
                     <li class="list-item">
-                        <a href="/CodeForBreakfast/conferences" class="list-link">Conferences</a>
-                    </li>
-                    <li class="list-item">
-                        <a href="/CodeForBreakfast/articles" class="list-link">Articles</a>
-                    </li>
+		               <a href="/CodeForBreakfast/conferences?page=1" class="list-link">Conferences</a>
+		            </li>
+		                    
+		            <li class="list-item">
+		               <a href="/CodeForBreakfast/articles?page=1" class="list-link">Articles</a>
+		            </li>
+                    
                     <li class="list-item">
                         <a href="#" class="list-link">News</a>
                     </li>

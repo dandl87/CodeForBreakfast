@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.protom.codeforbreakfast.exceptions.SessionException;
 import com.protom.codeforbreakfast.model.entity.Msg;
 import com.protom.codeforbreakfast.model.entity.SottoscrizionePost;
 import com.protom.codeforbreakfast.model.entity.User; 
 import com.protom.codeforbreakfast.service.ServiceMsg;
-import com.protom.codeforbreakfast.service.ServicePost;
-import com.protom.codeforbreakfast.service.ServiceUser;
+import com.protom.codeforbreakfast.service.ServicePost; 
 
 public class MoveUpFromArticleSectionServlet extends HttpServlet{
 	
@@ -49,23 +49,20 @@ public class MoveUpFromArticleSectionServlet extends HttpServlet{
 						int articlesPage = Integer.parseInt(request.getParameter("articlesPage"));
 						
 						//Fase 2: creo gli oggetti che userò
-					 
-						ServiceUser serviceUser = new ServiceUser();
+					  
 						ServicePost servicePost = new ServicePost();
 						ServiceMsg  serviceMsg = ServiceMsg.getInstance();
 						
 						 
 						HttpSession currentSession = request.getSession();
 						
-						User user = (User) currentSession.getAttribute("user"); 
+						User user = (User) currentSession.getAttribute("user");
+						
+						if(user==null)
+							throw new SessionException("Sessione scaduta");
 						 
 						String articleOnDesk = (String) currentSession.getAttribute("articleOnScreenInSession");
-						
-						if(user!=null) {
-							
-							serviceUser.avviaConnessione();
-							
-							
+						 
 							servicePost.moveUpPost(user, sPId, "Article");
 								
 							
@@ -101,8 +98,7 @@ public class MoveUpFromArticleSectionServlet extends HttpServlet{
 							RequestDispatcher dis = request.getRequestDispatcher("articles"+articlesPage+".jsp"); 
 							 
 							dis.forward(request, response);
-		  
-							serviceUser.chiudiConnessione(); 
+		   
 								  
 						 
 						
@@ -116,22 +112,9 @@ public class MoveUpFromArticleSectionServlet extends HttpServlet{
 							RequestDispatcher dis = request.getRequestDispatcher("articles"+articlesPage+".jsp"); 
 							
 							dis.forward(request, response);
+		  
 		 
-						 
-							serviceUser.chiudiConnessione();
-		 
-						}
-				}else {
-					
-				serviceMsg.setValues(false, "Sorry, your session has expired", "Desk");
-				
-				request.setAttribute("infoMsg",serviceMsg.getMsg());
-				
-				RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
-				
-				dis.forward(request, response);  
-				
-				}
+						} 
 			}
 
 }

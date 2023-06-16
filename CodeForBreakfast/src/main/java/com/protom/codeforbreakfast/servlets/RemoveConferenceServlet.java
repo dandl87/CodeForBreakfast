@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.protom.codeforbreakfast.exceptions.SessionException;
 import com.protom.codeforbreakfast.model.entity.Msg;
 import com.protom.codeforbreakfast.model.entity.SottoscrizioneConference; 
 import com.protom.codeforbreakfast.model.entity.User;
 import com.protom.codeforbreakfast.service.ServiceConference;
-import com.protom.codeforbreakfast.service.ServiceMsg; 
-import com.protom.codeforbreakfast.service.ServiceUser;
+import com.protom.codeforbreakfast.service.ServiceMsg;  
 
 public class RemoveConferenceServlet extends HttpServlet {
 	
@@ -48,8 +48,7 @@ public class RemoveConferenceServlet extends HttpServlet {
 					int conferenceId = Integer.parseInt(request.getParameter("conferenceId"));
 					
 					//Fase 2
-				 
-					ServiceUser serviceUser = new ServiceUser();  
+				  
 					ServiceMsg serviceMsg = ServiceMsg.getInstance();
 					ServiceConference serviceConference = new ServiceConference();
 					 
@@ -57,14 +56,13 @@ public class RemoveConferenceServlet extends HttpServlet {
 					
 					  
 					User user = (User) currentSession.getAttribute("user");
+					
+					if(user == null)
+						throw new SessionException("Sessione scaduta");
+					
 					String articleOnSession = (String) currentSession.getAttribute("articleOnScreenInSession");
-					
 					 
-					if(user!=null) {
-						
-					serviceUser.avviaConnessione();
-					
-					serviceUser.removeConference(user, conferenceId, "Desk"); 
+					serviceConference.removeConference(user, conferenceId, "Desk"); 
 					Msg msg = serviceMsg.getMsg();
 						
 					if(serviceMsg.getMsg().getStatus()) {
@@ -91,10 +89,7 @@ public class RemoveConferenceServlet extends HttpServlet {
 					RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
 					
 					dis.forward(request, response);
-					 
- 
-				 
-					serviceUser.chiudiConnessione(); 
+					  
 					
 					 
 					
@@ -107,20 +102,10 @@ public class RemoveConferenceServlet extends HttpServlet {
 						RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
 						
 						dis.forward(request, response);
+	  
 	 
-					 
-						serviceUser.chiudiConnessione();
-	 
-					}
-		} else {
-				serviceMsg.setValues(false, "Sorry, your session has expired", "Desk");
-		
-				request.setAttribute("infoMsg",serviceMsg.getMsg());
-			
-				RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
-			
-				dis.forward(request, response); 
-			}
+					} 
+					
 		}
 		
 }

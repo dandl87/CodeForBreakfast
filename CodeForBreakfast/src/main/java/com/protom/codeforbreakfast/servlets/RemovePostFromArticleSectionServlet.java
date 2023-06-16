@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.protom.codeforbreakfast.exceptions.SessionException;
 import com.protom.codeforbreakfast.model.entity.Msg;
 import com.protom.codeforbreakfast.model.entity.SottoscrizionePost;
 import com.protom.codeforbreakfast.model.entity.User; 
 import com.protom.codeforbreakfast.service.ServiceMsg;
-import com.protom.codeforbreakfast.service.ServicePost;
-import com.protom.codeforbreakfast.service.ServiceUser;
+import com.protom.codeforbreakfast.service.ServicePost; 
 
 public class RemovePostFromArticleSectionServlet extends HttpServlet {
 	
@@ -49,8 +49,7 @@ public class RemovePostFromArticleSectionServlet extends HttpServlet {
 					int articlesPage = Integer.parseInt(request.getParameter("articlesPage"));
 					
 					//Fase 2
-				 
-					ServiceUser serviceUser = new ServiceUser();
+				  
 					ServicePost servicePost = new ServicePost();
 					ServiceMsg serviceMsg = ServiceMsg.getInstance();
 					boolean checkArticle;
@@ -61,18 +60,17 @@ public class RemovePostFromArticleSectionServlet extends HttpServlet {
 					
 					User user = (User) currentSession.getAttribute("user");
 					
+					if(user == null)
+						throw new SessionException("Sessione scaduta");
+					
 					String articleOnDesk = (String) currentSession.getAttribute("articleOnScreenInSession");
 					
-					 
-					if(user!=null ) {
-						
-					serviceUser.avviaConnessione();
-					
+					  
 					//se l'articolo aperto è quello da eliminare setto a null l'attributo
 					checkArticle = servicePost.checkArticleOnScreen(user, postId, articleOnDesk);
 					
 					
-					serviceUser.removePost(user, postId, "Article");
+					servicePost.removePost(user, postId, "Article");
 					
 					Msg msg = serviceMsg.getMsg();
 					
@@ -104,14 +102,8 @@ public class RemovePostFromArticleSectionServlet extends HttpServlet {
 					
 					//redirect a index
 					RequestDispatcher dis = request.getRequestDispatcher("articles"+articlesPage+".jsp"); 
-//					
-				
-					dis.forward(request, response);
- 
-				 
-					serviceUser.chiudiConnessione(); 
-					
-					 
+ 			
+					dis.forward(request, response); 
 					
 					} else { 					
 						  
@@ -123,21 +115,10 @@ public class RemovePostFromArticleSectionServlet extends HttpServlet {
 						
 						dis.forward(request, response);
 	 
-					 
-						serviceUser.chiudiConnessione();
+					  
 	 
-				}
-			}else {
-					serviceMsg.setValues(false, "Sorry, your session has expired", "Desk");
-				
-					request.setAttribute("infoMsg", serviceMsg.getMsg());
-				
-					RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
-				
-					dis.forward(request, response);  
-				}
-		}
+				} 
 		
-	 
+		}
 		
 }

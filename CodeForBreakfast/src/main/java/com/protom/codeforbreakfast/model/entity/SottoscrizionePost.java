@@ -73,7 +73,7 @@ public class SottoscrizionePost {
 	@Override
 	public String toString() {
 		return "SottoscrizionePost [id=" + id + ", username=" + username + ", postId="
-				+ post.getId() + "position:"+this.position+"]";
+				+ post.getId() + ", position:"+this.position+"]";
 	}
 	
 	

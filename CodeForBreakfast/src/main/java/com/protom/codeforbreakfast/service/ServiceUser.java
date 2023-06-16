@@ -1,17 +1,15 @@
 package com.protom.codeforbreakfast.service;
 
-import java.util.ArrayList;
-import java.util.TreeMap;
+import java.util.ArrayList; 
 
 import com.protom.codeforbreakfast.dbconnections.DbConnectionMySql;
+import com.protom.codeforbreakfast.exceptions.SessionException;
 import com.protom.codeforbreakfast.model.dao.SottoscrizioneConferenceDAO;
 import com.protom.codeforbreakfast.model.dao.SottoscrizionePostDAO;
 import com.protom.codeforbreakfast.model.dao.UserDAO;
 import com.protom.codeforbreakfast.model.daoimpl.SottoscrizioneConferenceDAOimpl;
 import com.protom.codeforbreakfast.model.daoimpl.SottoscrizionePostDAOimpl;
-import com.protom.codeforbreakfast.model.daoimpl.UserDAOimpl;
-import com.protom.codeforbreakfast.model.entity.Conference; 
-import com.protom.codeforbreakfast.model.entity.Post;
+import com.protom.codeforbreakfast.model.daoimpl.UserDAOimpl;  
 import com.protom.codeforbreakfast.model.entity.SottoscrizioneConference;
 import com.protom.codeforbreakfast.model.entity.SottoscrizionePost;
 import com.protom.codeforbreakfast.model.entity.User;
@@ -35,38 +33,39 @@ public class ServiceUser {
 		this.serviceMsg= ServiceMsg.getInstance();
 	}
 	
-	public void avviaConnessione() {
-		connessioneDb.avviaConnessione();
-		
-	}
-	
-	public void chiudiConnessione() {
-		connessioneDb.chiudiConnessione();
-		
-	}
-	
-	 
+  
  
 	public boolean insertNewUser(User user) {
+		connessioneDb.avviaConnessione();
+		
 		boolean result = userDAO.createUser(user);
+		
+		connessioneDb.chiudiConnessione();
 		
 		if(result) {
 			serviceMsg.setValues(true,"Hi "+ user.getName(), "Desk");
 			return true;
 		}
-		serviceMsg.setValues(false,"SignUp failed " , "Desk");	
+		serviceMsg.setValues(false,"SignUp failed " , "Desk");
+		
 		return false;
 		
 	}
 	
 
 	
-	public User cercaUser(String username, String password) {
+	public User cercaUser(String username, String password)    {
+		
+		connessioneDb.avviaConnessione();
 		 
 		User user = userDAO.readUser(username, password); 
 		
-		if(user==null)
-			return null;
+		if(user==null) {  
+				return null; 
+			
+		}
+		
+			
 		
 		// carica sottoscrizioni Post
 		ArrayList<SottoscrizionePost> sottoscrizioniPost = sottoscrizionePostDAO.readSottoscrizionePostOfUser(username) ;
@@ -75,7 +74,7 @@ public class ServiceUser {
 		// carica sottoscrizioni Conference
 		ArrayList<SottoscrizioneConference> sottoscrizioniConference = sottoscrizioneConferenceDAO.readSottoscrizioneConferenceOfUser(username) ;
 		 
-	 
+		connessioneDb.chiudiConnessione();
 				
 		user.setSottoscrizioniPost(sottoscrizioniPost);
 		user.setSottoscrizioniConference(sottoscrizioniConference);  
@@ -86,129 +85,11 @@ public class ServiceUser {
 	
  
 	
-	//Rimuovo post dalla Personal Area
-	public void removePost(User user, int postId, String section) { 
-		
-		ArrayList<SottoscrizionePost> sottoscrizioniPost = user.getSottoscrizioniPost();
-		
-		for(SottoscrizionePost sP: sottoscrizioniPost) {
-			if(sP.getPost().getId()==postId) { 
-				sottoscrizionePostDAO.deleteSottoscrizionePost(sP.getId());
-				serviceMsg.setValues(true,sP.getPost().getTitle()+" - removed", section);
-			}	
-		}
-	
-	}
 	
 	
+	 
 	
-	//Rimuovo conference dalla Personal Area
-		public void removeConference(User user, int conferenceId, String section) { 
-			
-			ArrayList<SottoscrizioneConference> sottoscrizioniConference = user.getSottoscrizioniConference();
-			
-			for(SottoscrizioneConference sC: sottoscrizioniConference) {
-				if(sC.getConference().getId()==conferenceId) { 
-					sottoscrizioneConferenceDAO.deleteSottoscrizioneC(sC.getId());
-					serviceMsg.setValues(true,"Conference - "+sC.getConference().getTitle()+" - removed", section);
-				}	
-			}
-		}
-	
-	
-	
-	public void addPost(User user, int postId, String section) { 
-		ServicePost servicePost = new ServicePost();
-		ArrayList<SottoscrizionePost> sottoscrizioniPost = user.getSottoscrizioniPost(); 
-		
-		if(sottoscrizioniPost.size()==6)
-			serviceMsg.setValues(false,"Articles Area is full!", section);
-		
-		// se il post è già presente l'add non avviene
-		boolean isPresent = checkPresenceSP(sottoscrizioniPost, postId);
-		
-		if(isPresent)
-			serviceMsg.setValues(false,"Articles is in your Desk!", section);
-		
-		//creiamo un Post, una sottoscrizionePost 
-		Post post = servicePost.cercaPost(postId); 
-		int position=findPosition(sottoscrizioniPost);
-		SottoscrizionePost sottoscrizionePost = new SottoscrizionePost(user.getUsername(),post, position);
-		
-		boolean result = sottoscrizionePostDAO.createSottoscrizioneP(sottoscrizionePost);
-		if(!result) 
-		 serviceMsg.setValues(false, "sottoscrizione non riuscita!", section);
-		else serviceMsg.setValues(true, sottoscrizionePost.getPost().getTitle()+" - inserted in position "+position , section);
-		 
-		}
-	
-	public void addConference(User user, int conferenceId, String section) { 
-		ServiceConference serviceConference = new ServiceConference();
-		ArrayList<SottoscrizioneConference> sottoscrizioniConference = user.getSottoscrizioniConference(); 
-		
-		if(sottoscrizioniConference.size()==6)
-			serviceMsg.setValues(false,"Conference Area is full!", section);
-		
-		// se il post è già presente l'add non avviene
-		boolean isPresent = checkPresenceSC(sottoscrizioniConference, conferenceId);
-		
-		if(isPresent)
-			serviceMsg.setValues(false,"Conference is in your Desk!", section);
-			else {
-		//creiamo un Conference, una sottoscrizioneConference
-		Conference conference = serviceConference.cercaConference(conferenceId); 
-		 
-		SottoscrizioneConference sottoscrizioneConference = new SottoscrizioneConference(user.getUsername(),conference);
-		
-		boolean result = sottoscrizioneConferenceDAO.createSottoscrizioneC(sottoscrizioneConference);
-		
-			
-		if(!result) 
-		 serviceMsg.setValues(false, "sottoscrizione non riuscita!", section);
-		else serviceMsg.setValues(true, "Conference - "+sottoscrizioneConference.getConference().getTitle()+" - inserted", section);
-		 
-			}
-			
-	}
-		
-	
-		 
-	
-	
-
-	
-	
-	
-	private boolean checkPresenceSP(ArrayList<SottoscrizionePost> sottoscrizioniPost, int postId) {
-		for(SottoscrizionePost sP: sottoscrizioniPost) {
-			if(sP.getPost().getId()==postId)
-				return true;
-		}
-		return false; 
-	}
-	
-	private boolean checkPresenceSC(ArrayList<SottoscrizioneConference> sottoscrizioniConference, int conferenceId) {
-		for(SottoscrizioneConference sC: sottoscrizioniConference) {
-			if(sC.getConference().getId()==conferenceId)
-				return true;
-		}
-		return false; 
-	}
-	
-	
-	private int findPosition(ArrayList<SottoscrizionePost> sottoscrizioniPost) {
-		TreeMap<Integer, SottoscrizionePost> sottoscrizioniOrdinate = new TreeMap<>();
-		for(SottoscrizionePost sP: sottoscrizioniPost)
-			sottoscrizioniOrdinate.put(sP.getPosition(), sP);
-		int i =1;
-		while(sottoscrizioniOrdinate.get(i)!=null)
-			i++;
-		return i; 
-	}
-	
-	
-	
-
+	 
 	
  
  

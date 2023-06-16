@@ -429,7 +429,7 @@ i{
 }
 
 .article-title{
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-xs);
 }
 
 /* Sidebar  Conferences */

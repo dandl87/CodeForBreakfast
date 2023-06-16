@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.protom.codeforbreakfast.exceptions.SessionException;
 import com.protom.codeforbreakfast.model.entity.Msg;
 import com.protom.codeforbreakfast.model.entity.SottoscrizioneConference;
 import com.protom.codeforbreakfast.model.entity.User;
 import com.protom.codeforbreakfast.service.ServiceConference;
-import com.protom.codeforbreakfast.service.ServiceMsg; 
-import com.protom.codeforbreakfast.service.ServiceUser;
+import com.protom.codeforbreakfast.service.ServiceMsg;  
 
 public class AddConferenceServlet extends HttpServlet{
 	
@@ -52,23 +52,23 @@ public class AddConferenceServlet extends HttpServlet{
 						
 						//Fase 2: Creo i Service e tutti gli oggetti che mi servono
 					 
-						ServiceUser serviceUser = new ServiceUser();
+						 
 						ServiceConference serviceConference = new ServiceConference();
 						ServiceMsg serviceMsg = ServiceMsg.getInstance();  
 						 
 						HttpSession currentSession = request.getSession();
 					
 						User user = (User) currentSession.getAttribute("user");
+						
+//						if(user==null)
+//							throw new SessionException("Sessione Scaduta");
+						
 						String articleOnSession = (String) currentSession.getAttribute("articleOnScreenInSession");
 						
-						// se ho l'user
-						if(user!=null) { 
-							
-						serviceUser.avviaConnessione();
-							
+						  
 							
 						// eseguo la funzionalità	
-						serviceUser.addConference(user, conferenceId, "Conference");
+						serviceConference.addConference(user, conferenceId, "Conference");
 						
 						// l'operazione di add della Conference setta il msg nel serviceMsg
 						Msg msg = serviceMsg.getMsg();
@@ -104,9 +104,7 @@ public class AddConferenceServlet extends HttpServlet{
 						RequestDispatcher dis = request.getRequestDispatcher("conferences"+conferencePage+".jsp"); 
 						
 						dis.forward(request, response);
-	 
-					 
-						serviceUser.chiudiConnessione(); 
+	  
 								 
 						
 						 
@@ -122,19 +120,10 @@ public class AddConferenceServlet extends HttpServlet{
 							
 							dis.forward(request, response);
 		 
-						 
-							serviceUser.chiudiConnessione();
+						  
 		 
 						} 
-						// l'user è null quindi la sessione è scaduta	
-					}else {
-						serviceMsg.setValues(false,"Sorry, your session has expired", "Desk");
-						
-					request.setAttribute("infoMsg", serviceMsg.getMsg());
-					RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
-					dis.forward(request, response);  
-
-					}
+					 
 			}
 
 }

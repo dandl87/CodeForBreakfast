@@ -53,9 +53,7 @@ public class SignUpServlet extends HttpServlet{
 				ServiceUser serviceUser = new ServiceUser(); 
 				
 				ServiceMsg serviceMsg = ServiceMsg.getInstance(); 
-				
-				serviceUser.avviaConnessione();
-				
+				 
 				User user = new User(username, password, name, surname, email);
 				
 				boolean result = serviceUser.insertNewUser(user);
@@ -83,9 +81,7 @@ public class SignUpServlet extends HttpServlet{
 				
 				//redirect a index
 				response.sendRedirect("http://192.168.1.109:8086/CodeForBreakfast/home"); 
-						
-				serviceUser.chiudiConnessione();
-				
+						 
 				} else { 					
 					 
 					serviceMsg.setValues(false, "Login failed!", "Desk");
@@ -96,10 +92,7 @@ public class SignUpServlet extends HttpServlet{
 					RequestDispatcher dis = request.getRequestDispatcher("http://192.168.1.109:8086/CodeForBreakfast/home"); 
 					
 					dis.forward(request, response);
- 
-				 
-					serviceUser.chiudiConnessione();
- 
+  
 				}
 	}
 }

@@ -8,11 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
- 
-import com.protom.codeforbreakfast.model.entity.User; 
-import com.protom.codeforbreakfast.service.ServiceMsg; 
-import com.protom.codeforbreakfast.service.ServiceUser;
 
+import com.protom.codeforbreakfast.exceptions.SessionException;
+import com.protom.codeforbreakfast.model.entity.User; 
+import com.protom.codeforbreakfast.service.ServiceMsg;  
 public class OnScreenCloseServlet extends HttpServlet{
 	
 	 /**
@@ -38,9 +37,7 @@ public class OnScreenCloseServlet extends HttpServlet{
 			protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 				 
 				  		
-					  
-					 
-						ServiceUser serviceUser = new ServiceUser();   
+					   
 						
 						ServiceMsg serviceMsg = ServiceMsg.getInstance();   
 						 
@@ -49,18 +46,13 @@ public class OnScreenCloseServlet extends HttpServlet{
 						User user = (User) currentSession.getAttribute("user"); 
 						
 						// se ho l'user
-						if(user!=null) {
-							
-						System.out.println(user);
-							
-							
-						serviceUser.avviaConnessione();
-							 
+						if(user==null)
+							throw new SessionException("Sessione scaduta"); 
 						 
 						currentSession.setMaxInactiveInterval(10*60);  
 						   
 						 
-						serviceMsg.setValues(true,"article closed", "Desk");
+						serviceMsg.setValues(true,"", "Desk");
 						
 						//messaggio in console 
 						currentSession.removeAttribute("infoMsg"); 
@@ -74,24 +66,8 @@ public class OnScreenCloseServlet extends HttpServlet{
 						//redirect a index
 						RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
 						
-						dis.forward(request, response);
-	 
+						dis.forward(request, response); 
 					 
-						serviceUser.chiudiConnessione(); 
-								 
-						 
-						// l'user è null quindi la sessione è scaduta	
-					} else {
-						
-						serviceMsg.setValues(false, "Sorry, your session has expired", "Desk");
-					
-						request.setAttribute("infoMsg", serviceMsg.getMsg());
-					
-						RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
-					
-						dis.forward(request, response);  
-
-					}
 			}
 
 }

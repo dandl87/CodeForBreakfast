@@ -16,10 +16,11 @@ public class Conference {
 	private String timeOfConference;
 	private String description;
 	private int page;
+	private String youtubeID;
 	
 	
 	public Conference(String title, String speaker, String subTitle, String link, String linkImg, String linkImgSmall,  Date data, Date dataConference,
-			String timeOfConference, String description, int page) {
+			String timeOfConference, String description, int page, String youtubeID) {
 		super();
 		this.title = title;
 		this.speaker = speaker;
@@ -32,10 +33,11 @@ public class Conference {
 		this.timeOfConference = timeOfConference;
 		this.description = description;
 		this.page = page;
+		this.youtubeID = youtubeID;
 	}
 	
 	public Conference(int id, String title, String speaker,  String subTitle, String link, String linkImg, String linkImgSmall, Date data, Date dataConference,
-			String timeOfConference, String description, int page) {
+			String timeOfConference, String description, int page, String youtubeID) {
 		super();
 		this.id=id;
 		this.title = title;
@@ -49,6 +51,7 @@ public class Conference {
 		this.timeOfConference = timeOfConference;
 		this.description=description;
 		this.page=page;
+		this.youtubeID=youtubeID;
 	}
 
 
@@ -145,9 +148,7 @@ public class Conference {
 
 	public void setTimeOfConference(String timeOfConference) {
 		this.timeOfConference = timeOfConference;
-	}
-
-	
+	}	
 	
 	public String getDescription() {
 		return description;
@@ -164,11 +165,21 @@ public class Conference {
 	public void setPage(int page) {
 		this.page = page;
 	}
+	
+	
+
+	public String getYoutubeID() {
+		return youtubeID;
+	}
+
+	public void setYoutubeID(String youtubeID) {
+		this.youtubeID = youtubeID;
+	}
 
 	@Override
 	public String toString() {
 		return "Conference [id=" + this.id + ", titolo=" + this.title + ", speaker ="+this.speaker+", subTitle="+this.subTitle+", link=" + this.link + ", linkImg=" + this.linkImg + ", data="
-				+ this.data + ", dataConference=" + this.dataConference + ", timeOfConference=" + this.timeOfConference + ", description= "+this.description+", page="+this.page+"]";
+				+ this.data + ", dataConference=" + this.dataConference + ", timeOfConference=" + this.timeOfConference + ", description= "+this.description+", page="+this.page+", youtubeID="+this.youtubeID+"]";
 	}
 	
 	

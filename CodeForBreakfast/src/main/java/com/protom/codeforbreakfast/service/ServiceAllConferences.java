@@ -42,7 +42,9 @@ public class ServiceAllConferences {
 	}
 	
 	public ArrayList<Conference> caricaAllConferencesOfPage(int n){
+		 dbConnection.avviaConnessione();
 		 ArrayList<Conference> listOfAllConferences= conferenceDAO.readAllConferencesOfPage(n);
+		 dbConnection.chiudiConnessione();
 		 return listOfAllConferences; 
 		
 	}

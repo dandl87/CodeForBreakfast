@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.protom.codeforbreakfast.exceptions.SessionException;
 import com.protom.codeforbreakfast.model.entity.Msg;
 import com.protom.codeforbreakfast.model.entity.SottoscrizionePost;
 import com.protom.codeforbreakfast.model.entity.User; 
 import com.protom.codeforbreakfast.service.ServiceMsg;
-import com.protom.codeforbreakfast.service.ServicePost;
-import com.protom.codeforbreakfast.service.ServiceUser;
+import com.protom.codeforbreakfast.service.ServicePost; 
 
 public class RemovePostServlet extends HttpServlet {
 	
@@ -48,8 +48,7 @@ public class RemovePostServlet extends HttpServlet {
 					int postId = Integer.parseInt(request.getParameter("postId"));
 					
 					//Fase 2
-				 
-					ServiceUser serviceUser = new ServiceUser(); 
+				  
 					ServicePost servicePost = new ServicePost();
 					ServiceMsg serviceMsg = ServiceMsg.getInstance();
 					boolean checkArticle;
@@ -60,16 +59,15 @@ public class RemovePostServlet extends HttpServlet {
 					
 					User user = (User) currentSession.getAttribute("user"); 
 					
+					if(user==null)
+						throw new SessionException("Sessione scaduta");
+					
 					String articleOnDesk = (String) currentSession.getAttribute("articleOnScreenInSession");
-					
-					if(user!=null) {
-						
-					serviceUser.avviaConnessione();
-					
+					 
 					//se l'articolo aperto è quello da eliminare setto a null l'attributo
 					checkArticle = servicePost.checkArticleOnScreen(user, postId, articleOnDesk);
 					
-					serviceUser.removePost(user, postId, "Desk"); 
+					servicePost.removePost(user, postId, "Desk"); 
 					
 					Msg msg = serviceMsg.getMsg(); 
 						
@@ -100,13 +98,7 @@ public class RemovePostServlet extends HttpServlet {
 						RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
 						
 						dis.forward(request, response);
-					 
- 
-				 
-					serviceUser.chiudiConnessione(); 
-					
-					 
-					
+					  
 					}else { 					
 						  
 						
@@ -117,16 +109,9 @@ public class RemovePostServlet extends HttpServlet {
 						
 						dis.forward(request, response);
 	 
-					 
-						serviceUser.chiudiConnessione();
-	 
-					}
-			}else {
-				 serviceMsg.setValues(false, "Sorry, your session has expired", "Desk");
-			request.setAttribute("infoMsg",serviceMsg.getMsg());
-			RequestDispatcher dis = request.getRequestDispatcher("index.jsp"); 
-			dis.forward(request, response); 
-			}
+					  
+					} 
+					
 		}
 		
 }

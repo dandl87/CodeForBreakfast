@@ -110,7 +110,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [username=" + this.username + ", password=" + this.password + ", name=" + this.name + ", surname=" + this.surname
-				+ "email= "+email+" numero sottoscrizioni post:"+ this.sottoscrizioniPost.size()+" numero sottoscrizioni Conference:"+this.sottoscrizioniConference.size()+"]";
+				+ ", email= "+email+" numero sottoscrizioni post:"+ this.sottoscrizioniPost.size()+", numero sottoscrizioni Conference:"+this.sottoscrizioniConference.size()+"]";
 	}
 	
 	

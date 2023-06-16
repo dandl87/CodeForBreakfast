@@ -44,15 +44,19 @@
 	                    <li class="list-item">
 	                        <a href="/CodeForBreakfast/home" class="list-link">Home</a>
 	                    </li>
-	                    <li class="list-item">
-	                        <a href="/CodeForBreakfast/conferences" class="list-link">Conferences</a>
-	                    </li>
-	                    <li class="list-item">
-	                        <a href="/CodeForBreakfast/articles" class="list-link current">Articles</a>
-	                    </li>
+	                    
+	                     <li class="list-item">
+		                    <a href="/CodeForBreakfast/conferences?page=1" class="list-link">Conferences</a>
+		                </li>
+		                    
+		                <li class="list-item">
+		                    <a href="/CodeForBreakfast/articles?page=1" class="list-link current">Articles</a>
+		                </li>
+		                
 	                    <li class="list-item">
 	                        <a href="#" class="list-link">News</a>
 	                    </li>
+	                    
 	                    <li class="list-item">
 	                        <a href="/CodeForBreakfast/membership" class="list-link">Membership</a>
 	                    </li>
@@ -184,23 +188,7 @@
 	                
 	                
 	                
-	                <!-- Carico i post della pagina 1  -->
-	             
-	                 <%-- <c:if test="${user != null}" >  
-		                <jsp:include page="/loadArticles">
-		                	<jsp:param name="page" value="1" />
-		                </jsp:include>
-				 	</c:if> --%>
-				 	
-				 	 <%
-		                DbConnectionMySql connection= DbConnectionMySql.getInstance();
-		   			 	connection.avviaConnessione();
-		                int pageNumber =1;
-		                ServiceAllPosts service = new ServiceAllPosts(); 
-		                ArrayList<Post> allPosts = service.caricaAllPostsOfPage(pageNumber);
-		                request.setAttribute("posts",allPosts);
-		                connection.chiudiConnessione();
-					%>
+	                
 	
 	 
 	
@@ -382,13 +370,19 @@
 	                    </div>
 	                </div>
 	                </c:forEach>
-	
-	
-	   
-	                
+	 
 	            </div>
-	            <div class="bottomline-banner2">  
-	               <h3 class="article-info" > <a href="articles2.jsp" style="width: 5.5rem">next</a> </h3>
+	            
+	            
+	            
+	            <div class="bottomline-banner2">
+	            	<c:if test="${back != null}">
+	               		<h3 class="article-info" > <a href="/CodeForBreakfast/articles?page=${back}" style="width: 5.5rem">back</a> </h3>
+	                </c:if>
+	            	<c:if test="${next != null}">
+	               		<h3 class="article-info" > <a href="/CodeForBreakfast/articles?page=${next}" style="width: 5.5rem">next</a> </h3>
+	                </c:if>
+	                
 	            </div>
 	        </div> 
 	    </section>

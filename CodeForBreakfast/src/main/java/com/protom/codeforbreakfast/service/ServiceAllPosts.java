@@ -41,7 +41,9 @@ public class ServiceAllPosts {
 	}
 	
 	public ArrayList<Post> caricaAllPostsOfPage(int n){
+		dbConnection.avviaConnessione();
 		 ArrayList<Post> listOfAllPosts= postDAO.readAllPostsOfPage(n);
+		 dbConnection.chiudiConnessione();
 		 return listOfAllPosts; 
 		
 	}

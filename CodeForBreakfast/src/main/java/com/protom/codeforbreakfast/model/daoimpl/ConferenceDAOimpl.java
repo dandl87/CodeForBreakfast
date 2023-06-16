@@ -54,8 +54,9 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 			String tempoConf = rs.getString("tempo_conf");
 			String description = rs.getString("descrizione");
 			int page= rs.getInt("page");
+			String youtubeID = rs.getString("youtubeID");
 			
-			Conference conferenceFromDB = new Conference(idFromDB, title, speaker, subTitle, link, linkImg, linkImgSmall, date, date, tempoConf, description, page); 
+			Conference conferenceFromDB = new Conference(idFromDB, title, speaker, subTitle, link, linkImg, linkImgSmall, date, dateConf, tempoConf, description, page, youtubeID); 
 			return conferenceFromDB;
 			
 		} catch (SQLException e) {
@@ -94,8 +95,10 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 			String tempoConf = rs.getString("tempo_conf");
 			String description = rs.getString("descrizione");
 			int page= rs.getInt("page");
+			String youtubeID = rs.getString("youtubeID");
+
 			
-			Conference conferenceFromDB = new Conference(idFromDB, title, speaker, subTitle, link, linkImg, linkImgSmall, date, dateConf, tempoConf, description, page); 
+			Conference conferenceFromDB = new Conference(idFromDB, title, speaker, subTitle, link, linkImg, linkImgSmall, date, dateConf, tempoConf, description, page, youtubeID); 
 
 			listOfAllConferences.add(conferenceFromDB);
 		}
@@ -148,6 +151,8 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 			String durationConf= rs.getString("tempo_conf");
 			String description = rs.getString("descrizione");
 			int pageFromDB = rs.getInt("page");
+			String youtubeID = rs.getString("youtubeID");
+
 			
 			
 			 
@@ -155,7 +160,7 @@ public class ConferenceDAOimpl implements ConferenceDAO {
 			 
 			
 			//String dateString = dataImmatricolazione.toString();
-			Conference conference = new Conference(idPost, title, speaker,  subTitle, link, linkImg,linkImgSmall, date, dateConf, durationConf,description, pageFromDB);
+			Conference conference = new Conference(idPost, title, speaker,  subTitle, link, linkImg,linkImgSmall, date, dateConf, durationConf,description, pageFromDB, youtubeID);
 
 			listOfAllConferences.add(conference);
 		}
