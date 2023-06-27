@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.protom.codeforbreakfast.exceptions.SessionException;
 import com.protom.codeforbreakfast.model.entity.Post;
 import com.protom.codeforbreakfast.service.ServiceAllPosts;
 
@@ -29,9 +30,11 @@ public class ArticlesServlet extends HttpServlet {
         ServiceAllPosts service = new ServiceAllPosts(); 
         ArrayList<Post> allPosts = service.caricaAllPostsOfPage(page);
 
-        if(allPosts.size()<1)
-        	System.out.println("lanciare eccezione");
+        if(allPosts.size()<1) {
+        	throw new SessionException("errore di paginazione");
         	
+        } else {
+        	 
         request.setAttribute("posts",allPosts);
         
         if(allPosts.size()>3) 
@@ -42,7 +45,7 @@ public class ArticlesServlet extends HttpServlet {
         
         RequestDispatcher dis = request.getRequestDispatcher("articles.jsp");
         dis.forward(request, response);
-		
+        }
 		
 		
 	}

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.protom.codeforbreakfast.exceptions.SessionException;
 import com.protom.codeforbreakfast.model.entity.Conference;
 import com.protom.codeforbreakfast.service.ServiceConference;
 
@@ -29,7 +30,7 @@ public class ViewConferenceServlet extends HttpServlet {
 	    Conference actualConference = service.cercaConference(id);
 	    
 	    if(actualConference == null)
-	    	System.out.println("Eccezione");
+	    	throw new SessionException("conferenza non trovata");
 	    
 	    request.setAttribute("conference",actualConference);
 	    RequestDispatcher dis = request.getRequestDispatcher("conference.jsp");

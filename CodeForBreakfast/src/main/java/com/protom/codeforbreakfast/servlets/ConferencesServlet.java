@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.protom.codeforbreakfast.exceptions.SessionException;
 import com.protom.codeforbreakfast.model.entity.Conference;
 import com.protom.codeforbreakfast.service.ServiceAllConferences;
 
@@ -31,7 +32,7 @@ public class ConferencesServlet extends HttpServlet {
          ArrayList<Conference> allConferences = service.caricaAllConferencesOfPage(page);
          
          if(allConferences.size()<1)
-         	System.out.println("lanciare eccezione");
+        	 throw new SessionException("errore di paginazione");
          	
          request.setAttribute("conferences",allConferences);
          request.setAttribute("page", page);

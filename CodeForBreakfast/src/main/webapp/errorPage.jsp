@@ -160,11 +160,8 @@
 		                     
 		                    </h3>
 		                    <!--  console Msg Area  -->
-		                    <span class="headline-description"> 
-		                    	<%  
-		                    	if(exception != null )
-		                    		exception.getMessage();
-		                		%>
+		                    <span class="headline-description">
+		                    	  <%=exception.getMessage() %> <br>
 							</span>
 									 
 									

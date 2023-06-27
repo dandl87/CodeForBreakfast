@@ -165,8 +165,11 @@
 								<c:when test="${user==null}"> 
 									Welcome to a world made of code & coffee
 								</c:when>
+								<c:when test='${infoMsg.getFromSection().equals("Contact")}'> 
+									<c:out value="${infoMsg.getMessage()}"/>
+								</c:when>
 								<c:otherwise>
-									<c:out value="${infoMsg }"/>
+									<c:out value=""/>
 								</c:otherwise>
 							</c:choose>	
 							</span>

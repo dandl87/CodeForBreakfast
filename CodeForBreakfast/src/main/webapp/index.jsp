@@ -347,7 +347,7 @@
 		
 		                           </div>
 		
-		                      <h3 class="title article-title"> <a href="${conferenceSubscription.getConference().getLink()}"> <c:out value="${conferenceSubscription.getConference().getTitle()}" /> </a> </h3>
+		                      <h3 class="title article-title"> <a href="/CodeForBreakfast/conference?id=${conferenceSubscription.getConference().getId()}"> <c:out value="${conferenceSubscription.getConference().getTitle()}" /> </a> </h3>
 								
 		                        </div>
 		                  </div>

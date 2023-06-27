@@ -1,13 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-    <%@ page import="com.protom.codeforbreakfast.service.ServiceAllPosts"%>
-    <%@ page import="java.util.ArrayList"%>
-    <%@ page import="com.protom.codeforbreakfast.model.entity.Post"%>
-    <%@ page import="com.protom.codeforbreakfast.model.entity.User"%>
-    <%@ page import="com.protom.codeforbreakfast.model.entity.SottoscrizionePost"%>
-    <%@ page import="com.protom.codeforbreakfast.model.entity.Msg"%>
-    <%@ page import="com.protom.codeforbreakfast.dbconnections.DbConnectionMySql"%>
+    pageEncoding="ISO-8859-1"  errorPage="errorPage.jsp" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
     
     <%   if(session.getAttribute("user")==null)
    			 response.sendRedirect("/CodeForBreakfast"); 

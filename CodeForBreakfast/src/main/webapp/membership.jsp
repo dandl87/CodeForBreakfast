@@ -170,8 +170,12 @@
 								<c:when test="${user==null}"> 
 									Welcome to a world made of code & coffee
 								</c:when>
+								
+								<c:when test='${infoMsg.getFromSection().equals("Membership")}'> 
+									<c:out value="${infoMsg.getMessage()}"/>
+								</c:when>
 								<c:otherwise>
-									<c:out value="${infoMsg}"/>
+									<c:out value=""/>
 								</c:otherwise>
 							</c:choose>	
 							</span>
@@ -183,19 +187,10 @@
                     <!--  <span class="headline-description">My articles</span> -->
                 </div>
                 
-                <!-- Codice Della Personal Desk sezione Post www -->
+                <!-- Codice Della Personal Desk sezione Post  -->
             
-                <%
-                DbConnectionMySql connection= DbConnectionMySql.getInstance();
-   				connection.avviaConnessione();
-                ServiceAllUsers service = new ServiceAllUsers();
-                ArrayList<User> allUsers = service.caricaAllUsers();
-                request.setAttribute("users",allUsers);
-                connection.chiudiConnessione();
-				%>
-                <c:set var="count" scope="session" value="${0}"/>
-                <c:forEach var="user" items="${users}"> 
-                 <c:set var="count" scope="session" value="${count+1}"/>
+                
+                 
                  	
                  	 <!-- Articles -->
                  	 
@@ -207,19 +202,16 @@
                              <div class="article-data-container">
    
                                <div class="article-data">
-                                 <span>${user.name}</span>
-                                 <span>${user.surname}</span>
-                                 <span class="article-data-spacer"></span> 
+                                 <span>Daniele De Lorenzo</span>  
                                </div>
    
-                                <h3 class="title article-title">${user.username}</h3> 
+                                <h3 class="title article-title"></h3> 
                             </div>
                         </a>
 
                         <!-- info -->
-                        <a class="article info-article"> 
-                            
-
+                        <a class="article info-article">  
+                        
                          <div class="info-article-data-container">
 
                                <div class="article-data">
@@ -239,11 +231,7 @@
                             </div>
                        </a>
 
-                </c:forEach>
-					 
                 
-
-
 
             </div>
             
